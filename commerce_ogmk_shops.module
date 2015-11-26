@@ -5,3 +5,69 @@
  */
 
 include_once 'commerce_ogmk_shops.features.inc';
+
+/**
+ * Functions for public use.
+ */
+
+/**
+ * @param int|object $user
+ *   The user id or object for whom to check if there is a shop.
+ *   If NULL is given, the logged in user will be checked for.
+ *
+ * @return int
+ *   Zero (0) if there is no shop owned by the user.
+ *   The shop's id otherwise.
+ */
+function commerce_ogmk_shops_user_has_shop($user = NULL) {
+  if ($user === NULL) {
+    global $user;
+  }
+
+  $userId = NULL;
+  if (is_int($user)) {
+    $userId = $user;
+  } else {
+    $userId = $user->uid;
+  }
+
+  // Anonymous users can't have shops.
+  if ($userId === 0) {
+    return FALSE;
+  }
+
+  // Get the Shop owned by the user.
+  $query = new EntityFieldQuery();
+  $query
+    ->entityCondition('entity_type', 'node', '=')
+    ->propertyCondition('uid', $userId)
+    ->propertyCondition('type', 'shop');
+  $result = $query->execute();
+
+  if (empty($result['node'])) {
+    return 0;
+  }
+
+  // Get the first key of the result array because there should be only one
+  // result.
+  return key($result['node']);
+}
+
+/**
+ * @param int|object $user
+ *   The user id or object for whom to check if there is a shop.
+ *   If NULL is given, the logged in user will be checked.
+ *
+ * @return null|object
+ *   NULL if there is no shop owned by the user.
+ *   The shop's object otherwise.
+ */
+function commerce_ogmk_shops_user_get_shop($user = NULL) {
+  $shopId = commerce_ogmk_shops_user_has_shop($user);
+
+  if ($shopId) {
+    return node_load($shopId);
+  }
+
+  return NULL;
+}
