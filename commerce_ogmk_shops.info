@@ -51,6 +51,7 @@ features[user_permission][] = delete any shop content
 features[user_permission][] = delete own shop content
 features[user_permission][] = edit any shop content
 features[user_permission][] = edit own shop content
+features[user_role][] = merchant
 features_exclude[field_base][body] = body
 features_exclude[field_base][field_images] = field_images
 features_exclude[field_base][group_group] = group_group
