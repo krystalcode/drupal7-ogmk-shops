@@ -48,6 +48,7 @@ features[og_features_permission][] = node:shop:unsubscribe
 features[og_features_permission][] = node:shop:update group
 features[og_membership_type][] = shop_item
 features[og_membership_type][] = shop_member
+features[rules_config][] = rules_commerce_ogmk_shops_merchant_logged_in
 features[user_permission][] = create shop content
 features[user_permission][] = delete any shop content
 features[user_permission][] = delete own shop content
