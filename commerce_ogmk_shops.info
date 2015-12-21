@@ -58,3 +58,4 @@ features[user_permission][] = edit own shop content
 features[user_role][] = merchant
 features[views_view][] = ogmk_shop_manage_order
 features[views_view][] = ogmk_shop_manage_orders
+features[views_view][] = ogmk_shop_manage_products

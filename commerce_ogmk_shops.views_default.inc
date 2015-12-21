@@ -334,5 +334,190 @@ function commerce_ogmk_shops_views_default_views() {
   );
   $export['ogmk_shop_manage_orders'] = $view;
 
+  $view = new view();
+  $view->name = 'ogmk_shop_manage_products';
+  $view->description = '';
+  $view->tag = 'commerce, ogmk';
+  $view->base_table = 'node';
+  $view->human_name = 'Shop Management: Products';
+  $view->core = 7;
+  $view->api_version = '3.0';
+  $view->disabled = FALSE; /* Edit this to true to make a default view disabled initially */
+
+  /* Display: Master */
+  $handler = $view->new_display('default', 'Master', 'default');
+  $handler->display->display_options['title'] = 'Products';
+  $handler->display->display_options['use_more_always'] = FALSE;
+  $handler->display->display_options['access']['type'] = 'role';
+  $handler->display->display_options['access']['role'] = array(
+    3 => '3',
+  );
+  $handler->display->display_options['cache']['type'] = 'none';
+  $handler->display->display_options['query']['type'] = 'views_query';
+  $handler->display->display_options['exposed_form']['type'] = 'basic';
+  $handler->display->display_options['pager']['type'] = 'full';
+  $handler->display->display_options['pager']['options']['items_per_page'] = '12';
+  $handler->display->display_options['style_plugin'] = 'views_bootstrap_table_plugin_style';
+  $handler->display->display_options['style_options']['columns'] = array(
+    'title' => 'title',
+  );
+  $handler->display->display_options['style_options']['default'] = '-1';
+  $handler->display->display_options['style_options']['info'] = array(
+    'title' => array(
+      'sortable' => 0,
+      'default_sort_order' => 'asc',
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
+  );
+  $handler->display->display_options['style_options']['bootstrap_styles'] = array(
+    'striped' => 0,
+    'bordered' => 0,
+    'hover' => 0,
+    'condensed' => 0,
+  );
+  /* Field: Content: Nid */
+  $handler->display->display_options['fields']['nid']['id'] = 'nid';
+  $handler->display->display_options['fields']['nid']['table'] = 'node';
+  $handler->display->display_options['fields']['nid']['field'] = 'nid';
+  $handler->display->display_options['fields']['nid']['label'] = '';
+  $handler->display->display_options['fields']['nid']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['nid']['element_label_colon'] = FALSE;
+  /* Field: Content: Images */
+  $handler->display->display_options['fields']['field_images']['id'] = 'field_images';
+  $handler->display->display_options['fields']['field_images']['table'] = 'field_data_field_images';
+  $handler->display->display_options['fields']['field_images']['field'] = 'field_images';
+  $handler->display->display_options['fields']['field_images']['label'] = 'Image';
+  $handler->display->display_options['fields']['field_images']['click_sort_column'] = 'fid';
+  $handler->display->display_options['fields']['field_images']['settings'] = array(
+    'image_style' => 'thumbnail',
+    'image_link' => '',
+  );
+  $handler->display->display_options['fields']['field_images']['delta_limit'] = '1';
+  $handler->display->display_options['fields']['field_images']['delta_offset'] = '0';
+  /* Field: Entity translation: Title: translated */
+  $handler->display->display_options['fields']['title_field_et']['id'] = 'title_field_et';
+  $handler->display->display_options['fields']['title_field_et']['table'] = 'field_data_title_field';
+  $handler->display->display_options['fields']['title_field_et']['field'] = 'title_field_et';
+  $handler->display->display_options['fields']['title_field_et']['label'] = 'Title';
+  $handler->display->display_options['fields']['title_field_et']['type'] = 'title_linked';
+  $handler->display->display_options['fields']['title_field_et']['settings'] = array(
+    'title_style' => '_none',
+    'title_link' => 'content',
+    'title_class' => '',
+  );
+  /* Field: Content: Category */
+  $handler->display->display_options['fields']['field_category_ref']['id'] = 'field_category_ref';
+  $handler->display->display_options['fields']['field_category_ref']['table'] = 'field_data_field_category_ref';
+  $handler->display->display_options['fields']['field_category_ref']['field'] = 'field_category_ref';
+  $handler->display->display_options['fields']['field_category_ref']['type'] = 'taxonomy_term_reference_plain';
+  /* Field: Content: Body */
+  $handler->display->display_options['fields']['body']['id'] = 'body';
+  $handler->display->display_options['fields']['body']['table'] = 'field_data_body';
+  $handler->display->display_options['fields']['body']['field'] = 'body';
+  $handler->display->display_options['fields']['body']['label'] = 'Description';
+  $handler->display->display_options['fields']['body']['type'] = 'text_trimmed';
+  $handler->display->display_options['fields']['body']['settings'] = array(
+    'trim_length' => '300',
+  );
+  /* Field: Content: Button link */
+  $handler->display->display_options['fields']['view_node_button']['id'] = 'view_node_button';
+  $handler->display->display_options['fields']['view_node_button']['table'] = 'node';
+  $handler->display->display_options['fields']['view_node_button']['field'] = 'view_node_button';
+  $handler->display->display_options['fields']['view_node_button']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['view_node_button']['text'] = 'View';
+  $handler->display->display_options['fields']['view_node_button']['style'] = 'info';
+  $handler->display->display_options['fields']['view_node_button']['size'] = 'xs';
+  /* Field: Content: Edit button link */
+  $handler->display->display_options['fields']['edit_node_button']['id'] = 'edit_node_button';
+  $handler->display->display_options['fields']['edit_node_button']['table'] = 'node';
+  $handler->display->display_options['fields']['edit_node_button']['field'] = 'edit_node_button';
+  $handler->display->display_options['fields']['edit_node_button']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['edit_node_button']['text'] = 'Edit';
+  $handler->display->display_options['fields']['edit_node_button']['style'] = 'warning';
+  $handler->display->display_options['fields']['edit_node_button']['size'] = 'xs';
+  /* Field: Content: Delete button link */
+  $handler->display->display_options['fields']['delete_node_button']['id'] = 'delete_node_button';
+  $handler->display->display_options['fields']['delete_node_button']['table'] = 'node';
+  $handler->display->display_options['fields']['delete_node_button']['field'] = 'delete_node_button';
+  $handler->display->display_options['fields']['delete_node_button']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['delete_node_button']['text'] = 'Remove';
+  $handler->display->display_options['fields']['delete_node_button']['style'] = 'danger';
+  $handler->display->display_options['fields']['delete_node_button']['size'] = 'xs';
+  /* Field: Global: Custom text */
+  $handler->display->display_options['fields']['nothing']['id'] = 'nothing';
+  $handler->display->display_options['fields']['nothing']['table'] = 'views';
+  $handler->display->display_options['fields']['nothing']['field'] = 'nothing';
+  $handler->display->display_options['fields']['nothing']['label'] = 'Operations';
+  $handler->display->display_options['fields']['nothing']['alter']['text'] = '[view_node_button] [edit_node_button] [delete_node_button]';
+  /* Sort criterion: Content: Post date */
+  $handler->display->display_options['sorts']['created']['id'] = 'created';
+  $handler->display->display_options['sorts']['created']['table'] = 'node';
+  $handler->display->display_options['sorts']['created']['field'] = 'created';
+  $handler->display->display_options['sorts']['created']['order'] = 'DESC';
+  /* Contextual filter: Field: Shop (og_shop_ref) */
+  $handler->display->display_options['arguments']['og_shop_ref_target_id']['id'] = 'og_shop_ref_target_id';
+  $handler->display->display_options['arguments']['og_shop_ref_target_id']['table'] = 'og_membership';
+  $handler->display->display_options['arguments']['og_shop_ref_target_id']['field'] = 'og_shop_ref_target_id';
+  $handler->display->display_options['arguments']['og_shop_ref_target_id']['default_action'] = 'default';
+  $handler->display->display_options['arguments']['og_shop_ref_target_id']['default_argument_type'] = 'raw';
+  $handler->display->display_options['arguments']['og_shop_ref_target_id']['default_argument_options']['index'] = '1';
+  $handler->display->display_options['arguments']['og_shop_ref_target_id']['summary']['number_of_records'] = '0';
+  $handler->display->display_options['arguments']['og_shop_ref_target_id']['summary']['format'] = 'default_summary';
+  $handler->display->display_options['arguments']['og_shop_ref_target_id']['summary_options']['items_per_page'] = '25';
+  $handler->display->display_options['arguments']['og_shop_ref_target_id']['specify_validation'] = TRUE;
+  $handler->display->display_options['arguments']['og_shop_ref_target_id']['validate']['type'] = 'og';
+  /* Filter criterion: Content: Published */
+  $handler->display->display_options['filters']['status']['id'] = 'status';
+  $handler->display->display_options['filters']['status']['table'] = 'node';
+  $handler->display->display_options['filters']['status']['field'] = 'status';
+  $handler->display->display_options['filters']['status']['value'] = 1;
+  $handler->display->display_options['filters']['status']['group'] = 1;
+  $handler->display->display_options['filters']['status']['expose']['operator'] = FALSE;
+  /* Filter criterion: Content: Type */
+  $handler->display->display_options['filters']['type']['id'] = 'type';
+  $handler->display->display_options['filters']['type']['table'] = 'node';
+  $handler->display->display_options['filters']['type']['field'] = 'type';
+  $handler->display->display_options['filters']['type']['value'] = array(
+    'product' => 'product',
+  );
+
+  /* Display: Page */
+  $handler = $view->new_display('page', 'Page', 'page');
+  $handler->display->display_options['path'] = 'node/%/manage/products';
+  $translatables['ogmk_shop_manage_products'] = array(
+    t('Master'),
+    t('Products'),
+    t('more'),
+    t('Apply'),
+    t('Reset'),
+    t('Sort by'),
+    t('Asc'),
+    t('Desc'),
+    t('Items per page'),
+    t('- All -'),
+    t('Offset'),
+    t('« first'),
+    t('‹ previous'),
+    t('next ›'),
+    t('last »'),
+    t('Image'),
+    t('Title'),
+    t('Category'),
+    t('Description'),
+    t('Button link'),
+    t('View'),
+    t('Edit button link'),
+    t('Edit'),
+    t('Delete button link'),
+    t('Remove'),
+    t('Operations'),
+    t('[view_node_button] [edit_node_button] [delete_node_button]'),
+    t('All'),
+    t('Page'),
+  );
+  $export['ogmk_shop_manage_products'] = $view;
+
   return $export;
 }
