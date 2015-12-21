@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * app_users.rules_defaults.inc
+ * commerce_ogmk_shops.rules_defaults.inc
  */
 
 /**
