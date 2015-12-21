@@ -391,7 +391,7 @@ function commerce_ogmk_shops_field_default_field_instances() {
         'module' => 'og_ui',
         'settings' => array(),
         'type' => 'og_list_default',
-        'weight' => 1,
+        'weight' => 3,
       ),
     ),
     'entity_type' => 'user',
