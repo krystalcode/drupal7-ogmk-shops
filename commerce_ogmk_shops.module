@@ -159,8 +159,20 @@ function _commerce_ogmk_shops_shop_manage_access($shop) {
     return FALSE;
   }
 
+  /**
+   * @Issue(
+   *   "Check if the user is super admin with a helper function"
+   *   type="improvement"
+   *   priority="normal"
+   * )
+   * @Issue(
+   *   "Properly check permissions through OG"
+   *   type="improvement"
+   *   priority="normal"
+   * )
+   */
   global $user;
-  if ($user->uid === 1 || $shop->uid === $user->uid) {
+  if ($user->uid == 1 || $shop->uid === $user->uid) {
     return TRUE;
   }
 
