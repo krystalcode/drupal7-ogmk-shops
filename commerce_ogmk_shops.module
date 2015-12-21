@@ -24,6 +24,24 @@ function commerce_ogmk_shops_menu() {
     'file'             => 'commerce_ogmk_shops.pages.inc',
   );
 
+  /**
+   * Placeholder menu item for using in dropdown menus in parent items.
+   *
+   * @Issue(
+   *   "The placeholder menu item might better be moved to a base module"
+   *   type="improvement"
+   *   priority="low"
+   *   labels="modularity"
+   * )
+   */
+  $items['ogmk/placeholder'] = array(
+    'title'           => 'OGMK Placeholder',
+    'access callback' => TRUE,
+    'page callback'   => '_commerce_ogmk_shops_placeholder_page',
+    'type'            => MENU_CALLBACK,
+    'file'            => 'commerce_ogmk_shops.pages.inc',
+  );
+
   return $items;
 }
 

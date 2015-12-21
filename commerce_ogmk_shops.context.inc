@@ -38,11 +38,11 @@ function commerce_ogmk_shops_context_default_contexts() {
   $context->reactions = array(
     'block' => array(
       'blocks' => array(
-        'menu-menu-shop' => array(
+        'menu-ogmk-shop-manage' => array(
           'module' => 'menu',
-          'delta' => 'menu-shop',
+          'delta' => 'ogmk-shop-manage',
           'region' => 'navigation',
-          'weight' => '-10',
+          'weight' => '-9',
         ),
       ),
     ),

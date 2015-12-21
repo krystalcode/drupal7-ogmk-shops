@@ -30,3 +30,10 @@ function _commerce_ogmk_shops_shop_manage_page($shop) {
       'pending_orders_block' => $pendingOrdersBlock,
   ));
 }
+
+/**
+ * Page callback for menu placeholder page.
+ */
+function _commerce_ogmk_shops_placeholder_page() {
+  drupal_goto('/');
+}
