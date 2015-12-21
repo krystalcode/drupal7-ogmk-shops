@@ -11,11 +11,161 @@ function commerce_ogmk_shops_views_default_views() {
   $export = array();
 
   $view = new view();
+  $view->name = 'ogmk_shop_manage_order';
+  $view->description = '';
+  $view->tag = 'commerce, ogmk';
+  $view->base_table = 'commerce_line_item';
+  $view->human_name = 'Shop Management: Order';
+  $view->core = 7;
+  $view->api_version = '3.0';
+  $view->disabled = FALSE; /* Edit this to true to make a default view disabled initially */
+
+  /* Display: Master */
+  $handler = $view->new_display('default', 'Master', 'default');
+  $handler->display->display_options['title'] = 'Order';
+  $handler->display->display_options['use_more_always'] = FALSE;
+  $handler->display->display_options['access']['type'] = 'role';
+  $handler->display->display_options['access']['role'] = array(
+    3 => '3',
+  );
+  $handler->display->display_options['cache']['type'] = 'none';
+  $handler->display->display_options['query']['type'] = 'views_query';
+  $handler->display->display_options['exposed_form']['type'] = 'basic';
+  $handler->display->display_options['pager']['type'] = 'none';
+  $handler->display->display_options['pager']['options']['offset'] = '0';
+  $handler->display->display_options['style_plugin'] = 'views_bootstrap_table_plugin_style';
+  /* Relationship: Commerce Line item: Referenced products */
+  $handler->display->display_options['relationships']['commerce_product_product_id']['id'] = 'commerce_product_product_id';
+  $handler->display->display_options['relationships']['commerce_product_product_id']['table'] = 'field_data_commerce_product';
+  $handler->display->display_options['relationships']['commerce_product_product_id']['field'] = 'commerce_product_product_id';
+  $handler->display->display_options['relationships']['commerce_product_product_id']['required'] = TRUE;
+  /* Relationship: Commerce Product: Referencing Node */
+  $handler->display->display_options['relationships']['field_products_ref']['id'] = 'field_products_ref';
+  $handler->display->display_options['relationships']['field_products_ref']['table'] = 'commerce_product';
+  $handler->display->display_options['relationships']['field_products_ref']['field'] = 'field_products_ref';
+  $handler->display->display_options['relationships']['field_products_ref']['relationship'] = 'commerce_product_product_id';
+  $handler->display->display_options['relationships']['field_products_ref']['required'] = TRUE;
+  /* Field: Content: Images */
+  $handler->display->display_options['fields']['field_images']['id'] = 'field_images';
+  $handler->display->display_options['fields']['field_images']['table'] = 'field_data_field_images';
+  $handler->display->display_options['fields']['field_images']['field'] = 'field_images';
+  $handler->display->display_options['fields']['field_images']['relationship'] = 'field_products_ref';
+  $handler->display->display_options['fields']['field_images']['label'] = 'Product';
+  $handler->display->display_options['fields']['field_images']['click_sort_column'] = 'fid';
+  $handler->display->display_options['fields']['field_images']['settings'] = array(
+    'image_style' => '100x80',
+    'image_link' => 'content',
+  );
+  $handler->display->display_options['fields']['field_images']['delta_limit'] = '1';
+  $handler->display->display_options['fields']['field_images']['delta_offset'] = '0';
+  /* Field: Field: Shop */
+  $handler->display->display_options['fields']['og_shop_ref']['id'] = 'og_shop_ref';
+  $handler->display->display_options['fields']['og_shop_ref']['table'] = 'og_membership';
+  $handler->display->display_options['fields']['og_shop_ref']['field'] = 'og_shop_ref';
+  $handler->display->display_options['fields']['og_shop_ref']['settings'] = array(
+    'link' => 1,
+  );
+  /* Field: Content: Title */
+  $handler->display->display_options['fields']['title_1']['id'] = 'title_1';
+  $handler->display->display_options['fields']['title_1']['table'] = 'node';
+  $handler->display->display_options['fields']['title_1']['field'] = 'title';
+  $handler->display->display_options['fields']['title_1']['relationship'] = 'field_products_ref';
+  /* Field: Commerce Product: SKU */
+  $handler->display->display_options['fields']['sku']['id'] = 'sku';
+  $handler->display->display_options['fields']['sku']['table'] = 'commerce_product';
+  $handler->display->display_options['fields']['sku']['field'] = 'sku';
+  $handler->display->display_options['fields']['sku']['relationship'] = 'commerce_product_product_id';
+  $handler->display->display_options['fields']['sku']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['sku']['link_to_product'] = 0;
+  /* Field: Commerce Product: Title */
+  $handler->display->display_options['fields']['title']['id'] = 'title';
+  $handler->display->display_options['fields']['title']['table'] = 'commerce_product';
+  $handler->display->display_options['fields']['title']['field'] = 'title';
+  $handler->display->display_options['fields']['title']['relationship'] = 'commerce_product_product_id';
+  $handler->display->display_options['fields']['title']['label'] = 'Variant';
+  $handler->display->display_options['fields']['title']['alter']['alter_text'] = TRUE;
+  $handler->display->display_options['fields']['title']['alter']['text'] = '[sku] / [title]';
+  $handler->display->display_options['fields']['title']['link_to_product'] = 0;
+  /* Field: Commerce Line item: Unit price */
+  $handler->display->display_options['fields']['commerce_unit_price']['id'] = 'commerce_unit_price';
+  $handler->display->display_options['fields']['commerce_unit_price']['table'] = 'field_data_commerce_unit_price';
+  $handler->display->display_options['fields']['commerce_unit_price']['field'] = 'commerce_unit_price';
+  $handler->display->display_options['fields']['commerce_unit_price']['click_sort_column'] = 'amount';
+  $handler->display->display_options['fields']['commerce_unit_price']['settings'] = array(
+    'calculation' => FALSE,
+  );
+  /* Field: Commerce Line Item: Quantity */
+  $handler->display->display_options['fields']['quantity']['id'] = 'quantity';
+  $handler->display->display_options['fields']['quantity']['table'] = 'commerce_line_item';
+  $handler->display->display_options['fields']['quantity']['field'] = 'quantity';
+  $handler->display->display_options['fields']['quantity']['precision'] = '0';
+  /* Field: Commerce Line item: Total */
+  $handler->display->display_options['fields']['commerce_total']['id'] = 'commerce_total';
+  $handler->display->display_options['fields']['commerce_total']['table'] = 'field_data_commerce_total';
+  $handler->display->display_options['fields']['commerce_total']['field'] = 'commerce_total';
+  $handler->display->display_options['fields']['commerce_total']['click_sort_column'] = 'amount';
+  $handler->display->display_options['fields']['commerce_total']['settings'] = array(
+    'calculation' => FALSE,
+  );
+  /* Contextual filter: Field: Shop (og_shop_ref) */
+  $handler->display->display_options['arguments']['og_shop_ref_target_id']['id'] = 'og_shop_ref_target_id';
+  $handler->display->display_options['arguments']['og_shop_ref_target_id']['table'] = 'og_membership';
+  $handler->display->display_options['arguments']['og_shop_ref_target_id']['field'] = 'og_shop_ref_target_id';
+  $handler->display->display_options['arguments']['og_shop_ref_target_id']['default_action'] = 'default';
+  $handler->display->display_options['arguments']['og_shop_ref_target_id']['default_argument_type'] = 'og_context';
+  $handler->display->display_options['arguments']['og_shop_ref_target_id']['summary']['number_of_records'] = '0';
+  $handler->display->display_options['arguments']['og_shop_ref_target_id']['summary']['format'] = 'default_summary';
+  $handler->display->display_options['arguments']['og_shop_ref_target_id']['summary_options']['items_per_page'] = '25';
+  $handler->display->display_options['arguments']['og_shop_ref_target_id']['specify_validation'] = TRUE;
+  $handler->display->display_options['arguments']['og_shop_ref_target_id']['validate']['type'] = 'og';
+  /* Contextual filter: Commerce Line Item: Order ID */
+  $handler->display->display_options['arguments']['order_id']['id'] = 'order_id';
+  $handler->display->display_options['arguments']['order_id']['table'] = 'commerce_line_item';
+  $handler->display->display_options['arguments']['order_id']['field'] = 'order_id';
+  $handler->display->display_options['arguments']['order_id']['default_action'] = 'default';
+  $handler->display->display_options['arguments']['order_id']['default_argument_type'] = 'raw';
+  $handler->display->display_options['arguments']['order_id']['default_argument_options']['index'] = '4';
+  $handler->display->display_options['arguments']['order_id']['summary']['number_of_records'] = '0';
+  $handler->display->display_options['arguments']['order_id']['summary']['format'] = 'default_summary';
+  $handler->display->display_options['arguments']['order_id']['summary_options']['items_per_page'] = '25';
+  $handler->display->display_options['arguments']['order_id']['specify_validation'] = TRUE;
+
+  /* Display: Page */
+  $handler = $view->new_display('page', 'Page', 'page');
+  $handler->display->display_options['path'] = 'node/%/manage/orders/%';
+  $translatables['ogmk_shop_manage_order'] = array(
+    t('Master'),
+    t('Order'),
+    t('more'),
+    t('Apply'),
+    t('Reset'),
+    t('Sort by'),
+    t('Asc'),
+    t('Desc'),
+    t('Products referenced by commerce_product'),
+    t('Node referencing products from field_products_ref'),
+    t('Product'),
+    t('Shop'),
+    t('Title'),
+    t('SKU'),
+    t('Variant'),
+    t('[sku] / [title]'),
+    t('Unit price'),
+    t('Quantity'),
+    t('.'),
+    t(','),
+    t('Total'),
+    t('All'),
+    t('Page'),
+  );
+  $export['ogmk_shop_manage_order'] = $view;
+
+  $view = new view();
   $view->name = 'ogmk_shop_manage_orders';
   $view->description = '';
   $view->tag = 'commerce, ogmk';
   $view->base_table = 'commerce_order';
-  $view->human_name = 'Shop Management - Orders';
+  $view->human_name = 'Shop Management: Orders';
   $view->core = 7;
   $view->api_version = '3.0';
   $view->disabled = FALSE; /* Edit this to true to make a default view disabled initially */
