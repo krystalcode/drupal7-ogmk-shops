@@ -7,6 +7,57 @@
 include_once 'commerce_ogmk_shops.features.inc';
 
 /**
+ * Hooks.
+ */
+
+/**
+ * Implements hook_menu().
+ */
+function commerce_ogmk_shops_menu() {
+  $items['node/%node/manage'] = array(
+    'title'            => 'My Shop',
+    'access callback'  => '_commerce_ogmk_shops_shop_manage_access',
+    'access arguments' => array(1),
+    'page callback'    => '_commerce_ogmk_shops_shop_manage_page',
+    'page arguments'   => array(1),
+    'type'             => MENU_LOCAL_TASK,
+    'file'             => 'commerce_ogmk_shops.pages.inc',
+  );
+
+  return $items;
+}
+
+/**
+ * Implements hook_theme().
+ */
+function commerce_ogmk_shops_theme($existing, $type, $theme, $path) {
+  return array(
+    'shop_manage_page' => array(
+      'variables' => array('variables' => NULL),
+      'template'  => 'templates/pages/shop-manage',
+    ),
+  );
+}
+
+/**
+ * Implements hook_entity_info_alter().
+ */
+function commerce_ogmk_shops_entity_info_alter(&$entity_info) {
+  /**
+   * @Issue(
+   *   "Maybe this should be moved to a base ogmk module"
+   *   type="task"
+   *   priority="low"
+   *   labels="modularity"
+   * )
+   */
+  $entity_info['node']['view modes']['ogmk_manage_teaser'] = array(
+    'label' => t('OGMK Management Teaser'),
+    'custom settings' => FALSE,
+  );
+}
+
+/**
  * Functions for public use.
  */
 
@@ -70,4 +121,30 @@ function commerce_ogmk_shops_user_get_shop($user = NULL) {
   }
 
   return NULL;
+}
+
+/**
+ * Functions for internal use.
+ */
+
+/**
+ * Access callback for the shop management page.
+ *
+ * @param object $shop
+ *   The shop for which to display the management page.
+ *
+ * @return boolean
+ *   Whether the current user has access or not to the shop management page.
+ */
+function _commerce_ogmk_shops_shop_manage_access($shop) {
+  if ($shop->type !== 'shop') {
+    return FALSE;
+  }
+
+  global $user;
+  if ($user->uid === 1 || $shop->uid === $user->uid) {
+    return TRUE;
+  }
+
+  return FALSE;
 }

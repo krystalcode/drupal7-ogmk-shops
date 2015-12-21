@@ -14,6 +14,13 @@ function commerce_ogmk_shops_ctools_plugin_api($module = NULL, $api = NULL) {
 }
 
 /**
+ * Implements hook_views_api().
+ */
+function commerce_ogmk_shops_views_api($module = NULL, $api = NULL) {
+  return array("api" => "3.0");
+}
+
+/**
  * Implements hook_node_info().
  */
 function commerce_ogmk_shops_node_info() {
