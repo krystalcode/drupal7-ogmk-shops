@@ -88,7 +88,7 @@ function commerce_ogmk_shops_menu_default_menu_links() {
       'menu_token_data' => array(
         'node' => array(
           'type' => 'node',
-          'plugin' => 'my_shop',
+          'plugin' => 'ogmk_current_user_shop',
           'options' => array(),
         ),
       ),
@@ -149,7 +149,7 @@ function commerce_ogmk_shops_menu_default_menu_links() {
       'menu_token_data' => array(
         'node' => array(
           'type' => 'node',
-          'plugin' => 'my_shop',
+          'plugin' => 'ogmk_current_user_shop',
           'options' => array(),
         ),
       ),
@@ -199,7 +199,7 @@ function commerce_ogmk_shops_menu_default_menu_links() {
       'menu_token_data' => array(
         'node' => array(
           'type' => 'node',
-          'plugin' => 'my_shop',
+          'plugin' => 'ogmk_current_user_shop',
           'options' => array(),
         ),
       ),
@@ -269,7 +269,7 @@ function commerce_ogmk_shops_menu_default_menu_links() {
       'menu_token_data' => array(
         'node' => array(
           'type' => 'node',
-          'plugin' => 'my_shop',
+          'plugin' => 'ogmk_current_user_shop',
           'options' => array(),
         ),
       ),

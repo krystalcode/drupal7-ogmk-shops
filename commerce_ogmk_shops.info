@@ -73,3 +73,4 @@ features[user_role][] = merchant
 features[views_view][] = ogmk_shop_manage_order
 features[views_view][] = ogmk_shop_manage_orders
 features[views_view][] = ogmk_shop_manage_products
+files[] = includes/menu_token/menu_token_current_user_shop.inc

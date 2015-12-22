@@ -282,6 +282,26 @@ function commerce_ogmk_shops_entity_info_alter(&$entity_info) {
 }
 
 /**
+ * Implements hook_menu_token_plugins().
+ */
+function commerce_ogmk_shops_menu_token_plugins() {
+  $plugins = array();
+
+  $plugins["ogmk_current_user_shop"] = array(
+    'type' => 'node',
+    'label' => t('Current user\'s shop'),
+    'description' => t('Picks the shop owned by the logged in user.'),
+    'handler' => array(
+      'path' => drupal_get_path('module', 'commerce_ogmk_shops') . '/includes/menu_token',
+      'file' => 'menu_token_ogmk_current_user_shop.inc',
+      'class' => 'menu_token_ogmk_current_user_shop',
+    ),
+  );
+
+  return $plugins;
+}
+
+/**
  * Public API.
  */
 
