@@ -58,6 +58,48 @@ function commerce_ogmk_shops_theme($existing, $type, $theme, $path) {
 }
 
 /**
+ * Implements hook_form_alter().
+ *
+ * @Issue(
+ *   "Consider moving form alterations not related to shops to
+ *   commerce_ogmk_products module"
+ *   type="improvement"
+ *   priority="low"
+ *   labels="modularity"
+ * )
+ */
+function commerce_ogmk_shops_form_alter(&$form, &$form_state, $form_id) {
+  // Process the "Add to cart" forms. They start with
+  // "commerce_cart_add_to_cart_form_".
+  if (strpos($form_id, 'commerce_cart_add_to_cart_form_') !== 0) {
+    return;
+  }
+
+  // Add a label for the select widget.
+  $form['product_id']['#title'] = t('Variant');
+
+  // Set the shop for the line item.
+  // @Issue(
+  //   "Set the shop on submit callback from the selected variant instead of
+  //   the default one"
+  //   type="bug"
+  //   priority="low"
+  // )
+  $productId = null;
+  if (!empty($form['product_id']['#value'])) {
+    $productId = $form['product_id']['#value'];
+  } elseif (!empty($form['product_id']['#default_value'])) {
+    $productId = $form['product_id']['#default_value'];
+  } else {
+    throw new \Exception('Cannot get the product id for the line item');
+  }
+  $product = commerce_product_load($productId);
+
+  $language = $form['line_item_fields']['og_shop_ref']['#language'];
+  $form['line_item_fields']['og_shop_ref'][$language][0]['default']['#default_value'] = [$product->og_shop_ref[$product->language][0]['target_id']];
+}
+
+/**
  * Implements hook_entity_info_alter().
  */
 function commerce_ogmk_shops_entity_info_alter(&$entity_info) {
