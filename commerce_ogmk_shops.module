@@ -100,6 +100,44 @@ function commerce_ogmk_shops_form_alter(&$form, &$form_state, $form_id) {
 }
 
 /**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function commerce_ogmk_shops_form_shop_node_form_alter(&$form, &$form_state, $form_id) {
+  /**
+   * @Issue(
+   *   "Check if the user is super admin using a helper function"
+   *   type="improvement"
+   *   priority="low"
+   *   labels="refactoring"
+   * )
+   * @Issue(
+   *   "Revision and translation information should be available to the
+   *   appropriate roles"
+   *   type="bug"
+   *   priority="normal"
+   * )
+   */
+  global $user;
+  if ($user->uid !== 1) {
+    // Shops should not be deleted.
+    $form['actions']['delete']['#access'] = FALSE;
+
+    // Do not display translation and revision field groups.
+    $form['revision_information']['#access'] = FALSE;
+    $form['translation']['#access'] = FALSE;
+  }
+
+  // Add a Cancel button.
+  $form['actions']['cancel'] = array(
+    '#type' => 'button',
+    '#access' => TRUE,
+    '#value' => t('Cancel'),
+    '#attributes' => array('onClick' => 'history.go(-1);return true;'),
+    '#weight' => 6,
+  );
+}
+
+/**
  * Implements hook_entity_info_alter().
  */
 function commerce_ogmk_shops_entity_info_alter(&$entity_info) {
