@@ -138,6 +138,99 @@ function commerce_ogmk_shops_form_shop_node_form_alter(&$form, &$form_state, $fo
 }
 
 /**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * @Issue(
+ *   "Consider moving form alterations not related to shops to
+ *   commerce_ogmk_products module"
+ *   type="improvement"
+ *   priority="low"
+ *   labels="modularity"
+ * )
+ */
+function commerce_ogmk_shops_form_product_node_form_alter(&$form, &$form_state, $form_id) {
+  // Code specific to the edit form.
+  if ($form['nid']['#value']) {
+    // @Issue(
+    //   "Hide the translation vertical tab"
+    //   type="improvement"
+    //   priority="normal"
+    // )
+  }
+
+  // Code specific to the add form.
+  if ($form['nid']['#value'] === NULL) {
+    // Pre-populate the og_shop_ref field.
+
+    // Get the shop that belongs to the logged in user.
+    $shopId = commerce_ogmk_shops_user_has_shop();
+
+    // Access denied if there is no shop for the logged in user.
+    if (!$shopId) {
+      // @Issue("Throw an Access Denied page or message")
+    }
+
+    // Pre-populate the og_shop_ref field.
+    $language = $form['og_shop_ref']['#language'];
+    $form['og_shop_ref'][$language][0]['default']['#default_value'] = $shopId;
+  }
+
+  // Deny access to og_shop_ref field, unless the user is the administrator.
+  /**
+   * @Issue(
+   *   "Check if the user is super admin using a helper function"
+   *   type="improvement"
+   *   priority="low"
+   *   labels="refactoring"
+   * )
+   * @Issue(
+   *   "Revision and translation information should be available to the
+   *   appropriate roles"
+   *   type="bug"
+   *   priority="normal"
+   * )
+   */
+  global $user;
+  if ((int) $user->uid !== 1) {
+    $form['og_shop_ref']['#access'] = FALSE;
+
+    // Do not display translation and revision field groups.
+    $form['revision_information']['#access'] = FALSE;
+    $form['translation']['#access'] = FALSE;
+
+    // Products should not be deleted.
+    /**
+     * @Issue(
+     *   "Such permissions should be controlled at og level"
+     *   type="bug"
+     * )
+     */
+    if ($user->uid != 1) {
+      $form['actions']['delete']['#access'] = FALSE;
+    }
+  }
+
+  // Add a Cancel button.
+  $form['actions']['cancel'] = array(
+    '#type' => 'button',
+    '#access' => TRUE,
+    '#value' => t('Cancel'),
+    '#attributes' => array('onClick' => 'history.go(-1);return true;'),
+    '#weight' => 6,
+  );
+
+  /**
+   * @Issue(
+   *   "The user should be redirected to the newly created product upon
+   *   submission"
+   *   type="improvement"
+   *   priority="normal"
+   *   labels="ux"
+   * )
+   */
+}
+
+/**
  * Implements hook_entity_info_alter().
  */
 function commerce_ogmk_shops_entity_info_alter(&$entity_info) {
