@@ -30,6 +30,7 @@ features[ctools][] = field_group:field_group:1
 features[ctools][] = strongarm:strongarm:1
 features[ctools][] = views:views_default:3.0
 features[features_api][] = api:2
+features[field_base][] = group_group
 features[field_base][] = og_shop_ref
 features[field_base][] = og_shops_ref
 features[field_base][] = og_user_shops_ref
