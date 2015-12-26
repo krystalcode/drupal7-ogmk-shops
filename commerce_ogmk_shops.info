@@ -17,6 +17,7 @@ dependencies[] = menu
 dependencies[] = node
 dependencies[] = og
 dependencies[] = og_ui
+dependencies[] = ogmk_base
 dependencies[] = options
 dependencies[] = rules
 dependencies[] = strongarm
