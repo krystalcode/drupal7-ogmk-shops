@@ -25,6 +25,23 @@ function commerce_ogmk_shops_og_features_default_permissions() {
     'roles' => array(),
   );
 
+  // Exported og permission: 'node:shop:create product content'
+  $permissions['node:shop:create product content'] = array(
+    'roles' => array(
+      'administrator member' => 'administrator member',
+    ),
+  );
+
+  // Exported og permission: 'node:shop:delete any product content'
+  $permissions['node:shop:delete any product content'] = array(
+    'roles' => array(),
+  );
+
+  // Exported og permission: 'node:shop:delete own product content'
+  $permissions['node:shop:delete own product content'] = array(
+    'roles' => array(),
+  );
+
   // Exported og permission: 'node:shop:manage members'
   $permissions['node:shop:manage members'] = array(
     'roles' => array(),
@@ -55,9 +72,25 @@ function commerce_ogmk_shops_og_features_default_permissions() {
     'roles' => array(),
   );
 
+  // Exported og permission: 'node:shop:update any product content'
+  $permissions['node:shop:update any product content'] = array(
+    'roles' => array(
+      'administrator member' => 'administrator member',
+    ),
+  );
+
   // Exported og permission: 'node:shop:update group'
   $permissions['node:shop:update group'] = array(
-    'roles' => array(),
+    'roles' => array(
+      'administrator member' => 'administrator member',
+    ),
+  );
+
+  // Exported og permission: 'node:shop:update own product content'
+  $permissions['node:shop:update own product content'] = array(
+    'roles' => array(
+      'administrator member' => 'administrator member',
+    ),
   );
 
   return $permissions;
