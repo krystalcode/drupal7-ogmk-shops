@@ -158,8 +158,24 @@ function commerce_ogmk_shops_strongarm() {
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'og_group_manager_default_rids_node_shop';
-  $strongarm->value = array();
+  $strongarm->value = array(
+    3 => '3',
+  );
   $export['og_group_manager_default_rids_node_shop'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'og_group_manager_full_access';
+  $strongarm->value = 0;
+  $export['og_group_manager_full_access'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'og_node_access_strict';
+  $strongarm->value = 1;
+  $export['og_node_access_strict'] = $strongarm;
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
