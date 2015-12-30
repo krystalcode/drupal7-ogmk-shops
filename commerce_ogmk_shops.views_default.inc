@@ -55,6 +55,11 @@ function commerce_ogmk_shops_views_default_views() {
   $handler->display->display_options['relationships']['field_products_ref']['field'] = 'field_products_ref';
   $handler->display->display_options['relationships']['field_products_ref']['relationship'] = 'commerce_product_product_id';
   $handler->display->display_options['relationships']['field_products_ref']['required'] = TRUE;
+  /* Relationship: OG membership: OG membership from Commerce Line item */
+  $handler->display->display_options['relationships']['og_membership_rel']['id'] = 'og_membership_rel';
+  $handler->display->display_options['relationships']['og_membership_rel']['table'] = 'commerce_line_item';
+  $handler->display->display_options['relationships']['og_membership_rel']['field'] = 'og_membership_rel';
+  $handler->display->display_options['relationships']['og_membership_rel']['required'] = TRUE;
   /* Field: Content: Images */
   $handler->display->display_options['fields']['field_images']['id'] = 'field_images';
   $handler->display->display_options['fields']['field_images']['table'] = 'field_data_field_images';
@@ -117,17 +122,18 @@ function commerce_ogmk_shops_views_default_views() {
   $handler->display->display_options['fields']['commerce_total']['settings'] = array(
     'calculation' => FALSE,
   );
-  /* Contextual filter: Field: Shop (og_shop_ref) */
-  $handler->display->display_options['arguments']['og_shop_ref_target_id']['id'] = 'og_shop_ref_target_id';
-  $handler->display->display_options['arguments']['og_shop_ref_target_id']['table'] = 'og_membership';
-  $handler->display->display_options['arguments']['og_shop_ref_target_id']['field'] = 'og_shop_ref_target_id';
-  $handler->display->display_options['arguments']['og_shop_ref_target_id']['default_action'] = 'default';
-  $handler->display->display_options['arguments']['og_shop_ref_target_id']['default_argument_type'] = 'og_context';
-  $handler->display->display_options['arguments']['og_shop_ref_target_id']['summary']['number_of_records'] = '0';
-  $handler->display->display_options['arguments']['og_shop_ref_target_id']['summary']['format'] = 'default_summary';
-  $handler->display->display_options['arguments']['og_shop_ref_target_id']['summary_options']['items_per_page'] = '25';
-  $handler->display->display_options['arguments']['og_shop_ref_target_id']['specify_validation'] = TRUE;
-  $handler->display->display_options['arguments']['og_shop_ref_target_id']['validate']['type'] = 'og';
+  /* Contextual filter: OG membership: Group ID */
+  $handler->display->display_options['arguments']['gid']['id'] = 'gid';
+  $handler->display->display_options['arguments']['gid']['table'] = 'og_membership';
+  $handler->display->display_options['arguments']['gid']['field'] = 'gid';
+  $handler->display->display_options['arguments']['gid']['relationship'] = 'og_membership_rel';
+  $handler->display->display_options['arguments']['gid']['default_action'] = 'default';
+  $handler->display->display_options['arguments']['gid']['default_argument_type'] = 'og_context';
+  $handler->display->display_options['arguments']['gid']['summary']['number_of_records'] = '0';
+  $handler->display->display_options['arguments']['gid']['summary']['format'] = 'default_summary';
+  $handler->display->display_options['arguments']['gid']['summary_options']['items_per_page'] = '25';
+  $handler->display->display_options['arguments']['gid']['specify_validation'] = TRUE;
+  $handler->display->display_options['arguments']['gid']['validate']['type'] = 'og';
   /* Contextual filter: Commerce Line Item: Order ID */
   $handler->display->display_options['arguments']['order_id']['id'] = 'order_id';
   $handler->display->display_options['arguments']['order_id']['table'] = 'commerce_line_item';
@@ -154,6 +160,7 @@ function commerce_ogmk_shops_views_default_views() {
     t('Desc'),
     t('Products referenced by commerce_product'),
     t('Node referencing products from field_products_ref'),
+    t('OG membership from commerce_line_item'),
     t('Product'),
     t('Shop'),
     t('Title'),
@@ -206,7 +213,6 @@ function commerce_ogmk_shops_views_default_views() {
   $handler->display->display_options['relationships']['og_membership_rel']['id'] = 'og_membership_rel';
   $handler->display->display_options['relationships']['og_membership_rel']['table'] = 'commerce_order';
   $handler->display->display_options['relationships']['og_membership_rel']['field'] = 'og_membership_rel';
-  $handler->display->display_options['relationships']['og_membership_rel']['label'] = 'OG membership from commerce order';
   $handler->display->display_options['relationships']['og_membership_rel']['required'] = TRUE;
   /* Field: OG membership: Group ID */
   $handler->display->display_options['fields']['gid']['id'] = 'gid';
@@ -308,7 +314,7 @@ function commerce_ogmk_shops_views_default_views() {
     t('Asc'),
     t('Desc'),
     t('There are currently no orders with the selected status.'),
-    t('OG membership from commerce order'),
+    t('OG membership from commerce_order'),
     t('Group ID'),
     t('.'),
     t(','),
