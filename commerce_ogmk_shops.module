@@ -282,6 +282,43 @@ function commerce_ogmk_shops_entity_info_alter(&$entity_info) {
 }
 
 /**
+ * Implements hook_entity_insert().
+ */
+function commerce_ogmk_shops_entity_insert($entity, $type) {
+  // Subscribe to the OG "shop" group(s) they belong for all commerce_product,
+  // commerce_order and commerce_line_item entities when they are created.
+  $function = '_commerce_ogmk_shops_' . $type . '_og_subscribe';
+  if (function_exists($function)) {
+    $function($entity, $type);
+  }
+}
+
+/**
+ * Implements hook_entity_update().
+ */
+function commerce_ogmk_shops_entity_update($entity, $type) {
+  // Update subscriptions to the OG "shop" group(s) they belong for all
+  // commerce_product, commerce_order and commerce_line_item entities when they
+  // are updated.
+  $function = '_commerce_ogmk_shops_' . $type . '_og_subscribe';
+  if (function_exists($function)) {
+    $function($entity, $type);
+  }
+}
+
+/**
+ * Implements hook_entity_delete().
+ */
+function commerce_ogmk_shops_entity_delete($entity, $type) {
+  // Remove all OG subscriptions for all commerce_product, commerce_order and
+  // commerce_line_item entities when they are deleted.
+  $function = '_commerce_ogmk_shops_' . $type . '_og_unsubscribe';
+  if (function_exists($function)) {
+    $function($entity, $type);
+  }
+}
+
+/**
  * Implements hook_menu_token_plugins().
  */
 function commerce_ogmk_shops_menu_token_plugins() {
@@ -472,3 +509,108 @@ function _commerce_ogmk_shops_shop_manage_access($shop) {
 
   return FALSE;
 }
+
+/**
+ * Subscribes a "commerce_order" entity to all "shop" OG groups it belongs to.
+ *
+ * The order belongs to all "shop" OG groups that the order's products
+ * ("commerce_line_item") belong to.
+ */
+function _commerce_ogmk_shops_commerce_order_og_subscribe($entity, $type) {
+  // Nothing to do if there's no line items in the order.
+  // This can happen sometimes with abandon carts, I believe.
+  if (empty($entity->commerce_line_items)) {
+    return;
+  }
+
+  // Get all the line items for the order.
+  /**
+   * @Issue(
+   *   "Check if commerce_line_item use other than LANGUAGE_NONE"
+   *   type="bug"
+   *   priority="low"
+   *   labels="internationalisation"
+   * )
+   */
+  $lineItemsIds = [];
+  foreach ($entity->commerce_line_items[LANGUAGE_NONE] as $item) {
+    $lineItemsIds[] = $item['line_item_id'];
+  }
+  $lineItems = commerce_line_item_load_multiple($lineItemsIds);
+
+  // Get all shop ids for all line items - we get the shops from the products
+  // referenced by the line items.
+  $shopsIds = [];
+  foreach ($lineItems as $lineItem) {
+    $lineItemWrapper = entity_metadata_wrapper('commerce_line_item', $lineItem);
+
+    $product = $lineItemWrapper->commerce_product->value();
+    $productWrapper = entity_metadata_wrapper('commerce_product', $product);
+
+    $shop = $productWrapper->og_shop_ref->value();
+    $shopWrapper = entity_metadata_wrapper('node', $shop);
+    $shopId = $shopWrapper->getIdentifier();
+
+    // Continue to the next line item if the shop has already been added.
+    if (in_array($shopId, $shopsIds)) {
+      continue;
+    }
+
+    // Subscribe the order to the shop.
+    og_group(
+      'node',
+      $shopId,
+      [
+        'entity_type' => $type,
+        'entity' => $entity,
+        'state' => OG_STATE_ACTIVE,
+      ]
+    );
+
+    // Keep track of shop already added.
+    $shopsIds[] = $shopId;
+  }
+}
+
+/**
+ * Subscribes a "commerce_line_item" entity to the "shop" OG group it belongs to.
+ *
+ * The line item belongs to the "shop" OG group that the referenced product
+ * belongs to.
+ */
+function _commerce_ogmk_shops_commerce_line_item_og_subscribe($entity, $type) {
+  /**
+   * @Issue(
+   *   "Does this work with internationalisation?"
+   *   type="bug"
+   *   priority="normal"
+   *   labels="internationalisation"
+   * )
+   */
+  // Get the line item's product.
+  $productId = $entity->commerce_product[LANGUAGE_NONE][0]['product_id'];
+  $product = commerce_product_load($productId);
+
+  // Get the product's shop.
+  $productWrapper = entity_metadata_wrapper('commerce_product', $product);
+  $shopId = $productWrapper->og_shop_ref->value();
+
+  // Subscribe the line item to the shop.
+  $result = og_group(
+    'node',
+    $shopId,
+    [
+      'entity_type' => $type,
+      'entity' => $entity,
+      'state' => OG_STATE_ACTIVE,
+    ]
+  );
+}
+
+/**
+ * @Issue(
+ *   "Write og_unsubscribe functions"
+ *   type="bug"
+ *   priority="normal"
+ * )
+ */
