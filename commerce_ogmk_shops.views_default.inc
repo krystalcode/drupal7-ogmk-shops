@@ -5,6 +5,15 @@
  */
 
 /**
+ * @Issue(
+ *   "Apply OG permission to views"
+ *   type="bug"
+ *   priority="normal"
+ *   labels="security"
+ * )
+ */
+
+/**
  * Implements hook_views_default_views().
  */
 function commerce_ogmk_shops_views_default_views() {
@@ -197,39 +206,20 @@ function commerce_ogmk_shops_views_default_views() {
   $handler->display->display_options['relationships']['og_membership_rel']['id'] = 'og_membership_rel';
   $handler->display->display_options['relationships']['og_membership_rel']['table'] = 'commerce_order';
   $handler->display->display_options['relationships']['og_membership_rel']['field'] = 'og_membership_rel';
-  $handler->display->display_options['relationships']['og_membership_rel']['label'] = 'Order membership';
+  $handler->display->display_options['relationships']['og_membership_rel']['label'] = 'OG membership from commerce order';
   $handler->display->display_options['relationships']['og_membership_rel']['required'] = TRUE;
-  /* Relationship: OG membership: Group Node from OG membership */
-  $handler->display->display_options['relationships']['og_membership_related_node_group']['id'] = 'og_membership_related_node_group';
-  $handler->display->display_options['relationships']['og_membership_related_node_group']['table'] = 'og_membership';
-  $handler->display->display_options['relationships']['og_membership_related_node_group']['field'] = 'og_membership_related_node_group';
-  $handler->display->display_options['relationships']['og_membership_related_node_group']['relationship'] = 'og_membership_rel';
-  $handler->display->display_options['relationships']['og_membership_related_node_group']['label'] = 'Shop node';
-  $handler->display->display_options['relationships']['og_membership_related_node_group']['required'] = TRUE;
-  /* Relationship: Content: Author */
-  $handler->display->display_options['relationships']['uid']['id'] = 'uid';
-  $handler->display->display_options['relationships']['uid']['table'] = 'node';
-  $handler->display->display_options['relationships']['uid']['field'] = 'uid';
-  $handler->display->display_options['relationships']['uid']['relationship'] = 'og_membership_related_node_group';
-  $handler->display->display_options['relationships']['uid']['label'] = 'Shop owner';
-  $handler->display->display_options['relationships']['uid']['required'] = TRUE;
-  /* Field: User: Shops you own */
-  $handler->display->display_options['fields']['og_user_node']['id'] = 'og_user_node';
-  $handler->display->display_options['fields']['og_user_node']['table'] = 'og_membership';
-  $handler->display->display_options['fields']['og_user_node']['field'] = 'og_user_node';
-  $handler->display->display_options['fields']['og_user_node']['relationship'] = 'uid';
-  $handler->display->display_options['fields']['og_user_node']['exclude'] = TRUE;
-  $handler->display->display_options['fields']['og_user_node']['type'] = 'entityreference_entity_id';
-  $handler->display->display_options['fields']['og_user_node']['settings'] = array(
-    'link' => 0,
-  );
-  $handler->display->display_options['fields']['og_user_node']['delta_offset'] = '0';
+  /* Field: OG membership: Group ID */
+  $handler->display->display_options['fields']['gid']['id'] = 'gid';
+  $handler->display->display_options['fields']['gid']['table'] = 'og_membership';
+  $handler->display->display_options['fields']['gid']['field'] = 'gid';
+  $handler->display->display_options['fields']['gid']['relationship'] = 'og_membership_rel';
+  $handler->display->display_options['fields']['gid']['exclude'] = TRUE;
   /* Field: Commerce Order: Order ID */
   $handler->display->display_options['fields']['order_id']['id'] = 'order_id';
   $handler->display->display_options['fields']['order_id']['table'] = 'commerce_order';
   $handler->display->display_options['fields']['order_id']['field'] = 'order_id';
   $handler->display->display_options['fields']['order_id']['alter']['make_link'] = TRUE;
-  $handler->display->display_options['fields']['order_id']['alter']['path'] = 'node/[og_user_node]/manage/orders/[order_id]';
+  $handler->display->display_options['fields']['order_id']['alter']['path'] = 'node/[gid]/manage/orders/[order_id]';
   /* Field: Commerce Order: Updated date */
   $handler->display->display_options['fields']['changed']['id'] = 'changed';
   $handler->display->display_options['fields']['changed']['table'] = 'commerce_order';
@@ -318,10 +308,10 @@ function commerce_ogmk_shops_views_default_views() {
     t('Asc'),
     t('Desc'),
     t('There are currently no orders with the selected status.'),
-    t('Order membership'),
-    t('Shop node'),
-    t('Shop owner'),
-    t('Shops you own'),
+    t('OG membership from commerce order'),
+    t('Group ID'),
+    t('.'),
+    t(','),
     t('Order ID'),
     t('Last Updated'),
     t('Total'),
@@ -378,6 +368,11 @@ function commerce_ogmk_shops_views_default_views() {
     'hover' => 0,
     'condensed' => 0,
   );
+  /* Relationship: OG membership: OG membership from Node */
+  $handler->display->display_options['relationships']['og_membership_rel']['id'] = 'og_membership_rel';
+  $handler->display->display_options['relationships']['og_membership_rel']['table'] = 'node';
+  $handler->display->display_options['relationships']['og_membership_rel']['field'] = 'og_membership_rel';
+  $handler->display->display_options['relationships']['og_membership_rel']['required'] = TRUE;
   /* Field: Content: Nid */
   $handler->display->display_options['fields']['nid']['id'] = 'nid';
   $handler->display->display_options['fields']['nid']['table'] = 'node';
@@ -457,18 +452,18 @@ function commerce_ogmk_shops_views_default_views() {
   $handler->display->display_options['sorts']['created']['table'] = 'node';
   $handler->display->display_options['sorts']['created']['field'] = 'created';
   $handler->display->display_options['sorts']['created']['order'] = 'DESC';
-  /* Contextual filter: Field: Shop (og_shop_ref) */
-  $handler->display->display_options['arguments']['og_shop_ref_target_id']['id'] = 'og_shop_ref_target_id';
-  $handler->display->display_options['arguments']['og_shop_ref_target_id']['table'] = 'og_membership';
-  $handler->display->display_options['arguments']['og_shop_ref_target_id']['field'] = 'og_shop_ref_target_id';
-  $handler->display->display_options['arguments']['og_shop_ref_target_id']['default_action'] = 'default';
-  $handler->display->display_options['arguments']['og_shop_ref_target_id']['default_argument_type'] = 'raw';
-  $handler->display->display_options['arguments']['og_shop_ref_target_id']['default_argument_options']['index'] = '1';
-  $handler->display->display_options['arguments']['og_shop_ref_target_id']['summary']['number_of_records'] = '0';
-  $handler->display->display_options['arguments']['og_shop_ref_target_id']['summary']['format'] = 'default_summary';
-  $handler->display->display_options['arguments']['og_shop_ref_target_id']['summary_options']['items_per_page'] = '25';
-  $handler->display->display_options['arguments']['og_shop_ref_target_id']['specify_validation'] = TRUE;
-  $handler->display->display_options['arguments']['og_shop_ref_target_id']['validate']['type'] = 'og';
+  /* Contextual filter: OG membership: Group ID */
+  $handler->display->display_options['arguments']['gid']['id'] = 'gid';
+  $handler->display->display_options['arguments']['gid']['table'] = 'og_membership';
+  $handler->display->display_options['arguments']['gid']['field'] = 'gid';
+  $handler->display->display_options['arguments']['gid']['relationship'] = 'og_membership_rel';
+  $handler->display->display_options['arguments']['gid']['default_action'] = 'default';
+  $handler->display->display_options['arguments']['gid']['default_argument_type'] = 'og_context';
+  $handler->display->display_options['arguments']['gid']['summary']['number_of_records'] = '0';
+  $handler->display->display_options['arguments']['gid']['summary']['format'] = 'default_summary';
+  $handler->display->display_options['arguments']['gid']['summary_options']['items_per_page'] = '25';
+  $handler->display->display_options['arguments']['gid']['specify_validation'] = TRUE;
+  $handler->display->display_options['arguments']['gid']['validate']['type'] = 'og';
   /* Filter criterion: Content: Published */
   $handler->display->display_options['filters']['status']['id'] = 'status';
   $handler->display->display_options['filters']['status']['table'] = 'node';
@@ -503,6 +498,7 @@ function commerce_ogmk_shops_views_default_views() {
     t('‹ previous'),
     t('next ›'),
     t('last »'),
+    t('OG membership from node'),
     t('Image'),
     t('Title'),
     t('Category'),

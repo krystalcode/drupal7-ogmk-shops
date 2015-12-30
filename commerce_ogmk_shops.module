@@ -302,6 +302,74 @@ function commerce_ogmk_shops_menu_token_plugins() {
 }
 
 /**
+ * Implements hook_og_context_negotiation_info().
+ */
+function commerce_ogmk_shops_og_context_negotiation_info() {
+  $providers = array();
+
+  $providers['ogmk_shop_views'] = array(
+    'name' => t('OGMK Shop View Pages'),
+    'description' => t("Determine context by the url argument that specifies the Shop currently being viewed or managed."),
+    'callback' => '_commerce_ogmk_shops_node_views_og_context_handler',
+    'menu path' => array(
+      'node/%/manage/orders',
+      'node/%/manage/orders/%',
+      'node/%/manage/products',
+    ),
+  );
+
+  $providers['ogmk_product_add'] = array(
+    'name' => t('OGMK Product Add Forms'),
+    'description' => t('Determine context by checking the Shop owned by the logged in user.'),
+    'callback' => '_commerce_ogmk_shops_node_add_og_context_handler',
+    'menu path' => array(
+      'node/add/product',
+    ),
+  );
+
+  return $providers;
+}
+
+/**
+ * Context handler for views;
+ *
+ * Gets the group ("shop" node) from the url.
+ */
+function _commerce_ogmk_shops_node_views_og_context_handler() {
+  $item = menu_get_item();
+
+  if (empty($item['map'])) {
+    // User has no access to the menu item.
+    return;
+  }
+
+  $node = node_load($item['map'][1]);
+
+  if (isset($node) && $node) {
+    return _group_context_handler_entity('node', $node);
+  }
+}
+
+/**
+ * Context handler for "product" node add forms.
+ *
+ * Gets the group ("shop" node) from the logged in user.
+ */
+function _commerce_ogmk_shops_node_add_og_context_handler() {
+  $item = menu_get_item();
+
+  if (!$item['access']) {
+    return;
+  }
+
+  $node = commerce_ogmk_shops_user_get_shop();
+
+  if (isset($node) && $node) {
+    return _group_context_handler_entity('node', $node);
+  }
+}
+
+/**
  * Public API.
  */
 
