@@ -189,17 +189,6 @@ function commerce_ogmk_shops_form_product_node_form_alter(&$form, &$form_state, 
     // Do not display translation and revision field groups.
     $form['revision_information']['#access'] = FALSE;
     $form['translation']['#access'] = FALSE;
-
-    // Products should not be deleted.
-    /**
-     * @Issue(
-     *   "Such permissions should be controlled at og level"
-     *   type="bug"
-     * )
-     */
-    if ($user->uid != 1) {
-      $form['actions']['delete']['#access'] = FALSE;
-    }
   }
 
   // Add a Cancel button.
