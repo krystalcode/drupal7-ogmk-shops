@@ -119,9 +119,6 @@ function commerce_ogmk_shops_form_shop_node_form_alter(&$form, &$form_state, $fo
    */
   global $user;
   if ($user->uid !== 1) {
-    // Shops should not be deleted.
-    $form['actions']['delete']['#access'] = FALSE;
-
     // Do not display translation and revision field groups.
     $form['revision_information']['#access'] = FALSE;
     $form['translation']['#access'] = FALSE;
