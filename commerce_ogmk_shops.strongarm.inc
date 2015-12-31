@@ -157,6 +157,34 @@ function commerce_ogmk_shops_strongarm() {
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
+  $strongarm->name = 'og_context_negotiation_group_context';
+  $strongarm->value = array(
+    'node' => array(),
+    'ogmk_product_add' => array(),
+    'ogmk_shop_views' => array(),
+  );
+  $export['og_context_negotiation_group_context'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'og_context_providers_weight_group_context';
+  $strongarm->value = array(
+    'url' => '-5',
+    'node' => '-4',
+    'ogmk_shop_views' => '0',
+    'ogmk_product_add' => '0',
+    'node_views' => '0',
+    'user-edit' => '0',
+    'user-view' => '0',
+    'node_add' => '0',
+    'comment' => '0',
+  );
+  $export['og_context_providers_weight_group_context'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
   $strongarm->name = 'og_group_manager_default_rids_node_shop';
   $strongarm->value = array(
     3 => '3',
