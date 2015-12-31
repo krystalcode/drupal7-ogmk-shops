@@ -159,8 +159,8 @@ function commerce_ogmk_shops_strongarm() {
   $strongarm->api_version = 1;
   $strongarm->name = 'og_context_negotiation_group_context';
   $strongarm->value = array(
+    'url' => array(),
     'node' => array(),
-    'ogmk_product_add' => array(),
     'ogmk_shop_views' => array(),
   );
   $export['og_context_negotiation_group_context'] = $strongarm;
@@ -172,13 +172,13 @@ function commerce_ogmk_shops_strongarm() {
   $strongarm->value = array(
     'url' => '-5',
     'node' => '-4',
-    'ogmk_shop_views' => '0',
-    'ogmk_product_add' => '0',
-    'node_views' => '0',
-    'user-edit' => '0',
-    'user-view' => '0',
     'node_add' => '0',
     'comment' => '0',
+    'user-view' => '0',
+    'node_views' => '0',
+    'ogmk_shop_views' => '0',
+    'ogmk_product_add' => '0',
+    'user-edit' => '0',
   );
   $export['og_context_providers_weight_group_context'] = $strongarm;
 

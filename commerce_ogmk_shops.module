@@ -160,19 +160,6 @@ function commerce_ogmk_shops_form_product_node_form_alter(&$form, &$form_state, 
 
   // Code specific to the add form.
   if ($form['nid']['#value'] === NULL) {
-    // Pre-populate the og_shop_ref field.
-
-    // Get the shop that belongs to the logged in user.
-    $shopId = commerce_ogmk_shops_user_has_shop();
-
-    // Access denied if there is no shop for the logged in user.
-    if (!$shopId) {
-      // @Issue("Throw an Access Denied page or message")
-    }
-
-    // Pre-populate the og_shop_ref field.
-    $language = $form['og_shop_ref']['#language'];
-    $form['og_shop_ref'][$language][0]['default']['#default_value'] = $shopId;
   }
 
   // Deny access to og_shop_ref field, unless the user is the administrator.
@@ -192,7 +179,12 @@ function commerce_ogmk_shops_form_product_node_form_alter(&$form, &$form_state, 
    */
   global $user;
   if ((int) $user->uid !== 1) {
-    $form['og_shop_ref']['#access'] = FALSE;
+    // If we hide the "og_shop_ref" field on the edit form through the
+    // "entityreference_prepopulate" module, it is also hidden for the super
+    // admin user. We want to make it available to the super admin user.
+    if ($form['nid']['#value']) {
+      $form['og_shop_ref']['#access'] = FALSE;
+    }
 
     // Do not display translation and revision field groups.
     $form['revision_information']['#access'] = FALSE;
@@ -366,15 +358,6 @@ function commerce_ogmk_shops_og_context_negotiation_info() {
     ),
   );
 
-  $providers['ogmk_product_add'] = array(
-    'name' => t('OGMK Product Add Forms'),
-    'description' => t('Determine context by checking the Shop owned by the logged in user.'),
-    'callback' => '_commerce_ogmk_shops_node_add_og_context_handler',
-    'menu path' => array(
-      'node/add/product',
-    ),
-  );
-
   return $providers;
 }
 
@@ -392,25 +375,6 @@ function _commerce_ogmk_shops_node_views_og_context_handler() {
   }
 
   $node = node_load($item['map'][1]);
-
-  if (isset($node) && $node) {
-    return _group_context_handler_entity('node', $node);
-  }
-}
-
-/**
- * Context handler for "product" node add forms.
- *
- * Gets the group ("shop" node) from the logged in user.
- */
-function _commerce_ogmk_shops_node_add_og_context_handler() {
-  $item = menu_get_item();
-
-  if (!$item['access']) {
-    return;
-  }
-
-  $node = commerce_ogmk_shops_user_get_shop();
 
   if (isset($node) && $node) {
     return _group_context_handler_entity('node', $node);
