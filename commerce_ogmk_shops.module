@@ -335,6 +335,17 @@ function commerce_ogmk_shops_menu_token_plugins() {
     ),
   );
 
+  $plugins["ogmk_og_context_shop"] = array(
+    'type' => 'node',
+    'label' => t('Shop from OG context'),
+    'description' => t('Picks the shop from the current OG context.'),
+    'handler' => array(
+      'path' => drupal_get_path('module', 'commerce_ogmk_shops') . '/includes/menu_token',
+      'file' => 'menu_token_ogmk_og_context_shop.inc',
+      'class' => 'menu_token_ogmk_og_context_shop',
+    ),
+  );
+
   return $plugins;
 }
 
