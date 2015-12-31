@@ -423,6 +423,23 @@ function commerce_ogmk_shops_views_default_views() {
   $handler->display->display_options['fields']['body']['settings'] = array(
     'trim_length' => '300',
   );
+  /* Field: Content: Published */
+  $handler->display->display_options['fields']['status']['id'] = 'status';
+  $handler->display->display_options['fields']['status']['table'] = 'node';
+  $handler->display->display_options['fields']['status']['field'] = 'status';
+  $handler->display->display_options['fields']['status']['type'] = 'custom';
+  /**
+   * @Issue(
+   *   "Add font-awesome/bootstrap display options for the publication status
+   *   instead of using the custom type"
+   *   type="improvement"
+   *   priority="low"
+   *   labels="modularity"
+   * )
+   */
+  $handler->display->display_options['fields']['status']['type_custom_true'] = '<span class="fa fa-check text-success"></span>';
+  $handler->display->display_options['fields']['status']['type_custom_false'] = '<span class="fa fa-times text-danger"></span>';
+  $handler->display->display_options['fields']['status']['not'] = 0;
   /* Field: Content: Button link */
   $handler->display->display_options['fields']['view_node_button']['id'] = 'view_node_button';
   $handler->display->display_options['fields']['view_node_button']['table'] = 'node';
@@ -470,13 +487,6 @@ function commerce_ogmk_shops_views_default_views() {
   $handler->display->display_options['arguments']['gid']['summary_options']['items_per_page'] = '25';
   $handler->display->display_options['arguments']['gid']['specify_validation'] = TRUE;
   $handler->display->display_options['arguments']['gid']['validate']['type'] = 'og';
-  /* Filter criterion: Content: Published */
-  $handler->display->display_options['filters']['status']['id'] = 'status';
-  $handler->display->display_options['filters']['status']['table'] = 'node';
-  $handler->display->display_options['filters']['status']['field'] = 'status';
-  $handler->display->display_options['filters']['status']['value'] = 1;
-  $handler->display->display_options['filters']['status']['group'] = 1;
-  $handler->display->display_options['filters']['status']['expose']['operator'] = FALSE;
   /* Filter criterion: Content: Type */
   $handler->display->display_options['filters']['type']['id'] = 'type';
   $handler->display->display_options['filters']['type']['table'] = 'node';
@@ -509,6 +519,7 @@ function commerce_ogmk_shops_views_default_views() {
     t('Title'),
     t('Category'),
     t('Description'),
+    t('Published'),
     t('Button link'),
     t('View'),
     t('Edit button link'),

@@ -187,7 +187,7 @@ function commerce_ogmk_shops_strongarm() {
   $strongarm->api_version = 1;
   $strongarm->name = 'og_group_manager_default_rids_node_shop';
   $strongarm->value = array(
-    3 => '3',
+    4 => '4',
   );
   $export['og_group_manager_default_rids_node_shop'] = $strongarm;
 

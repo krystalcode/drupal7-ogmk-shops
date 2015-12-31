@@ -10,6 +10,23 @@
 function commerce_ogmk_shops_og_features_default_permissions() {
   $permissions = array();
 
+  // Exported og permission: 'node:shop:access authoring options of product content'
+  $permissions['node:shop:access authoring options of product content'] = array(
+    'roles' => array(),
+  );
+
+  // Exported og permission: 'node:shop:access publishing options of product content'
+  $permissions['node:shop:access publishing options of product content'] = array(
+    'roles' => array(
+      'administrator' => 'administrator',
+    ),
+  );
+
+  // Exported og permission: 'node:shop:access revisions options of product content'
+  $permissions['node:shop:access revisions options of product content'] = array(
+    'roles' => array(),
+  );
+
   // Exported og permission: 'node:shop:add user'
   $permissions['node:shop:add user'] = array(
     'roles' => array(),
@@ -28,7 +45,8 @@ function commerce_ogmk_shops_og_features_default_permissions() {
   // Exported og permission: 'node:shop:create product content'
   $permissions['node:shop:create product content'] = array(
     'roles' => array(
-      'administrator member' => 'administrator member',
+      'administrator' => 'administrator',
+      'merchant' => 'merchant',
     ),
   );
 
@@ -75,21 +93,29 @@ function commerce_ogmk_shops_og_features_default_permissions() {
   // Exported og permission: 'node:shop:update any product content'
   $permissions['node:shop:update any product content'] = array(
     'roles' => array(
-      'administrator member' => 'administrator member',
+      'administrator' => 'administrator',
+      'merchant' => 'merchant',
     ),
   );
 
   // Exported og permission: 'node:shop:update group'
   $permissions['node:shop:update group'] = array(
     'roles' => array(
-      'administrator member' => 'administrator member',
+      'administrator' => 'administrator',
+      'merchant' => 'merchant',
     ),
   );
 
   // Exported og permission: 'node:shop:update own product content'
   $permissions['node:shop:update own product content'] = array(
+    'roles' => array(),
+  );
+
+  // Exported og permission: 'node:shop:view any unpublished product content'
+  $permissions['node:shop:view any unpublished product content'] = array(
     'roles' => array(
-      'administrator member' => 'administrator member',
+      'administrator' => 'administrator',
+      'merchant' => 'merchant',
     ),
   );
 
