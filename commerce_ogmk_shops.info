@@ -113,5 +113,7 @@ features[variable][] = sharethis_shop_options
 features[views_view][] = ogmk_shop_manage_order
 features[views_view][] = ogmk_shop_manage_orders
 features[views_view][] = ogmk_shop_manage_products
+features[views_view][] = ogmk_user_shops_manager
+features[views_view][] = ogmk_user_shops_member
 files[] = includes/menu_token/menu_token_ogmk_current_user_shop.inc
 files[] = includes/menu_token/menu_token_ogmk_og_context_shop.inc
