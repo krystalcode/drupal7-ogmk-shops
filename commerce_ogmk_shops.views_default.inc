@@ -520,6 +520,8 @@ function commerce_ogmk_shops_views_default_views() {
     t('Category'),
     t('Description'),
     t('Published'),
+    t('<span class="fa fa-check text-success"></span>'),
+    t('<span class="fa fa-times text-danger"></span>'),
     t('Button link'),
     t('View'),
     t('Edit button link'),
