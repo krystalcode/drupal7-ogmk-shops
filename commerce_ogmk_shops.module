@@ -345,6 +345,9 @@ function commerce_ogmk_shops_og_context_negotiation_info() {
     'description' => t("Determine context by the url argument that specifies the Shop currently being viewed or managed."),
     'callback' => '_commerce_ogmk_shops_node_views_og_context_handler',
     'menu path' => array(
+      // Shop front views.
+      'node/%/products',
+      // Shop management views.
       'node/%/manage/orders',
       'node/%/manage/orders/%',
       'node/%/manage/products',
