@@ -78,6 +78,15 @@ function commerce_ogmk_shops_strongarm() {
       'ogmk_manage_teaser' => array(
         'custom_settings' => TRUE,
       ),
+      'ogmk_bootstrap_media' => array(
+        'custom_settings' => FALSE,
+      ),
+      'diff_standard' => array(
+        'custom_settings' => FALSE,
+      ),
+      'info' => array(
+        'custom_settings' => TRUE,
+      ),
     ),
     'extra_fields' => array(
       'form' => array(
@@ -100,6 +109,10 @@ function commerce_ogmk_shops_strongarm() {
           ),
           'ogmk_manage_teaser' => array(
             'weight' => '6',
+            'visible' => FALSE,
+          ),
+          'info' => array(
+            'weight' => '4',
             'visible' => FALSE,
           ),
         ),
@@ -248,6 +261,9 @@ function commerce_ogmk_shops_strongarm() {
     'full' => 0,
     'teaser' => 0,
     'rss' => 0,
+    'ogmk_bootstrap_media' => 0,
+    'ogmk_manage_teaser' => 0,
+    'diff_standard' => 0,
     'token' => 0,
   );
   $export['sharethis_shop_options'] = $strongarm;

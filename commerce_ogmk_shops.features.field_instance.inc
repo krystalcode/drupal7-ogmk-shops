@@ -26,6 +26,12 @@ function commerce_ogmk_shops_field_default_field_instances() {
         'type' => 'text_summary_or_trimmed',
         'weight' => 1,
       ),
+      'info' => array(
+        'label' => 'hidden',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 3,
+      ),
       'ogmk_manage_teaser' => array(
         'label' => 'hidden',
         'settings' => array(),
@@ -91,6 +97,16 @@ function commerce_ogmk_shops_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 4,
       ),
+      'info' => array(
+        'label' => 'hidden',
+        'module' => 'image',
+        'settings' => array(
+          'image_link' => '',
+          'image_style' => '773x580',
+        ),
+        'type' => 'image',
+        'weight' => 0,
+      ),
       'ogmk_manage_teaser' => array(
         'label' => 'hidden',
         'module' => 'image',
@@ -148,13 +164,15 @@ function commerce_ogmk_shops_field_default_field_instances() {
     'display' => array(
       'default' => array(
         'label' => 'hidden',
-        'module' => 'image',
-        'settings' => array(
-          'image_link' => '',
-          'image_style' => 'banner',
-        ),
-        'type' => 'image',
-        'weight' => 0,
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 3,
+      ),
+      'info' => array(
+        'label' => 'hidden',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 5,
       ),
       'ogmk_manage_teaser' => array(
         'label' => 'hidden',
@@ -205,10 +223,17 @@ function commerce_ogmk_shops_field_default_field_instances() {
     'description' => '',
     'display' => array(
       'default' => array(
-        'label' => 'above',
+        'label' => 'hidden',
+        'module' => 'text',
+        'settings' => array(),
+        'type' => 'text_default',
+        'weight' => 0,
+      ),
+      'info' => array(
+        'label' => 'hidden',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 3,
+        'weight' => 2,
       ),
       'ogmk_manage_teaser' => array(
         'label' => 'hidden',
@@ -278,6 +303,12 @@ function commerce_ogmk_shops_field_default_field_instances() {
         'label' => 'hidden',
         'settings' => array(),
         'type' => 'hidden',
+        'weight' => 5,
+      ),
+      'info' => array(
+        'label' => 'hidden',
+        'settings' => array(),
+        'type' => 'hidden',
         'weight' => 6,
       ),
       'ogmk_manage_teaser' => array(
@@ -337,7 +368,18 @@ function commerce_ogmk_shops_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 7,
+        'weight' => 6,
+      ),
+      'info' => array(
+        'label' => 'hidden',
+        'module' => 'title',
+        'settings' => array(
+          'title_class' => '',
+          'title_link' => 'content',
+          'title_style' => '_none',
+        ),
+        'type' => 'title_linked',
+        'weight' => 1,
       ),
       'ogmk_manage_teaser' => array(
         'label' => 'above',
@@ -427,7 +469,7 @@ function commerce_ogmk_shops_field_default_field_instances() {
       'module' => 'og',
       'settings' => array(),
       'type' => 'og_complex',
-      'weight' => 8,
+      'weight' => 4,
     ),
   );
 
