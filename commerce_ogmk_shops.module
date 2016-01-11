@@ -378,6 +378,21 @@ function _commerce_ogmk_shops_node_views_og_context_handler() {
 }
 
 /**
+ * Implements hook_query_TAG_alter().
+ *
+ * @Issue(
+ *   "Test if this query alteration works as expected"
+ *   type="bug"
+ *   priority="normal"
+ *   labels="security, testing"
+ * )
+ */
+function commerce_ogmk_shops_query_ogmk_membership_is_active_user_alter(QueryAlterableInterface $query) {
+  $query->innerJoin('users', 'u', 'u.uid = og_membership.etid');
+  $query->condition('u.status', 1);
+}
+
+/**
  * Public API.
  */
 
@@ -441,6 +456,32 @@ function commerce_ogmk_shops_user_get_shop($user = NULL) {
   }
 
   return NULL;
+}
+
+/**
+ * Get the number of active shop members.
+ *
+ * Only active users with an active 'shop_member' membership will be counted.
+ *
+ * @param object $shop
+ *   The 'shop' node object for which to get the number of active members.
+ *
+ * @return int
+ *   The number of active shop members.
+ */
+function commerce_ogmk_shops_nb_active_members($shop) {
+  $query = new EntityFieldQuery();
+  $query
+    ->entityCondition('entity_type', 'og_membership')
+    ->propertyCondition('group_type', 'node')
+    ->propertyCondition('gid', $shop->nid)
+    ->propertyCondition('entity_type', 'user', '=')
+    ->propertyCondition('type', 'shop_member')
+    ->propertyCondition('state', OG_STATE_ACTIVE)
+    ->addTag('ogmk_membership_is_active_user');
+  $result = $query->count()->execute();
+
+  return $result;
 }
 
 /**
