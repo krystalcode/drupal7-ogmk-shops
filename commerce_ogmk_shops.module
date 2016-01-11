@@ -459,6 +459,44 @@ function commerce_ogmk_shops_user_get_shop($user = NULL) {
 }
 
 /**
+ * Get the number of published products that belong to a shop.
+ *
+ * @param object $shop
+ *   The 'shop' node object for which to get the number of published products.
+ *
+ * @return int
+ *   The number of products published on the given shop.
+ */
+function commerce_ogmk_shops_nb_published_products($shop) {
+  /**
+   * @Issue(
+   *   "We want to display all products ever published instead of the currently
+   *   published ones"
+   *   type="bug"
+   *   priority="normal"
+   * )
+   * @Issue(
+   *   "Get the products using their og membership instead so that we can check
+   *   their state"
+   *   type="bug"
+   *   priority="normal"
+   *   labels="security"
+   * )
+   */
+
+  // Get the Shop owned by the user.
+  $query = new EntityFieldQuery();
+  $query
+    ->entityCondition('entity_type', 'node')
+    ->propertyCondition('type', 'product')
+    ->propertyCondition('status', 1)
+    ->fieldCondition('og_shop_ref', 'target_id', $shop->nid);
+  $result = $query->count()->execute();
+
+  return $result;
+}
+
+/**
  * Get the number of active shop members.
  *
  * Only active users with an active 'shop_member' membership will be counted.
