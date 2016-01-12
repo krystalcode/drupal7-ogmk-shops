@@ -15,7 +15,7 @@ function commerce_ogmk_shops_context_default_contexts() {
   $context->api_version = 3;
   $context->name = 'ogmk_shop_manage';
   $context->description = '';
-  $context->tag = 'section';
+  $context->tag = 'ogmk-shop';
   $context->conditions = array(
     'node' => array(
       'values' => array(
@@ -29,9 +29,7 @@ function commerce_ogmk_shops_context_default_contexts() {
     'path' => array(
       'values' => array(
         'node/*/manage' => 'node/*/manage',
-        'node/*/manage/orders' => 'node/*/manage/orders',
-        'node/*/manage/orders/*' => 'node/*/manage/orders/*',
-        'node/*/manage/products' => 'node/*/manage/products',
+        'node/*/manage/*' => 'node/*/manage/*',
       ),
     ),
   );
@@ -51,7 +49,7 @@ function commerce_ogmk_shops_context_default_contexts() {
 
   // Translatables
   // Included for use with string extractors like potx.
-  t('section');
+  t('ogmk-shop');
   $export['ogmk_shop_manage'] = $context;
 
   return $export;
