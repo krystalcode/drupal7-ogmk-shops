@@ -694,7 +694,7 @@ function commerce_ogmk_shops_shop_nb_members($shop, array $options = array()) {
  * @return int
  *   The number of active shop users.
  */
-function commerce_ogmk_shops_nb_active_users($shop) {
+function commerce_ogmk_shops_shop_nb_active_users($shop) {
   return commerce_ogmk_shops_shop_nb_members(
     $shop,
     array(
@@ -715,7 +715,7 @@ function commerce_ogmk_shops_nb_active_users($shop) {
  * @return int
  *   The number of products published on the given shop.
  */
-function commerce_ogmk_shops_nb_published_products($shop) {
+function commerce_ogmk_shops_shop_nb_published_products($shop) {
   return commerce_ogmk_shops_shop_nb_members(
     $shop,
     array(
@@ -728,9 +728,10 @@ function commerce_ogmk_shops_nb_published_products($shop) {
 }
 
 /**
- * Get the number of published reviews for this shop.
+ * Get the number of published reviews that belong to a shop.
  *
- * Shop reviews are essentially reviews for products that belong to this shop.
+ * Shop reviews are essentially reviews for products that belong to the given
+ * shop.
  *
  * @param object $shop
  *   The 'shop' node object for which to get the number of published reviews.
@@ -738,7 +739,7 @@ function commerce_ogmk_shops_nb_published_products($shop) {
  * @return int
  *   The number of published shop reviews.
  */
-function commerce_ogmk_shops_nb_published_reviews($shop) {
+function commerce_ogmk_shops_shop_nb_published_reviews($shop) {
   return commerce_ogmk_shops_shop_nb_members(
     $shop,
     array(
