@@ -380,6 +380,13 @@ function _commerce_ogmk_shops_node_views_og_context_handler() {
 /**
  * Implements hook_query_TAG_alter().
  */
+function commerce_ogmk_shops_query_ogmk_membership_user_alter(QueryAlterableInterface $query) {
+  _commerce_ogmk_shops_create_ogmK_membership_query_alter($query, 'users', 'uid');
+}
+
+/**
+ * Implements hook_query_TAG_alter().
+ */
 function commerce_ogmk_shops_query_ogmk_membership_user_published_alter(QueryAlterableInterface $query) {
   _commerce_ogmk_shops_create_ogmK_membership_query_alter(
     $query,
@@ -403,6 +410,13 @@ function commerce_ogmk_shops_query_ogmk_membership_user_unpublished_alter(QueryA
       'status' => FALSE,
     ]
   );
+}
+
+/**
+ * Implements hook_query_TAG_alter().
+ */
+function commerce_ogmk_shops_query_ogmk_membership_node_alter(QueryAlterableInterface $query) {
+  _commerce_ogmk_shops_create_ogmK_membership_query_alter($query, 'node', 'nid');
 }
 
 /**
@@ -522,6 +536,67 @@ function commerce_ogmk_shops_query_ogmk_membership_node_review_unpublished_alter
 }
 
 /**
+ * Implements hook_query_TAG_alter().
+ */
+function commerce_ogmk_shops_query_ogmk_membership_commerce_line_item_alter(QueryAlterableInterface $query) {
+  _commerce_ogmk_shops_create_ogmK_membership_query_alter($query, 'commerce_line_item', 'line_item_id');
+}
+
+/**
+ * Implements hook_query_TAG_alter().
+ */
+function commerce_ogmk_shops_query_ogmk_membership_commerce_line_item_product_alter(QueryAlterableInterface $query) {
+  _commerce_ogmk_shops_create_ogmK_membership_query_alter(
+    $query,
+    'commerce_line_item',
+    'line_item_id',
+    [
+      'bundle' => 'product',
+    ]
+  );
+}
+
+/**
+ * Implements hook_query_TAG_alter().
+ */
+function commerce_ogmk_shops_query_ogmk_line_item_order_status_canceled_alter(QueryAlterableInterface $query) {
+  $query->innerJoin('commerce_order', 'commerce_order', 'commerce_order.order_id = commerce_line_item.order_id');
+  $query->condition('commerce_order.status', 'canceled');
+}
+
+/**
+ * Implements hook_query_TAG_alter().
+ */
+function commerce_ogmk_shops_query_ogmk_line_item_order_status_pending_alter(QueryAlterableInterface $query) {
+  $query->innerJoin('commerce_order', 'commerce_order', 'commerce_order.order_id = commerce_line_item.order_id');
+  $query->condition('commerce_order.status', 'pending');
+}
+
+/**
+ * Implements hook_query_TAG_alter().
+ */
+function commerce_ogmk_shops_query_ogmk_line_item_order_status_processing_alter(QueryAlterableInterface $query) {
+  $query->innerJoin('commerce_order', 'commerce_order', 'commerce_order.order_id = commerce_line_item.order_id');
+  $query->condition('commerce_order.status', 'processing');
+}
+
+/**
+ * Implements hook_query_TAG_alter().
+ */
+function commerce_ogmk_shops_query_ogmk_line_item_order_status_completed_alter(QueryAlterableInterface $query) {
+  $query->innerJoin('commerce_order', 'commerce_order', 'commerce_order.order_id = commerce_line_item.order_id');
+  $query->condition('commerce_order.status', 'completed');
+}
+
+/**
+ * Implements hook_query_TAG_alter().
+ */
+function commerce_ogmk_shops_query_ogmk_line_item_order_status_cart_alter(QueryAlterableInterface $query) {
+  $query->innerJoin('commerce_order', 'commerce_order', 'commerce_order.order_id = commerce_line_item.order_id');
+  $query->condition('commerce_order.status', 'cart');
+}
+
+/**
  * Public API.
  */
 
@@ -588,112 +663,24 @@ function commerce_ogmk_shops_user_get_shop($user = NULL) {
 }
 
 /**
- * Get the number of entities that are member of a shop.
+ * Get the number of entities that are members of a shop.
+ *
+ * Entities to be counted can be filtered by using the various options provided.
  *
  * @param object $shop
- *   The 'shop' node object for which to get the number of published reviews.
+ *   The 'shop' node object for which to get the number of members.
  * @param array $options
- *   An array of options. Available options are:
- *   - entity_type: (null|boolean) The entity type to look for. Required if a speicific entity
- *     bundle is given. If NULL, all entities of all types will be counted.
- *   - entity_bundle: (null|boolean) The entity bundle to look for. If NULL, all entities will
- *     be counted regardless of their bundle.
- *   - entity_status: (null|boolean) The status property (usually implying
- *     publication status) to look for. If NULL, all entities will be counted
- *     regardless of their status.
- *   - membership_state: (NULL|int) The OG membership state to look for. If
- *     NULL, all entities will be counted regardless of their membership state.
- *   - membership_type: (NULL|string) The OG membership type to look for. If
- *     NULL, all entities will be counted regardless of their membership type.
+ *   An array of options, @see _commerce_ogmk_shops_shop_members_query.
  *
  * @return int
- *   The number of published shop reviews.
+ *   The number of shop members.
  */
 function commerce_ogmk_shops_shop_nb_members($shop, array $options = array()) {
-  // By default, count only active/published entities with active membership
-  // state.
-  $options = array_merge(
-    array(
-      'entity_type'      => NULL,
-      'entity_bundle'    => NULL,
-      'entity_status'    => TRUE,
-      'membership_state' => OG_STATE_ACTIVE,
-      'membership_type'  => NULL,
-    ),
-    $options
-  );
+  // Get the query to execute.
+  $query = _commerce_ogmk_shops_shop_members_query($shop, $options);
 
-  // Throw an exception if a bundle is requested but no entity type has been
-  // defined.
-  if (!empty($options['entity_bundle']) && empty($options['entity_type'])) {
-    throw new Exception('You must specify an entity type in order to restrict results to a specific entity bundle.');
-  }
-
-  // Throw an exception if a bundle is requested but no entity type has been
-  // defined. This is because we need to know the entity type in order to add
-  // the appropriate query tag.
-  if ($options['entity_bundle'] === NULL && empty($options['entity_type'])) {
-    throw new Exception('You must specify an entity type in order to restrict results to a specific entity status.');
-  }
-
-  // Construct the query.
-  $query = new EntityFieldQuery();
-  $query
-    ->entityCondition('entity_type', 'og_membership')
-    ->propertyCondition('group_type', 'node')
-    ->propertyCondition('gid', $shop->nid);
-
-  if (!empty($options['entity_type'])) {
-    $query->propertyCondition('entity_type', $options['entity_type']);
-  }
-
-  if (!empty($options['membership_state'])) {
-    $query->propertyCondition('state', $options['membership_state']);
-  }
-
-  if (!empty($options['membership_type'])) {
-    $query->propertyCondition('type', $options['membership_type']);
-  }
-
-  // If the 'entity_bundle' option is NULL, and the 'entity_status' option is
-  // NULL as well (which means that we want the total count of entities whether
-  // they are published or not), there's no query tag to add. Get the result and
-  // return it.
-  if (empty($options['entity_bundle']) && $options['entity_status'] === NULL) {
-    return $query->count()->execute();
-  }
-
-  // In all other cases we will add the appropriate query tag.
-  $published_tag_label = '';
-  // Switch statements does not type check and does not work well - let's use if
-  // statements to be sure.
-  if ($options['entity_status'] === TRUE) {
-    $published_tag_label = '_published';
-  }
-  elseif ($options['entity_status'] === FALSE) {
-    $published_tag_label = '_unpublished';
-  }
-
-  $entity_bundle_label = '';
-  if (!empty($options['entity_bundle'])) {
-    $entity_bundle_label = '_' . $options['entity_bundle'];
-  }
-
-  $query_tag = 'ogmk_membership_' . $options['entity_type'] . $entity_bundle_label . $published_tag_label;
-
-  // Since this contains the potential of counting unpublished records if a
-  // bundle is requested without defining the appropriate hook, it's better to
-  // throw an exception if the hook doesn't exist.
-  if (!function_exists('commerce_ogmk_shops_query_' . $query_tag . '_alter')) {
-    throw new Exception(sprintf('The query tag "%s" has been called, but its corresponding hook_query_alter() hook has not been defined.', $query_tag));
-  }
-
-  $query->addTag($query_tag);
-
-  // Get the result.
-  $result = $query->count()->execute();
-
-  return $result;
+  // Execute the query and return the result.
+  return $query->count()->execute();
 }
 
 /**
@@ -760,6 +747,98 @@ function commerce_ogmk_shops_nb_published_reviews($shop) {
       'entity_status'    => TRUE,
       'membership_state' => OG_STATE_ACTIVE,
     )
+  );
+}
+
+/**
+ * Get the number of line items that belong to a shop.
+ *
+ * @param object $shop
+ *   The 'shop' node object for which to get the number of line items.
+ * @param array $options
+ *   An array of options. Available options are:
+ *   - entity_bundle: (null|boolean) The entity bundle to look for. If NULL, all
+ *     line items will be counted regardless of their bundle.
+ *   - membership_state: (NULL|int) The OG membership state to look for. If
+ *     NULL, all line items will be counted regardless of their membership
+ *     state.
+ *   - membership_type: (NULL|string) The OG membership type to look for. If
+ *     NULL, all line items will be counted regardless of their membership type.
+ *
+ * @return int
+ *   The number of line items for the given shop.
+ */
+function commerce_ogmk_shops_shop_nb_line_items($shop, array $options = array()) {
+  // By default, count only active/published entities with active membership
+  // state.
+  $options = array_merge(
+    array(
+      'entity_bundle'    => NULL,
+      'membership_state' => OG_STATE_ACTIVE,
+      'membership_type'  => NULL,
+      'order_status'     => NULL,
+    ),
+    $options
+  );
+
+  // The entity type should always be that of a line item.
+  $options['entity_type'] = 'commerce_line_item';
+
+  // Line items do not have a status property.
+  $options['entity_status'] = NULL;
+
+  // Make the join with the 'commerce_line_item' table even if we are not
+  // interested in any of its properties (bundle) so that we can then make a
+  // join with the 'commerce_order' table.
+  if (empty($options['entity_bundle'])) {
+    $options['empty_join'] = TRUE;
+  }
+
+  // Construct the query which includes the join with the 'commerce_line_item'
+  // table, if required.
+  $query = _commerce_ogmk_shops_shop_members_query($shop, $options);
+
+  // If there's no specific order status requested, we don't need to add a join
+  // with the 'commerce_order' table. Get and return the results.
+  if (empty($options['order_status'])) {
+    return $query->count()->execute();
+  }
+
+  // Restrict results to the order status requested using the appropriate query
+  // tag.
+  $query_tag = 'ogmk_line_item_order_status_' . $options['order_status'];
+
+  // Throw an exception if the hook doesn't exist to warn the developer.
+  if (!function_exists('commerce_ogmk_shops_query_' . $query_tag . '_alter')) {
+    throw new Exception(sprintf('The query tag "%s" has been called, but its corresponding hook_query_alter() hook has not been defined.', $query_tag));
+  }
+
+  // Add the tag that will alter the query so that it picks up line items only
+  // from order with the desired status.
+  $query->addTag($query_tag);
+
+  return $query->count()->execute();
+}
+
+
+/**
+ * Get the number of fulfilled line items that belong to a shop.
+ *
+ * Fulfilled means that the order in which the line item belong has its status
+ * set to 'completed'.
+ *
+ * @param object $shop
+ *   The 'shop' node object for which to get the number of line items.
+ *
+ * @return int
+ *   The number of fulfilled line items for the given shop.
+ */
+function commerce_ogmk_shops_shop_nb_fulfilled_line_items($shop) {
+  return commerce_ogmk_shops_shop_nb_line_items(
+    $shop,
+    [
+      'order_status' => 'completed',
+    ]
   );
 }
 
@@ -932,14 +1011,147 @@ function _commerce_ogmk_shops_commerce_line_item_og_subscribe($entity, $type) {
  */
 
 /**
+ * Generate the query for getting the entities that are member of a shop.
+ *
+ * @param object $shop
+ *   The 'shop' node object for which to get the member entities.
+ * @param array $options
+ *   An array of options. Available options are:
+ *   - entity_type: (null|boolean) The entity type to look for. Required if a
+ *     specific entity bundle is given. If NULL, all entities of all types will
+ *     be requested in the query.
+ *   - entity_bundle: (null|boolean) The entity bundle to look for. If NULL, all
+ *     entities will be requested regardless of their bundle.
+ *   - entity_status: (null|boolean) The status property (usually implying
+ *     publication status) to look for. If NULL, all entities will be requested
+ *     regardless of their status.
+ *   - membership_state: (NULL|int) The OG membership state to look for. If
+ *     NULL, all entities will be requested regardless of their membership
+ *     state.
+ *   - membership_type: (NULL|string) The OG membership type to look for. If
+ *     NULL, all entities will be requested regardless of their membership type.
+ *   - empty_join: (boolean) Whether or not to issue a join with the requested
+ *     entity's table, even when there is no property to be queried on that
+ *     table. This can be useful when the join is used to then reach another
+ *     table with another join, e.g. to reach a shop's order property through
+ *     it's line items.
+ *
+ * @return EntityFieldQuery
+ *   The built query for getting the shop's member entities.
+ */
+function _commerce_ogmk_shops_shop_members_query($shop, array $options = array()) {
+  // By default, count only active/published entities with active membership
+  // state.
+  $options = array_merge(
+    array(
+      'entity_type'      => NULL,
+      'entity_bundle'    => NULL,
+      'entity_status'    => TRUE,
+      'membership_state' => OG_STATE_ACTIVE,
+      'membership_type'  => NULL,
+      'empty_join'       => FALSE,
+    ),
+    $options
+  );
+
+  // Throw an exception if a bundle is requested but no entity type has been
+  // defined.
+  if (!empty($options['entity_bundle']) && empty($options['entity_type'])) {
+    throw new Exception('You must specify an entity type in order to restrict results to a specific entity bundle.');
+  }
+
+  // Throw an exception if a bundle is requested but no entity type has been
+  // defined. This is because we need to know the entity type in order to add
+  // the appropriate query tag.
+  if ($options['entity_bundle'] === NULL && empty($options['entity_type'])) {
+    throw new Exception('You must specify an entity type in order to restrict results to a specific entity status.');
+  }
+
+  // Construct the query.
+  $query = new EntityFieldQuery();
+  $query
+    ->entityCondition('entity_type', 'og_membership')
+    ->propertyCondition('group_type', 'node')
+    ->propertyCondition('gid', $shop->nid);
+
+  if (!empty($options['entity_type'])) {
+    $query->propertyCondition('entity_type', $options['entity_type']);
+  }
+
+  if (!empty($options['membership_state'])) {
+    $query->propertyCondition('state', $options['membership_state']);
+  }
+
+  if (!empty($options['membership_type'])) {
+    $query->propertyCondition('type', $options['membership_type']);
+  }
+
+  // If the 'entity_bundle' option is NULL, and the 'entity_status' option is
+  // NULL as well (which means that we want the total count of entities whether
+  // they are published or not), there's no query tag to add. Get the result and
+  // return it.
+  // If the 'empty_join' option is set to TRUE, we will continue with the query
+  // as normal to allow for a join without querying for any properties.
+  if (empty($options['entity_bundle']) && $options['entity_status'] === NULL && $options['empty_join'] === FALSE) {
+    return $query;
+  }
+
+  // In all other cases we will add the appropriate query tag.
+  $published_tag_label = '';
+  // Switch statements does not type check and does not work well - let's use if
+  // statements to be sure.
+  if ($options['entity_status'] === TRUE) {
+    $published_tag_label = '_published';
+  }
+  elseif ($options['entity_status'] === FALSE) {
+    $published_tag_label = '_unpublished';
+  }
+
+  $entity_bundle_label = '';
+  if (!empty($options['entity_bundle'])) {
+    $entity_bundle_label = '_' . $options['entity_bundle'];
+  }
+
+  $query_tag = 'ogmk_membership_' . $options['entity_type'] . $entity_bundle_label . $published_tag_label;
+
+  // Since this contains the potential of counting unpublished records if a
+  // bundle is requested without defining the appropriate hook, it's better to
+  // throw an exception if the hook doesn't exist.
+  if (!function_exists('commerce_ogmk_shops_query_' . $query_tag . '_alter')) {
+    throw new Exception(sprintf('The query tag "%s" has been called, but its corresponding hook_query_alter() hook has not been defined.', $query_tag));
+  }
+
+  $query->addTag($query_tag);
+
+  return $query;
+}
+
+/**
  * Perform the query alterations required for the ogmk_membership set of tags.
  *
+ * It adds a join with the requested entity table, and looks for the 'bundle'
+ * and 'status' property values, if requested.
+ *
  * @Issue(
- *   "Test if this query alteration works as expected"
+ *   "Test more thoroughly if this query alteration works as expected"
  *   type="bug"
  *   priority="normal"
  *   labels="security, testing"
  * )
+ *
+ * @param QueryAlterableInterface $query
+ *   The query to alter as made available by hook_query_TAG_alter().
+ * @param string $table
+ *   The name of the entity table on which the join will be performed.
+ * @param string $id_column
+ *   The entity identifier column.
+ * @param array $options
+ *   An array of options: Available options are:
+ *   - bundle: (null|boolean) The entity bundle to look for. If NULL, all
+ *     entities will be requested regardless of their bundle.
+ *   - status: (null|boolean) The status property (usually implying publication
+ *     status) to look for. If NULL, all entities will be requested regardless
+ *     of their status.
  */
 function _commerce_ogmk_shops_create_ogmk_membership_query_alter(QueryAlterableInterface $query, $table, $id_column, array $options = array()) {
   $options = array_merge(
@@ -950,20 +1162,16 @@ function _commerce_ogmk_shops_create_ogmk_membership_query_alter(QueryAlterableI
     $options
   );
 
-  // If there is no desired entity bundle or status given, this method shouldn't
-  // have been called. It's probably an error, but let's fail silently instead
-  // of throwing an exception.
-  if (empty($options['bundle']) && $options['status'] === NULL) {
-    return;
-  }
-
-  $query->innerJoin($table, 'e', 'e.' . $id_column . ' = og_membership.etid');
+  // We may want to keep the join even when no specific bundle or status are
+  // required, because we may want to use the entity to join with another table
+  // e.g. reach the order through a line item.
+  $query->innerJoin($table, $table, $table . '.' . $id_column . ' = og_membership.etid');
 
   if (!empty($options['bundle'])) {
-    $query->condition('e.type', $options['bundle']);
+    $query->condition($table . '.type', $options['bundle']);
   }
 
   if ($options['status'] !== NULL) {
-    $query->condition('e.status', $options['status']);
+    $query->condition($table . '.status', $options['status']);
   }
 }
