@@ -36,7 +36,7 @@ function commerce_ogmk_shops_menu_default_menu_links() {
     'external' => 0,
     'has_children' => 1,
     'expanded' => 1,
-    'weight' => -43,
+    'weight' => -45,
     'customized' => 1,
   );
   // Exported menu link: ogmk-shop-manage_add-product:menutoken/56848cfd7304b.
@@ -80,10 +80,10 @@ function commerce_ogmk_shops_menu_default_menu_links() {
     'weight' => -46,
     'customized' => 1,
   );
-  // Exported menu link: ogmk-shop-manage_dashboard:menutoken/56591dda992d1.
-  $menu_links['ogmk-shop-manage_dashboard:menutoken/56591dda992d1'] = array(
+  // Exported menu link: ogmk-shop-manage_dashboard:menutoken/569540b3c9c35.
+  $menu_links['ogmk-shop-manage_dashboard:menutoken/569540b3c9c35'] = array(
     'menu_name' => 'ogmk-shop-manage',
-    'link_path' => 'menutoken/56591dda992d1',
+    'link_path' => 'menutoken/569540b3c9c35',
     'router_path' => 'menutoken/%',
     'link_title' => 'Dashboard',
     'options' => array(
@@ -111,7 +111,7 @@ function commerce_ogmk_shops_menu_default_menu_links() {
         'title' => '',
       ),
       'alter' => TRUE,
-      'identifier' => 'ogmk-shop-manage_dashboard:menutoken/56591dda992d1',
+      'identifier' => 'ogmk-shop-manage_dashboard:menutoken/569540b3c9c35',
     ),
     'module' => 'menu',
     'hidden' => 0,
@@ -150,13 +150,22 @@ function commerce_ogmk_shops_menu_default_menu_links() {
     'customized' => 1,
     'parent_identifier' => 'ogmk-shop-manage_account:ogmk/placeholder',
   );
-  // Exported menu link: ogmk-shop-manage_orders:node/20/manage/orders.
-  $menu_links['ogmk-shop-manage_orders:node/20/manage/orders'] = array(
+  // Exported menu link: ogmk-shop-manage_orders:menutoken/569566344bc38.
+  $menu_links['ogmk-shop-manage_orders:menutoken/569566344bc38'] = array(
     'menu_name' => 'ogmk-shop-manage',
-    'link_path' => 'node/20/manage/orders',
-    'router_path' => 'node/%/manage/orders',
+    'link_path' => 'menutoken/569566344bc38',
+    'router_path' => 'menutoken/%',
     'link_title' => 'Orders',
     'options' => array(
+      'icon' => array(
+        'bundle' => 'fontawesome',
+        'icon' => 'cubes',
+        'position' => 'title_before',
+        'breadcrumb' => 0,
+        'title_wrapper' => 0,
+        'title_wrapper_element' => 'span',
+        'title_wrapper_class' => 'title',
+      ),
       'menu_token_link_path' => 'node/[node:nid]/manage/orders',
       'menu_token_data' => array(
         'node' => array(
@@ -172,16 +181,7 @@ function commerce_ogmk_shops_menu_default_menu_links() {
         'title' => '',
       ),
       'alter' => TRUE,
-      'icon' => array(
-        'bundle' => 'fontawesome',
-        'icon' => 'cubes',
-        'position' => 'title_before',
-        'breadcrumb' => 0,
-        'title_wrapper' => 0,
-        'title_wrapper_element' => 'span',
-        'title_wrapper_class' => 'title',
-      ),
-      'identifier' => 'ogmk-shop-manage_orders:node/20/manage/orders',
+      'identifier' => 'ogmk-shop-manage_orders:menutoken/569566344bc38',
     ),
     'module' => 'menu',
     'hidden' => 0,
@@ -191,16 +191,16 @@ function commerce_ogmk_shops_menu_default_menu_links() {
     'weight' => -48,
     'customized' => 1,
   );
-  // Exported menu link: ogmk-shop-manage_products:menutoken/56591ec4c266b.
-  $menu_links['ogmk-shop-manage_products:menutoken/56591ec4c266b'] = array(
+  // Exported menu link: ogmk-shop-manage_products:menutoken/569568edd8e4e.
+  $menu_links['ogmk-shop-manage_products:menutoken/569568edd8e4e'] = array(
     'menu_name' => 'ogmk-shop-manage',
-    'link_path' => 'menutoken/56591ec4c266b',
+    'link_path' => 'menutoken/569568edd8e4e',
     'router_path' => 'menutoken/%',
     'link_title' => 'Products',
     'options' => array(
       'icon' => array(
         'bundle' => 'fontawesome',
-        'icon' => 'list',
+        'icon' => 'cube',
         'position' => 'title_before',
         'breadcrumb' => 0,
         'title_wrapper' => 0,
@@ -222,7 +222,7 @@ function commerce_ogmk_shops_menu_default_menu_links() {
         'title' => '',
       ),
       'alter' => TRUE,
-      'identifier' => 'ogmk-shop-manage_products:menutoken/56591ec4c266b',
+      'identifier' => 'ogmk-shop-manage_products:menutoken/569568edd8e4e',
     ),
     'module' => 'menu',
     'hidden' => 0,
@@ -261,10 +261,10 @@ function commerce_ogmk_shops_menu_default_menu_links() {
     'customized' => 1,
     'parent_identifier' => 'ogmk-shop-manage_account:ogmk/placeholder',
   );
-  // Exported menu link: ogmk-shop-manage_shop:menutoken/56591e6fe67bc.
-  $menu_links['ogmk-shop-manage_shop:menutoken/56591e6fe67bc'] = array(
+  // Exported menu link: ogmk-shop-manage_shop:menutoken/5695411d556d0.
+  $menu_links['ogmk-shop-manage_shop:menutoken/5695411d556d0'] = array(
     'menu_name' => 'ogmk-shop-manage',
-    'link_path' => 'menutoken/56591e6fe67bc',
+    'link_path' => 'menutoken/5695411d556d0',
     'router_path' => 'menutoken/%',
     'link_title' => 'Shop',
     'options' => array(
@@ -292,7 +292,7 @@ function commerce_ogmk_shops_menu_default_menu_links() {
         'title' => '',
       ),
       'alter' => TRUE,
-      'identifier' => 'ogmk-shop-manage_shop:menutoken/56591e6fe67bc',
+      'identifier' => 'ogmk-shop-manage_shop:menutoken/5695411d556d0',
     ),
     'module' => 'menu',
     'hidden' => 0,
