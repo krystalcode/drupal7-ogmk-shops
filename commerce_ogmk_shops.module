@@ -15,7 +15,7 @@ include_once 'commerce_ogmk_shops.features.inc';
  */
 function commerce_ogmk_shops_menu() {
   $items['node/%node/manage'] = array(
-    'title'            => 'My Shop',
+    'title'            => 'Shop Management',
     'access callback'  => '_commerce_ogmk_shops_shop_manage_access',
     'access arguments' => array(1),
     'page callback'    => '_commerce_ogmk_shops_shop_manage_page',

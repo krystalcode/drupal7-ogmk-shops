@@ -12,7 +12,7 @@
  *   The shop for which to display the management page.
  */
 function _commerce_ogmk_shops_shop_manage_page($shop) {
-  drupal_set_title('My Shop');
+  drupal_set_title('Shop Management');
 
   $shopTeaser = node_view($shop, 'ogmk_manage_teaser');
   $pendingOrdersBlock = views_embed_view('ogmk_shop_manage_orders', 'block', $shop->nid);
