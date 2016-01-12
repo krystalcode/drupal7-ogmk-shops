@@ -379,33 +379,146 @@ function _commerce_ogmk_shops_node_views_og_context_handler() {
 
 /**
  * Implements hook_query_TAG_alter().
- *
- * @Issue(
- *   "Test if this query alteration works as expected"
- *   type="bug"
- *   priority="normal"
- *   labels="security, testing"
- * )
  */
-function commerce_ogmk_shops_query_ogmk_membership_is_active_user_alter(QueryAlterableInterface $query) {
-  $query->innerJoin('users', 'u', 'u.uid = og_membership.etid');
-  $query->condition('u.status', 1);
+function commerce_ogmk_shops_query_ogmk_membership_user_published_alter(QueryAlterableInterface $query) {
+  _commerce_ogmk_shops_create_ogmK_membership_query_alter(
+    $query,
+    'users',
+    'uid',
+    [
+      'status' => TRUE,
+    ]
+  );
 }
 
 /**
  * Implements hook_query_TAG_alter().
- *
- * @Issue(
- *   "Test if this query alteration works as expected"
- *   type="bug"
- *   priority="normal"
- *   labels="security, testing"
- * )
  */
-function commerce_ogmk_shops_query_ogmk_membership_is_published_review_alter(QueryAlterableInterface $query) {
-  $query->innerJoin('node', 'n', 'n.nid = og_membership.etid');
-  $query->condition('n.type', 'review');
-  $query->condition('n.status', 1);
+function commerce_ogmk_shops_query_ogmk_membership_user_unpublished_alter(QueryAlterableInterface $query) {
+  _commerce_ogmk_shops_create_ogmK_membership_query_alter(
+    $query,
+    'users',
+    'uid',
+    [
+      'status' => FALSE,
+    ]
+  );
+}
+
+/**
+ * Implements hook_query_TAG_alter().
+ */
+function commerce_ogmk_shops_query_ogmk_membership_node_published_alter(QueryAlterableInterface $query) {
+  _commerce_ogmk_shops_create_ogmK_membership_query_alter(
+    $query,
+    'node',
+    'nid',
+    [
+      'status' => TRUE,
+    ]
+  );
+}
+
+/**
+ * Implements hook_query_TAG_alter().
+ */
+function commerce_ogmk_shops_query_ogmk_membership_node_unpublished_alter(QueryAlterableInterface $query) {
+  _commerce_ogmk_shops_create_ogmK_membership_query_alter(
+    $query,
+    'node',
+    'nid',
+    [
+      'status' => FALSE,
+    ]
+  );
+}
+
+/**
+ * Implements hook_query_TAG_alter().
+ */
+function commerce_ogmk_shops_query_ogmk_membership_node_product_alter(QueryAlterableInterface $query) {
+  _commerce_ogmk_shops_create_ogmK_membership_query_alter(
+    $query,
+    'node',
+    'nid',
+    [
+      'bundle' => 'product',
+    ]
+  );
+}
+
+/**
+ * Implements hook_query_TAG_alter().
+ */
+function commerce_ogmk_shops_query_ogmk_membership_node_product_published_alter(QueryAlterableInterface $query) {
+  _commerce_ogmk_shops_create_ogmK_membership_query_alter(
+    $query,
+    'node',
+    'nid',
+    [
+      'bundle' => 'product',
+      'status' => TRUE,
+    ]
+  );
+}
+
+/**
+ * Implements hook_query_TAG_alter().
+ */
+function commerce_ogmk_shops_query_ogmk_membership_node_product_unpublished_alter(QueryAlterableInterface $query) {
+  _commerce_ogmk_shops_create_ogmK_membership_query_alter(
+    $query,
+    'node',
+    'nid',
+    [
+      'bundle' => 'product',
+      'status' => FALSE,
+    ]
+  );
+}
+
+/**
+ * Implements hook_query_TAG_alter().
+ */
+function commerce_ogmk_shops_query_ogmk_membership_node_review_alter(QueryAlterableInterface $query) {
+  _commerce_ogmk_shops_create_ogmK_membership_query_alter(
+    $query,
+    'node',
+    'nid',
+    [
+      'bundle' => 'review',
+    ]
+  );
+}
+
+/**
+ * Implements hook_query_TAG_alter().
+ */
+function commerce_ogmk_shops_query_ogmk_membership_node_review_published_alter(QueryAlterableInterface $query) {
+  _commerce_ogmk_shops_create_ogmK_membership_query_alter(
+    $query,
+    'node',
+    'nid',
+    [
+      'bundle' => 'review',
+      'status' => TRUE,
+    ]
+  );
+}
+
+/**
+ * Implements hook_query_TAG_alter().
+ */
+function commerce_ogmk_shops_query_ogmk_membership_node_review_unpublished_alter(QueryAlterableInterface $query) {
+  _commerce_ogmk_shops_create_ogmK_membership_query_alter(
+    $query,
+    'node',
+    'nid',
+    [
+      'bundle' => 'review',
+      'status' => FALSE,
+    ]
+  );
 }
 
 /**
@@ -475,6 +588,138 @@ function commerce_ogmk_shops_user_get_shop($user = NULL) {
 }
 
 /**
+ * Get the number of entities that are member of a shop.
+ *
+ * @param object $shop
+ *   The 'shop' node object for which to get the number of published reviews.
+ * @param array $options
+ *   An array of options. Available options are:
+ *   - entity_type: (null|boolean) The entity type to look for. Required if a speicific entity
+ *     bundle is given. If NULL, all entities of all types will be counted.
+ *   - entity_bundle: (null|boolean) The entity bundle to look for. If NULL, all entities will
+ *     be counted regardless of their bundle.
+ *   - entity_status: (null|boolean) The status property (usually implying
+ *     publication status) to look for. If NULL, all entities will be counted
+ *     regardless of their status.
+ *   - membership_state: (NULL|int) The OG membership state to look for. If
+ *     NULL, all entities will be counted regardless of their membership state.
+ *   - membership_type: (NULL|string) The OG membership type to look for. If
+ *     NULL, all entities will be counted regardless of their membership type.
+ *
+ * @return int
+ *   The number of published shop reviews.
+ */
+function commerce_ogmk_shops_shop_nb_members($shop, array $options = array()) {
+  // By default, count only active/published entities with active membership
+  // state.
+  $options = array_merge(
+    array(
+      'entity_type'      => NULL,
+      'entity_bundle'    => NULL,
+      'entity_status'    => TRUE,
+      'membership_state' => OG_STATE_ACTIVE,
+      'membership_type'  => NULL,
+    ),
+    $options
+  );
+
+  // Throw an exception if a bundle is requested but no entity type has been
+  // defined.
+  if (!empty($options['entity_bundle']) && empty($options['entity_type'])) {
+    throw new Exception('You must specify an entity type in order to restrict results to a specific entity bundle.');
+  }
+
+  // Throw an exception if a bundle is requested but no entity type has been
+  // defined. This is because we need to know the entity type in order to add
+  // the appropriate query tag.
+  if ($options['entity_bundle'] === NULL && empty($options['entity_type'])) {
+    throw new Exception('You must specify an entity type in order to restrict results to a specific entity status.');
+  }
+
+  // Construct the query.
+  $query = new EntityFieldQuery();
+  $query
+    ->entityCondition('entity_type', 'og_membership')
+    ->propertyCondition('group_type', 'node')
+    ->propertyCondition('gid', $shop->nid);
+
+  if (!empty($options['entity_type'])) {
+    $query->propertyCondition('entity_type', $options['entity_type']);
+  }
+
+  if (!empty($options['membership_state'])) {
+    $query->propertyCondition('state', $options['membership_state']);
+  }
+
+  if (!empty($options['membership_type'])) {
+    $query->propertyCondition('type', $options['membership_type']);
+  }
+
+  // If the 'entity_bundle' option is NULL, and the 'entity_status' option is
+  // NULL as well (which means that we want the total count of entities whether
+  // they are published or not), there's no query tag to add. Get the result and
+  // return it.
+  if (empty($options['entity_bundle']) && $options['entity_status'] === NULL) {
+    return $query->count()->execute();
+  }
+
+  // In all other cases we will add the appropriate query tag.
+  $published_tag_label = '';
+  // Switch statements does not type check and does not work well - let's use if
+  // statements to be sure.
+  if ($options['entity_status'] === TRUE) {
+    $published_tag_label = '_published';
+  }
+  elseif ($options['entity_status'] === FALSE) {
+    $published_tag_label = '_unpublished';
+  }
+
+  $entity_bundle_label = '';
+  if (!empty($options['entity_bundle'])) {
+    $entity_bundle_label = '_' . $options['entity_bundle'];
+  }
+
+  $query_tag = 'ogmk_membership_' . $options['entity_type'] . $entity_bundle_label . $published_tag_label;
+
+  // Since this contains the potential of counting unpublished records if a
+  // bundle is requested without defining the appropriate hook, it's better to
+  // throw an exception if the hook doesn't exist.
+  if (!function_exists('commerce_ogmk_shops_query_' . $query_tag . '_alter')) {
+    throw new Exception(sprintf('The query tag "%s" has been called, but its corresponding hook_query_alter() hook has not been defined.', $query_tag));
+  }
+
+  $query->addTag($query_tag);
+
+  // Get the result.
+  $result = $query->count()->execute();
+
+  return $result;
+}
+
+/**
+ * Get the number of active shop user members.
+ *
+ * Only active users with an active 'shop_member' membership will be counted.
+ *
+ * @param object $shop
+ *   The 'shop' node object for which to get the number of active users.
+ *
+ * @return int
+ *   The number of active shop users.
+ */
+function commerce_ogmk_shops_nb_active_users($shop) {
+  return commerce_ogmk_shops_shop_nb_members(
+    $shop,
+    array(
+      'entity_type'      => 'user',
+      'entity_status'    => TRUE,
+      'membership_state' => OG_STATE_ACTIVE,
+      'membership_type'  => 'shop_member',
+    )
+  );
+}
+
+/**
  * Get the number of published products that belong to a shop.
  *
  * @param object $shop
@@ -484,58 +729,15 @@ function commerce_ogmk_shops_user_get_shop($user = NULL) {
  *   The number of products published on the given shop.
  */
 function commerce_ogmk_shops_nb_published_products($shop) {
-  /**
-   * @Issue(
-   *   "We want to display all products ever published instead of the currently
-   *   published ones"
-   *   type="bug"
-   *   priority="normal"
-   * )
-   * @Issue(
-   *   "Get the products using their og membership instead so that we can check
-   *   their state"
-   *   type="bug"
-   *   priority="normal"
-   *   labels="security"
-   * )
-   */
-
-  // Get the Shop owned by the user.
-  $query = new EntityFieldQuery();
-  $query
-    ->entityCondition('entity_type', 'node')
-    ->propertyCondition('type', 'product')
-    ->propertyCondition('status', 1)
-    ->fieldCondition('og_shop_ref', 'target_id', $shop->nid);
-  $result = $query->count()->execute();
-
-  return $result;
-}
-
-/**
- * Get the number of active shop members.
- *
- * Only active users with an active 'shop_member' membership will be counted.
- *
- * @param object $shop
- *   The 'shop' node object for which to get the number of active members.
- *
- * @return int
- *   The number of active shop members.
- */
-function commerce_ogmk_shops_nb_active_members($shop) {
-  $query = new EntityFieldQuery();
-  $query
-    ->entityCondition('entity_type', 'og_membership')
-    ->propertyCondition('group_type', 'node')
-    ->propertyCondition('gid', $shop->nid)
-    ->propertyCondition('entity_type', 'user', '=')
-    ->propertyCondition('type', 'shop_member')
-    ->propertyCondition('state', OG_STATE_ACTIVE)
-    ->addTag('ogmk_membership_is_active_user');
-  $result = $query->count()->execute();
-
-  return $result;
+  return commerce_ogmk_shops_shop_nb_members(
+    $shop,
+    array(
+      'entity_type'      => 'node',
+      'entity_bundle'    => 'product',
+      'entity_status'    => TRUE,
+      'membership_state' => OG_STATE_ACTIVE,
+    )
+  );
 }
 
 /**
@@ -550,17 +752,15 @@ function commerce_ogmk_shops_nb_active_members($shop) {
  *   The number of published shop reviews.
  */
 function commerce_ogmk_shops_nb_published_reviews($shop) {
-  $query = new EntityFieldQuery();
-  $query
-    ->entityCondition('entity_type', 'og_membership')
-    ->propertyCondition('group_type', 'node')
-    ->propertyCondition('gid', $shop->nid)
-    ->propertyCondition('entity_type', 'node')
-    ->propertyCondition('state', OG_STATE_ACTIVE)
-    ->addTag('ogmk_membership_is_published_review');
-  $result = $query->count()->execute();
-
-  return $result;
+  return commerce_ogmk_shops_shop_nb_members(
+    $shop,
+    array(
+      'entity_type'      => 'node',
+      'entity_bundle'    => 'review',
+      'entity_status'    => TRUE,
+      'membership_state' => OG_STATE_ACTIVE,
+    )
+  );
 }
 
 /**
@@ -730,3 +930,40 @@ function _commerce_ogmk_shops_commerce_line_item_og_subscribe($entity, $type) {
  *   priority="normal"
  * )
  */
+
+/**
+ * Perform the query alterations required for the ogmk_membership set of tags.
+ *
+ * @Issue(
+ *   "Test if this query alteration works as expected"
+ *   type="bug"
+ *   priority="normal"
+ *   labels="security, testing"
+ * )
+ */
+function _commerce_ogmk_shops_create_ogmk_membership_query_alter(QueryAlterableInterface $query, $table, $id_column, array $options = array()) {
+  $options = array_merge(
+    array(
+      'bundle' => NULL,
+      'status' => NULL,
+    ),
+    $options
+  );
+
+  // If there is no desired entity bundle or status given, this method shouldn't
+  // have been called. It's probably an error, but let's fail silently instead
+  // of throwing an exception.
+  if (empty($options['bundle']) && $options['status'] === NULL) {
+    return;
+  }
+
+  $query->innerJoin($table, 'e', 'e.' . $id_column . ' = og_membership.etid');
+
+  if (!empty($options['bundle'])) {
+    $query->condition('e.type', $options['bundle']);
+  }
+
+  if ($options['status'] !== NULL) {
+    $query->condition('e.status', $options['status']);
+  }
+}
