@@ -105,7 +105,7 @@ function commerce_ogmk_shops_strongarm() {
           ),
           'teaser' => array(
             'weight' => '2',
-            'visible' => TRUE,
+            'visible' => FALSE,
           ),
           'ogmk_manage_teaser' => array(
             'weight' => '6',
