@@ -13,7 +13,9 @@ function commerce_ogmk_shops_user_default_permissions() {
   // Exported permission: 'create shop content'.
   $permissions['create shop content'] = array(
     'name' => 'create shop content',
-    'roles' => array(),
+    'roles' => array(
+      'administrator' => 'administrator',
+    ),
     'module' => 'node',
   );
 
