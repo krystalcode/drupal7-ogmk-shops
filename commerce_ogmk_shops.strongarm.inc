@@ -49,9 +49,9 @@ function commerce_ogmk_shops_strongarm() {
   $strongarm->api_version = 1;
   $strongarm->name = 'entity_translation_settings_node__shop';
   $strongarm->value = array(
-    'default_language' => 'es',
+    'default_language' => 'und',
     'hide_language_selector' => 1,
-    'exclude_language_none' => 1,
+    'exclude_language_none' => 0,
     'lock_language' => 0,
     'shared_fields_original_only' => 1,
   );
@@ -132,9 +132,7 @@ function commerce_ogmk_shops_strongarm() {
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'menu_options_shop';
-  $strongarm->value = array(
-    0 => 'main-menu',
-  );
+  $strongarm->value = array();
   $export['menu_options_shop'] = $strongarm;
 
   $strongarm = new stdClass();
