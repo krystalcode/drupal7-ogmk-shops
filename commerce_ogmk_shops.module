@@ -880,10 +880,10 @@ function _commerce_ogmk_shops_shop_manage_access($shop) {
     return TRUE;
   }
 
-  // Give access to user members of the shop with the merchant or administrator
-  // role.
+  // Give access to user members of the shop with the 'manager member' or
+  // 'administrator member' role.
   $og_roles = og_get_user_roles('node', $shop->nid, NULL, FALSE);
-  if (in_array('merchant', $og_roles) || in_array('administrator', $og_roles)) {
+  if (in_array('manager member', $og_roles) || in_array('administrator member', $og_roles)) {
     return TRUE;
   }
 

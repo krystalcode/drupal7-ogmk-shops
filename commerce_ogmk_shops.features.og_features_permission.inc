@@ -18,7 +18,7 @@ function commerce_ogmk_shops_og_features_default_permissions() {
   // Exported og permission: 'node:shop:access publishing options of product content'
   $permissions['node:shop:access publishing options of product content'] = array(
     'roles' => array(
-      'administrator' => 'administrator',
+      'administrator member' => 'administrator member',
     ),
   );
 
@@ -30,14 +30,14 @@ function commerce_ogmk_shops_og_features_default_permissions() {
   // Exported og permission: 'node:shop:add user'
   $permissions['node:shop:add user'] = array(
     'roles' => array(
-      'administrator' => 'administrator',
+      'administrator member' => 'administrator member',
     ),
   );
 
   // Exported og permission: 'node:shop:administer group'
   $permissions['node:shop:administer group'] = array(
     'roles' => array(
-      'administrator' => 'administrator',
+      'administrator member' => 'administrator member',
     ),
   );
 
@@ -49,8 +49,8 @@ function commerce_ogmk_shops_og_features_default_permissions() {
   // Exported og permission: 'node:shop:create product content'
   $permissions['node:shop:create product content'] = array(
     'roles' => array(
-      'administrator' => 'administrator',
-      'merchant' => 'merchant',
+      'administrator member' => 'administrator member',
+      'manager member' => 'manager member',
     ),
   );
 
@@ -67,7 +67,7 @@ function commerce_ogmk_shops_og_features_default_permissions() {
   // Exported og permission: 'node:shop:manage members'
   $permissions['node:shop:manage members'] = array(
     'roles' => array(
-      'administrator' => 'administrator',
+      'administrator member' => 'administrator member',
     ),
   );
 
@@ -99,16 +99,16 @@ function commerce_ogmk_shops_og_features_default_permissions() {
   // Exported og permission: 'node:shop:update any product content'
   $permissions['node:shop:update any product content'] = array(
     'roles' => array(
-      'administrator' => 'administrator',
-      'merchant' => 'merchant',
+      'administrator member' => 'administrator member',
+      'manager member' => 'manager member',
     ),
   );
 
   // Exported og permission: 'node:shop:update group'
   $permissions['node:shop:update group'] = array(
     'roles' => array(
-      'administrator' => 'administrator',
-      'merchant' => 'merchant',
+      'administrator member' => 'administrator member',
+      'manager member' => 'manager member',
     ),
   );
 
@@ -120,8 +120,8 @@ function commerce_ogmk_shops_og_features_default_permissions() {
   // Exported og permission: 'node:shop:view any unpublished product content'
   $permissions['node:shop:view any unpublished product content'] = array(
     'roles' => array(
-      'administrator' => 'administrator',
-      'merchant' => 'merchant',
+      'administrator member' => 'administrator member',
+      'manager member' => 'manager member',
     ),
   );
 

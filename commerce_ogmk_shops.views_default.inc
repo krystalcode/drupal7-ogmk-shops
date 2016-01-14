@@ -741,7 +741,7 @@ function commerce_ogmk_shops_views_default_views() {
   $handler->display->display_options['filters']['name']['field'] = 'name';
   $handler->display->display_options['filters']['name']['relationship'] = 'og_users_roles';
   $handler->display->display_options['filters']['name']['value'] = array(
-    'merchant' => 'merchant',
+    'manager member' => 'manager member',
   );
 
   /* Display: Page */
