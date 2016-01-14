@@ -18,6 +18,13 @@ function commerce_ogmk_shops_og_features_default_roles() {
     'name' => 'administrator',
   );
 
+  /**
+   * @Issue(
+   *   "Maybe the 'merchant' role should be renamed to 'manager'"
+   *   type="task"
+   *   priority="normal"
+   * )
+   */
   // Exported OG Role: 'node:shop:merchant'.
   $roles['node:shop:merchant'] = array(
     'gid' => 0,
