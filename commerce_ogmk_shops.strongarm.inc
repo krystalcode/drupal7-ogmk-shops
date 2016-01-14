@@ -219,6 +219,20 @@ function commerce_ogmk_shops_strongarm() {
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
+  $strongarm->name = 'og_orphans_delete';
+  $strongarm->value = 1;
+  $export['og_orphans_delete'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'og_use_queue';
+  $strongarm->value = 1;
+  $export['og_use_queue'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
   $strongarm->name = 'pathauto_node_shop_en_pattern';
   $strongarm->value = 'shops/[node:nid]/[node:title]';
   $export['pathauto_node_shop_en_pattern'] = $strongarm;
