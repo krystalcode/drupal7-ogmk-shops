@@ -29,12 +29,16 @@ function commerce_ogmk_shops_og_features_default_permissions() {
 
   // Exported og permission: 'node:shop:add user'
   $permissions['node:shop:add user'] = array(
-    'roles' => array(),
+    'roles' => array(
+      'administrator' => 'administrator',
+    ),
   );
 
   // Exported og permission: 'node:shop:administer group'
   $permissions['node:shop:administer group'] = array(
-    'roles' => array(),
+    'roles' => array(
+      'administrator' => 'administrator',
+    ),
   );
 
   // Exported og permission: 'node:shop:approve and deny subscription'
@@ -62,7 +66,9 @@ function commerce_ogmk_shops_og_features_default_permissions() {
 
   // Exported og permission: 'node:shop:manage members'
   $permissions['node:shop:manage members'] = array(
-    'roles' => array(),
+    'roles' => array(
+      'administrator' => 'administrator',
+    ),
   );
 
   // Exported og permission: 'node:shop:manage permissions'
