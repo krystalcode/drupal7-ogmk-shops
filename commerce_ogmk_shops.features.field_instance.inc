@@ -122,7 +122,7 @@ function commerce_ogmk_shops_field_default_field_instances() {
         'module' => 'image',
         'settings' => array(
           'image_link' => 'content',
-          'image_style' => '773x580',
+          'image_style' => 'views_bootstrap_thumbnails',
         ),
         'type' => 'image',
         'weight' => 0,
