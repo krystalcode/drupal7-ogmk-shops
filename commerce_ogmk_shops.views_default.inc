@@ -50,41 +50,41 @@ function commerce_ogmk_shops_views_default_views() {
   $handler->display->display_options['relationships']['commerce_product_product_id']['field'] = 'commerce_product_product_id';
   $handler->display->display_options['relationships']['commerce_product_product_id']['required'] = TRUE;
   /* Relationship: Commerce Product: Referencing Node */
-  $handler->display->display_options['relationships']['field_products_ref']['id'] = 'field_products_ref';
-  $handler->display->display_options['relationships']['field_products_ref']['table'] = 'commerce_product';
-  $handler->display->display_options['relationships']['field_products_ref']['field'] = 'field_products_ref';
-  $handler->display->display_options['relationships']['field_products_ref']['relationship'] = 'commerce_product_product_id';
-  $handler->display->display_options['relationships']['field_products_ref']['required'] = TRUE;
+  $handler->display->display_options['relationships']['ogmk_products_ref']['id'] = 'ogmk_products_ref';
+  $handler->display->display_options['relationships']['ogmk_products_ref']['table'] = 'commerce_product';
+  $handler->display->display_options['relationships']['ogmk_products_ref']['field'] = 'ogmk_products_ref';
+  $handler->display->display_options['relationships']['ogmk_products_ref']['relationship'] = 'commerce_product_product_id';
+  $handler->display->display_options['relationships']['ogmk_products_ref']['required'] = TRUE;
   /* Relationship: OG membership: OG membership from Commerce Line item */
   $handler->display->display_options['relationships']['og_membership_rel']['id'] = 'og_membership_rel';
   $handler->display->display_options['relationships']['og_membership_rel']['table'] = 'commerce_line_item';
   $handler->display->display_options['relationships']['og_membership_rel']['field'] = 'og_membership_rel';
   $handler->display->display_options['relationships']['og_membership_rel']['required'] = TRUE;
   /* Field: Content: Images */
-  $handler->display->display_options['fields']['field_images']['id'] = 'field_images';
-  $handler->display->display_options['fields']['field_images']['table'] = 'field_data_field_images';
-  $handler->display->display_options['fields']['field_images']['field'] = 'field_images';
-  $handler->display->display_options['fields']['field_images']['relationship'] = 'field_products_ref';
-  $handler->display->display_options['fields']['field_images']['label'] = 'Product';
-  $handler->display->display_options['fields']['field_images']['click_sort_column'] = 'fid';
-  $handler->display->display_options['fields']['field_images']['settings'] = array(
+  $handler->display->display_options['fields']['ogmk_images']['id'] = 'ogmk_images';
+  $handler->display->display_options['fields']['ogmk_images']['table'] = 'field_data_ogmk_images';
+  $handler->display->display_options['fields']['ogmk_images']['field'] = 'ogmk_images';
+  $handler->display->display_options['fields']['ogmk_images']['relationship'] = 'ogmk_products_ref';
+  $handler->display->display_options['fields']['ogmk_images']['label'] = 'Product';
+  $handler->display->display_options['fields']['ogmk_images']['click_sort_column'] = 'fid';
+  $handler->display->display_options['fields']['ogmk_images']['settings'] = array(
     'image_style' => '100x80',
     'image_link' => 'content',
   );
-  $handler->display->display_options['fields']['field_images']['delta_limit'] = '1';
-  $handler->display->display_options['fields']['field_images']['delta_offset'] = '0';
+  $handler->display->display_options['fields']['ogmk_images']['delta_limit'] = '1';
+  $handler->display->display_options['fields']['ogmk_images']['delta_offset'] = '0';
   /* Field: Field: Shop */
-  $handler->display->display_options['fields']['og_shop_ref']['id'] = 'og_shop_ref';
-  $handler->display->display_options['fields']['og_shop_ref']['table'] = 'og_membership';
-  $handler->display->display_options['fields']['og_shop_ref']['field'] = 'og_shop_ref';
-  $handler->display->display_options['fields']['og_shop_ref']['settings'] = array(
+  $handler->display->display_options['fields']['ogmk_shop_ref']['id'] = 'ogmk_shop_ref';
+  $handler->display->display_options['fields']['ogmk_shop_ref']['table'] = 'og_membership';
+  $handler->display->display_options['fields']['ogmk_shop_ref']['field'] = 'ogmk_shop_ref';
+  $handler->display->display_options['fields']['ogmk_shop_ref']['settings'] = array(
     'link' => 1,
   );
   /* Field: Content: Title */
   $handler->display->display_options['fields']['title_1']['id'] = 'title_1';
   $handler->display->display_options['fields']['title_1']['table'] = 'node';
   $handler->display->display_options['fields']['title_1']['field'] = 'title';
-  $handler->display->display_options['fields']['title_1']['relationship'] = 'field_products_ref';
+  $handler->display->display_options['fields']['title_1']['relationship'] = 'ogmk_products_ref';
   /* Field: Commerce Product: SKU */
   $handler->display->display_options['fields']['sku']['id'] = 'sku';
   $handler->display->display_options['fields']['sku']['table'] = 'commerce_product';
@@ -159,7 +159,7 @@ function commerce_ogmk_shops_views_default_views() {
     t('Asc'),
     t('Desc'),
     t('Products referenced by commerce_product'),
-    t('Node referencing products from field_products_ref'),
+    t('Node referencing products from ogmk_products_ref'),
     t('OG membership from commerce_line_item'),
     t('Product'),
     t('Shop'),
@@ -387,17 +387,17 @@ function commerce_ogmk_shops_views_default_views() {
   $handler->display->display_options['fields']['nid']['exclude'] = TRUE;
   $handler->display->display_options['fields']['nid']['element_label_colon'] = FALSE;
   /* Field: Content: Images */
-  $handler->display->display_options['fields']['field_images']['id'] = 'field_images';
-  $handler->display->display_options['fields']['field_images']['table'] = 'field_data_field_images';
-  $handler->display->display_options['fields']['field_images']['field'] = 'field_images';
-  $handler->display->display_options['fields']['field_images']['label'] = 'Image';
-  $handler->display->display_options['fields']['field_images']['click_sort_column'] = 'fid';
-  $handler->display->display_options['fields']['field_images']['settings'] = array(
+  $handler->display->display_options['fields']['ogmk_images']['id'] = 'ogmk_images';
+  $handler->display->display_options['fields']['ogmk_images']['table'] = 'field_data_ogmk_images';
+  $handler->display->display_options['fields']['ogmk_images']['field'] = 'ogmk_images';
+  $handler->display->display_options['fields']['ogmk_images']['label'] = 'Image';
+  $handler->display->display_options['fields']['ogmk_images']['click_sort_column'] = 'fid';
+  $handler->display->display_options['fields']['ogmk_images']['settings'] = array(
     'image_style' => 'thumbnail',
     'image_link' => '',
   );
-  $handler->display->display_options['fields']['field_images']['delta_limit'] = '1';
-  $handler->display->display_options['fields']['field_images']['delta_offset'] = '0';
+  $handler->display->display_options['fields']['ogmk_images']['delta_limit'] = '1';
+  $handler->display->display_options['fields']['ogmk_images']['delta_offset'] = '0';
   /* Field: Entity translation: Title: translated */
   $handler->display->display_options['fields']['title_field_et']['id'] = 'title_field_et';
   $handler->display->display_options['fields']['title_field_et']['table'] = 'field_data_title_field';
@@ -410,10 +410,10 @@ function commerce_ogmk_shops_views_default_views() {
     'title_class' => '',
   );
   /* Field: Content: Category */
-  $handler->display->display_options['fields']['field_category_ref']['id'] = 'field_category_ref';
-  $handler->display->display_options['fields']['field_category_ref']['table'] = 'field_data_field_category_ref';
-  $handler->display->display_options['fields']['field_category_ref']['field'] = 'field_category_ref';
-  $handler->display->display_options['fields']['field_category_ref']['type'] = 'taxonomy_term_reference_plain';
+  $handler->display->display_options['fields']['ogmk_category_ref']['id'] = 'ogmk_category_ref';
+  $handler->display->display_options['fields']['ogmk_category_ref']['table'] = 'field_data_ogmk_category_ref';
+  $handler->display->display_options['fields']['ogmk_category_ref']['field'] = 'ogmk_category_ref';
+  $handler->display->display_options['fields']['ogmk_category_ref']['type'] = 'taxonomy_term_reference_plain';
   /* Field: Content: Body */
   $handler->display->display_options['fields']['body']['id'] = 'body';
   $handler->display->display_options['fields']['body']['table'] = 'field_data_body';

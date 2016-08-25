@@ -36,13 +36,13 @@ function commerce_ogmk_shops_field_default_field_bases() {
     'type' => 'list_boolean',
   );
 
-  // Exported field_base: 'og_shop_ref'.
-  $field_bases['og_shop_ref'] = array(
+  // Exported field_base: 'ogmk_shop_ref'.
+  $field_bases['ogmk_shop_ref'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
-    'field_name' => 'og_shop_ref',
+    'field_name' => 'ogmk_shop_ref',
     'indexes' => array(
       'target_id' => array(
         0 => 'target_id',
@@ -77,13 +77,13 @@ function commerce_ogmk_shops_field_default_field_bases() {
     'type' => 'entityreference',
   );
 
-  // Exported field_base: 'og_shops_ref'.
-  $field_bases['og_shops_ref'] = array(
+  // Exported field_base: 'ogmk_shops_ref'.
+  $field_bases['ogmk_shops_ref'] = array(
     'active' => 1,
     'cardinality' => -1,
     'deleted' => 0,
     'entity_types' => array(),
-    'field_name' => 'og_shops_ref',
+    'field_name' => 'ogmk_shops_ref',
     'indexes' => array(
       'target_id' => array(
         0 => 'target_id',
@@ -118,13 +118,13 @@ function commerce_ogmk_shops_field_default_field_bases() {
     'type' => 'entityreference',
   );
 
-  // Exported field_base: 'og_user_shops_ref'.
-  $field_bases['og_user_shops_ref'] = array(
+  // Exported field_base: 'ogmk_user_shops_ref'.
+  $field_bases['ogmk_user_shops_ref'] = array(
     'active' => 1,
     'cardinality' => -1,
     'deleted' => 0,
     'entity_types' => array(),
-    'field_name' => 'og_user_shops_ref',
+    'field_name' => 'ogmk_user_shops_ref',
     'indexes' => array(
       'target_id' => array(
         0 => 'target_id',

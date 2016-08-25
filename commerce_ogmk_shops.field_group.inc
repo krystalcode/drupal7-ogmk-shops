@@ -24,7 +24,7 @@ function commerce_ogmk_shops_field_group_info() {
     'weight' => '8',
     'children' => array(
       0 => 'body',
-      1 => 'field_text',
+      1 => 'ogmk_text',
       2 => 'title_field',
     ),
     'format_type' => 'bootstrap_grid_col',
@@ -56,8 +56,8 @@ function commerce_ogmk_shops_field_group_info() {
     'label' => 'Column 2',
     'weight' => '2',
     'children' => array(
-      0 => 'field_image',
-      1 => 'field_image2',
+      0 => 'ogmk_image',
+      1 => 'ogmk_image2',
     ),
     'format_type' => 'bootstrap_grid_col',
     'format_settings' => array(
