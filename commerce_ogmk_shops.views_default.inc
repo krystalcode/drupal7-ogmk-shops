@@ -492,7 +492,7 @@ function commerce_ogmk_shops_views_default_views() {
   $handler->display->display_options['filters']['type']['table'] = 'node';
   $handler->display->display_options['filters']['type']['field'] = 'type';
   $handler->display->display_options['filters']['type']['value'] = array(
-    'product' => 'product',
+    'ogmk_product' => 'ogmk_product',
   );
 
   /* Display: Page */
@@ -605,7 +605,7 @@ function commerce_ogmk_shops_views_default_views() {
   $handler->display->display_options['filters']['type']['table'] = 'node';
   $handler->display->display_options['filters']['type']['field'] = 'type';
   $handler->display->display_options['filters']['type']['value'] = array(
-    'product' => 'product',
+    'ogmk_product' => 'ogmk_product',
   );
 
   /* Display: Block */

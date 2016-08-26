@@ -59,7 +59,7 @@ function commerce_ogmk_shops_menu_default_menu_links() {
         'title_wrapper_element' => 'span',
         'title_wrapper_class' => 'title',
       ),
-      'menu_token_link_path' => 'node/add/product?ogmk_shop_ref=[node:nid]',
+      'menu_token_link_path' => 'node/add/ogmk-product?ogmk_shop_ref=[node:nid]',
       'menu_token_data' => array(
         'node' => array(
           'type' => 'node',

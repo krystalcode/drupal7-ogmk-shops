@@ -62,12 +62,12 @@ function commerce_ogmk_shops_field_default_field_bases() {
             'status' => 0,
           ),
         ),
-        'membership_type' => 'shop_item',
+        'membership_type' => 'ogmk_shop_item',
         'sort' => array(
           'type' => 'none',
         ),
         'target_bundles' => array(
-          'shop' => 'shop',
+          'ogmk_shop' => 'ogmk_shop',
         ),
       ),
       'handler_submit' => 'Change handler',
@@ -103,12 +103,12 @@ function commerce_ogmk_shops_field_default_field_bases() {
             'status' => 0,
           ),
         ),
-        'membership_type' => 'shop_item',
+        'membership_type' => 'ogmk_shop_item',
         'sort' => array(
           'type' => 'none',
         ),
         'target_bundles' => array(
-          'shop' => 'shop',
+          'ogmk_shop' => 'ogmk_shop',
         ),
       ),
       'handler_submit' => 'Change handler',
@@ -144,12 +144,12 @@ function commerce_ogmk_shops_field_default_field_bases() {
             'status' => 0,
           ),
         ),
-        'membership_type' => 'shop_member',
+        'membership_type' => 'ogmk_shop_member',
         'sort' => array(
           'type' => 'none',
         ),
         'target_bundles' => array(
-          'shop' => 'shop',
+          'ogmk_shop' => 'ogmk_shop',
         ),
       ),
       'handler_submit' => 'Change handler',
