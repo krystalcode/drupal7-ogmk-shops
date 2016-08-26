@@ -10,39 +10,39 @@
 function commerce_ogmk_shops_user_default_permissions() {
   $permissions = array();
 
-  // Exported permission: 'create shop content'.
-  $permissions['create shop content'] = array(
-    'name' => 'create shop content',
+  // Exported permission: 'create ogmk_shop content'.
+  $permissions['create ogmk_shop content'] = array(
+    'name' => 'create ogmk_shop content',
     'roles' => array(
       'administrator' => 'administrator',
     ),
     'module' => 'node',
   );
 
-  // Exported permission: 'delete any shop content'.
-  $permissions['delete any shop content'] = array(
-    'name' => 'delete any shop content',
+  // Exported permission: 'delete any ogmk_shop content'.
+  $permissions['delete any ogmk_shop content'] = array(
+    'name' => 'delete any ogmk_shop content',
     'roles' => array(),
     'module' => 'node',
   );
 
-  // Exported permission: 'delete own shop content'.
-  $permissions['delete own shop content'] = array(
-    'name' => 'delete own shop content',
+  // Exported permission: 'delete own ogmk_shop content'.
+  $permissions['delete own ogmk_shop content'] = array(
+    'name' => 'delete own ogmk_shop content',
     'roles' => array(),
     'module' => 'node',
   );
 
-  // Exported permission: 'edit any shop content'.
-  $permissions['edit any shop content'] = array(
-    'name' => 'edit any shop content',
+  // Exported permission: 'edit any ogmk_shop content'.
+  $permissions['edit any ogmk_shop content'] = array(
+    'name' => 'edit any ogmk_shop content',
     'roles' => array(),
     'module' => 'node',
   );
 
-  // Exported permission: 'edit own shop content'.
-  $permissions['edit own shop content'] = array(
-    'name' => 'edit own shop content',
+  // Exported permission: 'edit own ogmk_shop content'.
+  $permissions['edit own ogmk_shop content'] = array(
+    'name' => 'edit own ogmk_shop content',
     'roles' => array(),
     'module' => 'node',
   );

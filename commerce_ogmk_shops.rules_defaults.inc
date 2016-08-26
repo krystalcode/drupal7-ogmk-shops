@@ -18,7 +18,7 @@ function commerce_ogmk_shops_default_rules_configuration() {
       "IF" : [
         { "user_has_role" : { "account" : [ "account" ], "roles" : { "value" : { "3" : "3" } } } }
       ],
-      "DO" : [ { "redirect" : { "url" : "[account:shop-manage-url]" } } ]
+      "DO" : [ { "redirect" : { "url" : "[account:ogmk-shop-manage-url]" } } ]
     }
   }');
   return $items;

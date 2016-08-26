@@ -10,9 +10,9 @@
 function commerce_ogmk_shops_field_default_field_instances() {
   $field_instances = array();
 
-  // Exported field_instance: 'node-shop-body'.
-  $field_instances['node-shop-body'] = array(
-    'bundle' => 'shop',
+  // Exported field_instance: 'node-ogmk_shop-body'.
+  $field_instances['node-ogmk_shop-body'] = array(
+    'bundle' => 'ogmk_shop',
     'default_value' => NULL,
     'deleted' => 0,
     'description' => '',
@@ -85,9 +85,9 @@ function commerce_ogmk_shops_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-shop-field_image'.
-  $field_instances['node-shop-field_image'] = array(
-    'bundle' => 'shop',
+  // Exported field_instance: 'node-ogmk_shop-ogmk_image'.
+  $field_instances['node-ogmk_shop-ogmk_image'] = array(
+    'bundle' => 'ogmk_shop',
     'deleted' => 0,
     'description' => '',
     'display' => array(
@@ -129,14 +129,14 @@ function commerce_ogmk_shops_field_default_field_instances() {
       ),
     ),
     'entity_type' => 'node',
-    'field_name' => 'field_image',
+    'field_name' => 'ogmk_image',
     'label' => 'Cover Image',
     'required' => 0,
     'settings' => array(
       'alt_field' => 0,
       'default_image' => 0,
       'entity_translation_sync' => FALSE,
-      'file_directory' => 'nodes/shop/field_image',
+      'file_directory' => 'nodes/ogmk_shop/ogmk_image',
       'file_extensions' => 'png gif jpg jpeg',
       'max_filesize' => '',
       'max_resolution' => '',
@@ -156,9 +156,9 @@ function commerce_ogmk_shops_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-shop-field_image2'.
-  $field_instances['node-shop-field_image2'] = array(
-    'bundle' => 'shop',
+  // Exported field_instance: 'node-ogmk_shop-ogmk_image2'.
+  $field_instances['node-ogmk_shop-ogmk_image2'] = array(
+    'bundle' => 'ogmk_shop',
     'deleted' => 0,
     'description' => '',
     'display' => array(
@@ -188,14 +188,14 @@ function commerce_ogmk_shops_field_default_field_instances() {
       ),
     ),
     'entity_type' => 'node',
-    'field_name' => 'field_image2',
+    'field_name' => 'ogmk_image2',
     'label' => 'Banner Image',
     'required' => 0,
     'settings' => array(
       'alt_field' => 0,
       'default_image' => 0,
       'entity_translation_sync' => FALSE,
-      'file_directory' => 'nodes/shop/field_image2',
+      'file_directory' => 'nodes/ogmk_shop/ogmk_image2',
       'file_extensions' => 'png gif jpg jpeg',
       'max_filesize' => '',
       'max_resolution' => '',
@@ -215,9 +215,9 @@ function commerce_ogmk_shops_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-shop-field_text'.
-  $field_instances['node-shop-field_text'] = array(
-    'bundle' => 'shop',
+  // Exported field_instance: 'node-ogmk_shop-ogmk_text'.
+  $field_instances['node-ogmk_shop-ogmk_text'] = array(
+    'bundle' => 'ogmk_shop',
     'default_value' => NULL,
     'deleted' => 0,
     'description' => '',
@@ -251,7 +251,7 @@ function commerce_ogmk_shops_field_default_field_instances() {
       ),
     ),
     'entity_type' => 'node',
-    'field_name' => 'field_text',
+    'field_name' => 'ogmk_text',
     'label' => 'Tagline',
     'required' => 0,
     'settings' => array(
@@ -288,9 +288,9 @@ function commerce_ogmk_shops_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-shop-group_group'.
-  $field_instances['node-shop-group_group'] = array(
-    'bundle' => 'shop',
+  // Exported field_instance: 'node-ogmk_shop-group_group'.
+  $field_instances['node-ogmk_shop-group_group'] = array(
+    'bundle' => 'ogmk_shop',
     'default_value' => array(
       0 => array(
         'value' => 1,
@@ -357,9 +357,9 @@ function commerce_ogmk_shops_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-shop-title_field'.
-  $field_instances['node-shop-title_field'] = array(
-    'bundle' => 'shop',
+  // Exported field_instance: 'node-ogmk_shop-title_field'.
+  $field_instances['node-ogmk_shop-title_field'] = array(
+    'bundle' => 'ogmk_shop',
     'default_value' => NULL,
     'deleted' => 0,
     'description' => '',
@@ -417,8 +417,8 @@ function commerce_ogmk_shops_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'user-user-og_user_shops_ref'.
-  $field_instances['user-user-og_user_shops_ref'] = array(
+  // Exported field_instance: 'user-user-ogmk_user_shops_ref'.
+  $field_instances['user-user-ogmk_user_shops_ref'] = array(
     'bundle' => 'user',
     'default_value' => NULL,
     'deleted' => 0,
@@ -433,7 +433,7 @@ function commerce_ogmk_shops_field_default_field_instances() {
       ),
     ),
     'entity_type' => 'user',
-    'field_name' => 'og_user_shops_ref',
+    'field_name' => 'ogmk_user_shops_ref',
     'label' => 'Shops',
     'required' => 0,
     'settings' => array(

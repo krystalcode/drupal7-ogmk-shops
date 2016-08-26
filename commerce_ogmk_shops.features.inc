@@ -31,7 +31,7 @@ function commerce_ogmk_shops_views_api($module = NULL, $api = NULL) {
  */
 function commerce_ogmk_shops_node_info() {
   $items = array(
-    'shop' => array(
+    'ogmk_shop' => array(
       'name' => t('Shop'),
       'base' => 'node_content',
       'description' => '',
@@ -49,7 +49,7 @@ function commerce_ogmk_shops_node_info() {
  */
 function commerce_ogmk_shops_default_og_membership_type() {
   $items = array();
-  $items['shop_item'] = entity_import('og_membership_type', '{ "name" : "shop_item", "description" : "Shop Item", "language" : "" }');
-  $items['shop_member'] = entity_import('og_membership_type', '{ "name" : "shop_member", "description" : "Shop Member", "language" : "" }');
+  $items['ogmk_shop_item'] = entity_import('og_membership_type', '{ "name" : "ogmk_shop_item", "description" : "Shop Item", "language" : "" }');
+  $items['ogmk_shop_member'] = entity_import('og_membership_type', '{ "name" : "ogmk_shop_member", "description" : "Shop Member", "language" : "" }');
   return $items;
 }

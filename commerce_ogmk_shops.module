@@ -95,14 +95,14 @@ function commerce_ogmk_shops_form_alter(&$form, &$form_state, $form_id) {
   }
   $product = commerce_product_load($productId);
 
-  $language = $form['line_item_fields']['og_shop_ref']['#language'];
-  $form['line_item_fields']['og_shop_ref'][$language][0]['default']['#default_value'] = [$product->og_shop_ref[$product->language][0]['target_id']];
+  $language = $form['line_item_fields']['ogmk_shop_ref']['#language'];
+  $form['line_item_fields']['ogmk_shop_ref'][$language][0]['default']['#default_value'] = [$product->ogmk_shop_ref[$product->language][0]['target_id']];
 }
 
 /**
  * Implements hook_form_FORM_ID_alter().
  */
-function commerce_ogmk_shops_form_shop_node_form_alter(&$form, &$form_state, $form_id) {
+function commerce_ogmk_shops_form_ogmk_shop_node_form_alter(&$form, &$form_state, $form_id) {
   /**
    * @Issue(
    *   "Check if the user is super admin using a helper function"
@@ -145,7 +145,7 @@ function commerce_ogmk_shops_form_shop_node_form_alter(&$form, &$form_state, $fo
  *   labels="modularity"
  * )
  */
-function commerce_ogmk_shops_form_product_node_form_alter(&$form, &$form_state, $form_id) {
+function commerce_ogmk_shops_form_ogmk_product_node_form_alter(&$form, &$form_state, $form_id) {
   // Code specific to the edit form.
   if ($form['nid']['#value']) {
     // @Issue(
@@ -188,7 +188,7 @@ function commerce_ogmk_shops_form_product_node_form_alter(&$form, &$form_state, 
     }
   }
 
-  // Deny access to og_shop_ref field, unless the user is the administrator.
+  // Deny access to ogmk_shop_ref field, unless the user is the administrator.
   /**
    * @Issue(
    *   "Check if the user is super admin using a helper function"
@@ -205,11 +205,11 @@ function commerce_ogmk_shops_form_product_node_form_alter(&$form, &$form_state, 
    */
   global $user;
   if ((int) $user->uid !== 1) {
-    // If we hide the "og_shop_ref" field on the edit form through the
+    // If we hide the "ogmk_shop_ref" field on the edit form through the
     // "entityreference_prepopulate" module, it is also hidden for the super
     // admin user. We want to make it available to the super admin user.
     if ($form['nid']['#value']) {
-      $form['og_shop_ref']['#access'] = FALSE;
+      $form['ogmk_shop_ref']['#access'] = FALSE;
     }
 
     // Do not display translation and revision field groups.
@@ -284,7 +284,7 @@ function _commerce_ogmk_shops_product_publish_toggle_submit($form, &$form_state)
  * )
  */
 function commerce_ogmk_shops_inline_entity_form_entity_form_alter(&$entity_form, &$form_state) {
-  // Set the shop field "og_shop_ref" in the product ("commerce_product").
+  // Set the shop field "ogmk_shop_ref" in the product ("commerce_product").
   // For now there is only manager per shop, the owner, so the shop would always
   // be the logged in user's shop.
   if ($entity_form['#entity_type'] !== 'commerce_product') {
@@ -292,7 +292,7 @@ function commerce_ogmk_shops_inline_entity_form_entity_form_alter(&$entity_form,
   }
 
   $entity_form['#theme'] = ['product_product_ief_form'];
-  $entity_form['og_shop_ref']['#access'] = FALSE;
+  $entity_form['ogmk_shop_ref']['#access'] = FALSE;
 
   // Get the Shop owned by the user.
   $shopId = commerce_ogmk_shops_user_has_shop();
@@ -308,9 +308,9 @@ function commerce_ogmk_shops_inline_entity_form_entity_form_alter(&$entity_form,
     // )
   }
 
-  // Pre-populate the og_shop_ref field.
-  $language = $entity_form['og_shop_ref']['#language'];
-  $entity_form['og_shop_ref'][$language][0]['default']['#default_value'] = $shopId;
+  // Pre-populate the ogmk_shop_ref field.
+  $language = $entity_form['ogmk_shop_ref']['#language'];
+  $entity_form['ogmk_shop_ref'][$language][0]['default']['#default_value'] = $shopId;
 }
 
 /**
@@ -515,13 +515,13 @@ function commerce_ogmk_shops_query_ogmk_membership_node_unpublished_alter(QueryA
 /**
  * Implements hook_query_TAG_alter().
  */
-function commerce_ogmk_shops_query_ogmk_membership_node_product_alter(QueryAlterableInterface $query) {
+function commerce_ogmk_shops_query_ogmk_membership_node_ogmk_product_alter(QueryAlterableInterface $query) {
   _commerce_ogmk_shops_create_ogmK_membership_query_alter(
     $query,
     'node',
     'nid',
     [
-      'bundle' => 'product',
+      'bundle' => 'ogmk_product',
     ]
   );
 }
@@ -529,13 +529,13 @@ function commerce_ogmk_shops_query_ogmk_membership_node_product_alter(QueryAlter
 /**
  * Implements hook_query_TAG_alter().
  */
-function commerce_ogmk_shops_query_ogmk_membership_node_product_published_alter(QueryAlterableInterface $query) {
+function commerce_ogmk_shops_query_ogmk_membership_node_ogmk_product_published_alter(QueryAlterableInterface $query) {
   _commerce_ogmk_shops_create_ogmK_membership_query_alter(
     $query,
     'node',
     'nid',
     [
-      'bundle' => 'product',
+      'bundle' => 'ogmk_product',
       'status' => TRUE,
     ]
   );
@@ -544,13 +544,13 @@ function commerce_ogmk_shops_query_ogmk_membership_node_product_published_alter(
 /**
  * Implements hook_query_TAG_alter().
  */
-function commerce_ogmk_shops_query_ogmk_membership_node_product_unpublished_alter(QueryAlterableInterface $query) {
+function commerce_ogmk_shops_query_ogmk_membership_node_ogmk_product_unpublished_alter(QueryAlterableInterface $query) {
   _commerce_ogmk_shops_create_ogmK_membership_query_alter(
     $query,
     'node',
     'nid',
     [
-      'bundle' => 'product',
+      'bundle' => 'ogmk_product',
       'status' => FALSE,
     ]
   );
@@ -559,13 +559,13 @@ function commerce_ogmk_shops_query_ogmk_membership_node_product_unpublished_alte
 /**
  * Implements hook_query_TAG_alter().
  */
-function commerce_ogmk_shops_query_ogmk_membership_node_review_alter(QueryAlterableInterface $query) {
+function commerce_ogmk_shops_query_ogmk_membership_node_ogmk_review_alter(QueryAlterableInterface $query) {
   _commerce_ogmk_shops_create_ogmK_membership_query_alter(
     $query,
     'node',
     'nid',
     [
-      'bundle' => 'review',
+      'bundle' => 'ogmk_review',
     ]
   );
 }
@@ -573,13 +573,13 @@ function commerce_ogmk_shops_query_ogmk_membership_node_review_alter(QueryAltera
 /**
  * Implements hook_query_TAG_alter().
  */
-function commerce_ogmk_shops_query_ogmk_membership_node_review_published_alter(QueryAlterableInterface $query) {
+function commerce_ogmk_shops_query_ogmk_membership_node_ogmk_review_published_alter(QueryAlterableInterface $query) {
   _commerce_ogmk_shops_create_ogmK_membership_query_alter(
     $query,
     'node',
     'nid',
     [
-      'bundle' => 'review',
+      'bundle' => 'ogmk_review',
       'status' => TRUE,
     ]
   );
@@ -588,13 +588,13 @@ function commerce_ogmk_shops_query_ogmk_membership_node_review_published_alter(Q
 /**
  * Implements hook_query_TAG_alter().
  */
-function commerce_ogmk_shops_query_ogmk_membership_node_review_unpublished_alter(QueryAlterableInterface $query) {
+function commerce_ogmk_shops_query_ogmk_membership_node_ogmk_review_unpublished_alter(QueryAlterableInterface $query) {
   _commerce_ogmk_shops_create_ogmK_membership_query_alter(
     $query,
     'node',
     'nid',
     [
-      'bundle' => 'review',
+      'bundle' => 'ogmk_review',
       'status' => FALSE,
     ]
   );
@@ -610,13 +610,13 @@ function commerce_ogmk_shops_query_ogmk_membership_commerce_line_item_alter(Quer
 /**
  * Implements hook_query_TAG_alter().
  */
-function commerce_ogmk_shops_query_ogmk_membership_commerce_line_item_product_alter(QueryAlterableInterface $query) {
+function commerce_ogmk_shops_query_ogmk_membership_commerce_line_item_ogmk_product_alter(QueryAlterableInterface $query) {
   _commerce_ogmk_shops_create_ogmK_membership_query_alter(
     $query,
     'commerce_line_item',
     'line_item_id',
     [
-      'bundle' => 'product',
+      'bundle' => 'ogmk_product',
     ]
   );
 }
@@ -696,7 +696,7 @@ function commerce_ogmk_shops_user_has_shop($user = NULL) {
   $query
     ->entityCondition('entity_type', 'node', '=')
     ->propertyCondition('uid', $userId)
-    ->propertyCondition('type', 'shop');
+    ->propertyCondition('type', 'ogmk_shop');
   $result = $query->execute();
 
   if (empty($result['node'])) {
@@ -751,7 +751,8 @@ function commerce_ogmk_shops_shop_nb_members($shop, array $options = array()) {
 /**
  * Get the number of active shop user members.
  *
- * Only active users with an active 'shop_member' membership will be counted.
+ * Only active users with an active 'ogmk_shop_member' membership will be
+ * counted.
  *
  * @param object $shop
  *   The 'shop' node object for which to get the number of active users.
@@ -766,7 +767,7 @@ function commerce_ogmk_shops_shop_nb_active_users($shop) {
       'entity_type'      => 'user',
       'entity_status'    => TRUE,
       'membership_state' => OG_STATE_ACTIVE,
-      'membership_type'  => 'shop_member',
+      'membership_type'  => 'ogmk_shop_member',
     )
   );
 }
@@ -785,7 +786,7 @@ function commerce_ogmk_shops_shop_nb_published_products($shop) {
     $shop,
     array(
       'entity_type'      => 'node',
-      'entity_bundle'    => 'product',
+      'entity_bundle'    => 'ogmk_product',
       'entity_status'    => TRUE,
       'membership_state' => OG_STATE_ACTIVE,
     )
@@ -809,7 +810,7 @@ function commerce_ogmk_shops_shop_nb_published_reviews($shop) {
     $shop,
     array(
       'entity_type'      => 'node',
-      'entity_bundle'    => 'review',
+      'entity_bundle'    => 'ogmk_review',
       'entity_status'    => TRUE,
       'membership_state' => OG_STATE_ACTIVE,
     )
@@ -922,7 +923,7 @@ function commerce_ogmk_shops_shop_nb_fulfilled_line_items($shop) {
  *   Whether the current user has access or not to the shop management page.
  */
 function _commerce_ogmk_shops_shop_manage_access($shop) {
-  if ($shop->type !== 'shop') {
+  if ($shop->type !== 'ogmk_shop') {
     return FALSE;
   }
 
@@ -992,7 +993,7 @@ function _commerce_ogmk_shops_commerce_order_og_subscribe($entity, $type) {
     $product = $lineItemWrapper->commerce_product->value();
     $productWrapper = entity_metadata_wrapper('commerce_product', $product);
 
-    $shop = $productWrapper->og_shop_ref->value();
+    $shop = $productWrapper->ogmk_shop_ref->value();
     $shopWrapper = entity_metadata_wrapper('node', $shop);
     $shopId = $shopWrapper->getIdentifier();
 
@@ -1036,7 +1037,7 @@ function _commerce_ogmk_shops_commerce_order_og_subscribe($entity, $type) {
     [
       'entity_type' => 'user',
       'entity' => $entity->uid,
-      'field_name' => 'og_user_shops_ref',
+      'field_name' => 'ogmk_user_shops_ref',
       'state' => OG_STATE_ACTIVE,
     ]
   );
@@ -1063,7 +1064,7 @@ function _commerce_ogmk_shops_commerce_line_item_og_subscribe($entity, $type) {
 
   // Get the product's shop.
   $productWrapper = entity_metadata_wrapper('commerce_product', $product);
-  $shopId = $productWrapper->og_shop_ref->value();
+  $shopId = $productWrapper->ogmk_shop_ref->value();
 
   // Subscribe the line item to the shop.
   $result = og_group(

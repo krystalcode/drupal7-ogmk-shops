@@ -9,15 +9,15 @@
  * Implements hook_token_info().
  */
 function commerce_ogmk_shops_token_info() {
-  $user['shop-id'] = array(
+  $user['ogmk-shop-id'] = array(
     'name' => t('Shop ID'),
     'description' => t("The ID of the shop owned by the user."),
   );
-  $user['shop-url'] = array(
+  $user['ogmk-shop-url'] = array(
     'name' => t('Shop URL'),
     'description' => t("The url to the shop owned by the user."),
   );
-  $user['shop-manage-url'] = array(
+  $user['ogmk-shop-manage-url'] = array(
     'name' => t('Shop Manage URL'),
     'description' => t("The url to the management page for the shop owned by the user."),
   );
@@ -50,16 +50,16 @@ function commerce_ogmk_shops_tokens($type, $tokens, array $data = array(), array
     foreach ($tokens as $name => $original) {
       switch ($name) {
         // Basic user account information.
-        case 'shop-id':
+        case 'ogmk-shop-id':
           // In the case of hook user_presave uid is not set yet.
           $replacements[$original] = !empty($shopId) ? $shopId : t('not yet assigned');
           break;
 
-        case 'shop-url':
+        case 'ogmk-shop-url':
           $replacements[$original] = !empty($shopId) ? url("node/$shopId", $url_options) : t('not yet assigned');
           break;
 
-        case 'shop-manage-url':
+        case 'ogmk-shop-manage-url':
           $replacements[$original] = !empty($shopId) ? url("node/$shopId/manage", $url_options) : t('not yet assigned');
           break;
       }

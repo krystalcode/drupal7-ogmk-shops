@@ -19,8 +19,8 @@ function commerce_ogmk_shops_context_default_contexts() {
   $context->conditions = array(
     'node' => array(
       'values' => array(
-        'product' => 'product',
-        'shop' => 'shop',
+        'ogmk_product' => 'ogmk_product',
+        'ogmk_shop' => 'ogmk_shop',
       ),
       'options' => array(
         'node_form' => '2',
