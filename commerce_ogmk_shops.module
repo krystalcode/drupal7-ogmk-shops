@@ -412,6 +412,7 @@ function commerce_ogmk_shops_og_context_negotiation_info() {
     'menu path' => array(
       // Shop front views.
       'node/%/products',
+      'node/%/reviews',
       // Shop management views.
       'node/%/manage/orders',
       'node/%/manage/orders/%',
