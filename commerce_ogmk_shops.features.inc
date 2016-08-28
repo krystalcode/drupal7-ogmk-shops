@@ -49,7 +49,15 @@ function commerce_ogmk_shops_node_info() {
  */
 function commerce_ogmk_shops_default_og_membership_type() {
   $items = array();
-  $items['ogmk_shop_item'] = entity_import('og_membership_type', '{ "name" : "ogmk_shop_item", "description" : "Shop Item", "language" : "" }');
-  $items['ogmk_shop_member'] = entity_import('og_membership_type', '{ "name" : "ogmk_shop_member", "description" : "Shop Member", "language" : "" }');
+  $items['ogmk_shop_item'] = entity_import('og_membership_type', '{
+    "name" : "ogmk_shop_item",
+    "description" : "Shop Item",
+    "language" : ""
+  }');
+  $items['ogmk_shop_member'] = entity_import('og_membership_type', '{
+    "name" : "ogmk_shop_member",
+    "description" : "Shop Member",
+    "language" : ""
+  }');
   return $items;
 }
