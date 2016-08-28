@@ -644,11 +644,11 @@ function commerce_ogmk_shops_views_default_views() {
 
   /* Display: Master */
   $handler = $view->new_display('default', 'Master', 'default');
-  $handler->display->display_options['title'] = 'My Shops';
+  $handler->display->display_options['title'] = 'Shops I Administer';
   $handler->display->display_options['use_more_always'] = FALSE;
   $handler->display->display_options['access']['type'] = 'role';
   $handler->display->display_options['access']['role'] = array(
-    4 => '4',
+    3 => '3',
   );
   $handler->display->display_options['cache']['type'] = 'none';
   $handler->display->display_options['query']['type'] = 'views_query';
@@ -733,13 +733,13 @@ function commerce_ogmk_shops_views_default_views() {
   $handler = $view->new_display('page', 'Page', 'page');
   $handler->display->display_options['path'] = 'user/%/shops/administrator';
   $handler->display->display_options['menu']['type'] = 'tab';
-  $handler->display->display_options['menu']['title'] = 'Shops I Administer';
-  $handler->display->display_options['menu']['weight'] = '4';
+  $handler->display->display_options['menu']['title'] = 'Administrator';
+  $handler->display->display_options['menu']['weight'] = '5';
   $handler->display->display_options['menu']['context'] = 0;
   $handler->display->display_options['menu']['context_only_inline'] = 0;
   $translatables['ogmk_user_shops_administrator'] = array(
     t('Master'),
-    t('My Shops'),
+    t('Shops I Administer'),
     t('more'),
     t('Apply'),
     t('Reset'),
@@ -775,11 +775,11 @@ function commerce_ogmk_shops_views_default_views() {
 
   /* Display: Master */
   $handler = $view->new_display('default', 'Master', 'default');
-  $handler->display->display_options['title'] = 'My Shops';
+  $handler->display->display_options['title'] = 'Shops I Manage';
   $handler->display->display_options['use_more_always'] = FALSE;
   $handler->display->display_options['access']['type'] = 'role';
   $handler->display->display_options['access']['role'] = array(
-    3 => '3',
+    4 => '4',
   );
   $handler->display->display_options['cache']['type'] = 'none';
   $handler->display->display_options['query']['type'] = 'views_query';
@@ -864,13 +864,13 @@ function commerce_ogmk_shops_views_default_views() {
   $handler = $view->new_display('page', 'Page', 'page');
   $handler->display->display_options['path'] = 'user/%/shops/manager';
   $handler->display->display_options['menu']['type'] = 'tab';
-  $handler->display->display_options['menu']['title'] = 'Shops I Manage';
-  $handler->display->display_options['menu']['weight'] = '0';
+  $handler->display->display_options['menu']['title'] = 'Manager';
+  $handler->display->display_options['menu']['weight'] = '4';
   $handler->display->display_options['menu']['context'] = 0;
   $handler->display->display_options['menu']['context_only_inline'] = 0;
   $translatables['ogmk_user_shops_manager'] = array(
     t('Master'),
-    t('My Shops'),
+    t('Shops I Manage'),
     t('more'),
     t('Apply'),
     t('Reset'),
@@ -897,7 +897,7 @@ function commerce_ogmk_shops_views_default_views() {
 
   /* Display: Master */
   $handler = $view->new_display('default', 'Master', 'default');
-  $handler->display->display_options['title'] = 'My Shops';
+  $handler->display->display_options['title'] = 'Shops I Am Member Of';
   $handler->display->display_options['use_more_always'] = FALSE;
   $handler->display->display_options['access']['type'] = 'role';
   $handler->display->display_options['access']['role'] = array(
@@ -920,7 +920,7 @@ function commerce_ogmk_shops_views_default_views() {
   $handler->display->display_options['header']['area_text_custom']['id'] = 'area_text_custom';
   $handler->display->display_options['header']['area_text_custom']['table'] = 'views';
   $handler->display->display_options['header']['area_text_custom']['field'] = 'area_text_custom';
-  $handler->display->display_options['header']['area_text_custom']['content'] = '<div class="alert alert-info"><span class="fa fa-info-circle"></span>Here are are the shops that you are a member of. You become a member of a shop when you order on or more of its products, or if you are one of its managers.</div>';
+  $handler->display->display_options['header']['area_text_custom']['content'] = '<div class="alert alert-info"><span class="fa fa-info-circle"></span>These are the shops that you are a member of. You become a member of a shop when you order on or more of its products. Shops members may receive special offers or promotions.</div>';
   /* No results behavior: Global: Unfiltered text */
   $handler->display->display_options['empty']['area_text_custom']['id'] = 'area_text_custom';
   $handler->display->display_options['empty']['area_text_custom']['table'] = 'views';
@@ -982,26 +982,16 @@ function commerce_ogmk_shops_views_default_views() {
 
   /* Display: Page */
   $handler = $view->new_display('page', 'Page', 'page');
-  $handler->display->display_options['path'] = 'user/%/shops';
-  $handler->display->display_options['menu']['type'] = 'tab';
-  $handler->display->display_options['menu']['title'] = 'My Shops';
-  $handler->display->display_options['menu']['weight'] = '0';
-  $handler->display->display_options['menu']['context'] = 0;
-  $handler->display->display_options['menu']['context_only_inline'] = 0;
-  $handler->display->display_options['tab_options']['weight'] = '0';
-
-  /* Display: Page */
-  $handler = $view->new_display('page', 'Page', 'page_1');
   $handler->display->display_options['path'] = 'user/%/shops/member';
-  $handler->display->display_options['menu']['type'] = 'default tab';
-  $handler->display->display_options['menu']['title'] = 'Shops I Follow';
-  $handler->display->display_options['menu']['weight'] = '0';
+  $handler->display->display_options['menu']['type'] = 'tab';
+  $handler->display->display_options['menu']['title'] = 'Member';
+  $handler->display->display_options['menu']['weight'] = '3';
   $handler->display->display_options['menu']['context'] = 0;
   $handler->display->display_options['menu']['context_only_inline'] = 0;
   $handler->display->display_options['tab_options']['weight'] = '0';
   $translatables['ogmk_user_shops_member'] = array(
     t('Master'),
-    t('My Shops'),
+    t('Shops I Am Member Of'),
     t('more'),
     t('Apply'),
     t('Reset'),
@@ -1015,7 +1005,7 @@ function commerce_ogmk_shops_views_default_views() {
     t('‹ previous'),
     t('next ›'),
     t('last »'),
-    t('<div class="alert alert-info"><span class="fa fa-info-circle"></span>Here are are the shops that you are a member of. You become a member of a shop when you order on or more of its products, or if you are one of its managers.</div>'),
+    t('<div class="alert alert-info"><span class="fa fa-info-circle"></span>These are the shops that you are a member of. You become a member of a shop when you order on or more of its products. Shops members may receive special offers or promotions.</div>'),
     t('<div class="alert alert-warning"><span class="fa fa-exclamation-triangle">You are not a member of any shop yet. You become a member of a shop when you order one or more of its products.</div>'),
     t('Group node from OG membership'),
     t('All'),
