@@ -59,7 +59,7 @@ function commerce_ogmk_shops_field_default_field_bases() {
             'status' => TRUE,
           ),
           'views-select-list' => array(
-            'status' => 0,
+            'status' => 1,
           ),
         ),
         'membership_type' => 'ogmk_shop_item',
