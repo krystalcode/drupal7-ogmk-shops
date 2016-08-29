@@ -8,7 +8,7 @@
  * Implements hook_field_group_info().
  */
 function ogmk_shops_field_group_info() {
-  $export = array();
+  $field_groups = array();
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -41,7 +41,7 @@ function ogmk_shops_field_group_info() {
       ),
     ),
   );
-  $export['group_col1|node|ogmk_shop|form'] = $field_group;
+  $field_groups['group_col1|node|ogmk_shop|form'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -73,7 +73,7 @@ function ogmk_shops_field_group_info() {
       ),
     ),
   );
-  $export['group_col2|node|ogmk_shop|form'] = $field_group;
+  $field_groups['group_col2|node|ogmk_shop|form'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -109,7 +109,7 @@ function ogmk_shops_field_group_info() {
       ),
     ),
   );
-  $export['group_row1|node|ogmk_shop|form'] = $field_group;
+  $field_groups['group_row1|node|ogmk_shop|form'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -145,7 +145,14 @@ function ogmk_shops_field_group_info() {
       ),
     ),
   );
-  $export['group_row2|node|ogmk_shop|form'] = $field_group;
+  $field_groups['group_row2|node|ogmk_shop|form'] = $field_group;
 
-  return $export;
+  // Translatables
+  // Included for use with string extractors like potx.
+  t('Column 1');
+  t('Column 2');
+  t('Details');
+  t('Images');
+
+  return $field_groups;
 }
