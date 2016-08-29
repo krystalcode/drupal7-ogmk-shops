@@ -1,13 +1,13 @@
 <?php
 /**
  * @file
- * commerce_ogmk_shops.features.menu_links.inc
+ * ogmk_shops.features.menu_links.inc
  */
 
 /**
  * Implements hook_menu_default_menu_links().
  */
-function commerce_ogmk_shops_menu_default_menu_links() {
+function ogmk_shops_menu_default_menu_links() {
   $menu_links = array();
 
   // Exported menu link: ogmk-shop-manage_add-product:menutoken/56848cfd7304b.

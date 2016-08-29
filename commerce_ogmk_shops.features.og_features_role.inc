@@ -1,13 +1,13 @@
 <?php
 /**
  * @file
- * commerce_ogmk_shops.features.og_features_role.inc
+ * ogmk_shops.features.og_features_role.inc
  */
 
 /**
  * Implements hook_og_features_default_roles().
  */
-function commerce_ogmk_shops_og_features_default_roles() {
+function ogmk_shops_og_features_default_roles() {
   $roles = array();
 
   // Exported OG Role: 'node:ogmk_shop:manager member'.

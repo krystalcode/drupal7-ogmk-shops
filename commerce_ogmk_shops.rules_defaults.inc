@@ -1,15 +1,15 @@
 <?php
 /**
  * @file
- * commerce_ogmk_shops.rules_defaults.inc
+ * ogmk_shops.rules_defaults.inc
  */
 
 /**
  * Implements hook_default_rules_configuration().
  */
-function commerce_ogmk_shops_default_rules_configuration() {
+function ogmk_shops_default_rules_configuration() {
   $items = array();
-  $items['rules_commerce_ogmk_shops_merchant_logged_in'] = entity_import('rules_config', '{ "rules_commerce_ogmk_shops_merchant_logged_in" : {
+  $items['rules_ogmk_shops_merchant_logged_in'] = entity_import('rules_config', '{ "rules_ogmk_shops_merchant_logged_in" : {
       "LABEL" : "Merchant logged in",
       "PLUGIN" : "reaction rule",
       "OWNER" : "rules",

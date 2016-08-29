@@ -8,7 +8,7 @@
 /**
  * Implements hook_token_info().
  */
-function commerce_ogmk_shops_token_info() {
+function ogmk_shops_token_info() {
   $user['ogmk-shop-id'] = array(
     'name' => t('Shop ID'),
     'description' => t("The ID of the shop owned by the user."),
@@ -30,7 +30,7 @@ function commerce_ogmk_shops_token_info() {
 /**
  * Implements hook_tokens().
  */
-function commerce_ogmk_shops_tokens($type, $tokens, array $data = array(), array $options = array()) {
+function ogmk_shops_tokens($type, $tokens, array $data = array(), array $options = array()) {
   $url_options = array('absolute' => TRUE);
   if (isset($options['language'])) {
     $url_options['language'] = $options['language'];
@@ -45,7 +45,7 @@ function commerce_ogmk_shops_tokens($type, $tokens, array $data = array(), array
 
   if ($type == 'user' && !empty($data['user'])) {
     $account = $data['user'];
-    $shopId  = commerce_ogmk_shops_user_has_shop($account);
+    $shopId  = ogmk_shops_user_has_shop($account);
 
     foreach ($tokens as $name => $original) {
       switch ($name) {

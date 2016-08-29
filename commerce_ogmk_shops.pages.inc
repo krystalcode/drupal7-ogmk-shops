@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Page callback file for the commerce_ogmk_shops module.
+ * Page callback file for the ogmk_shops module.
  */
 
 /**
@@ -11,7 +11,7 @@
  * @param object $shop
  *   The shop for which to display the management page.
  */
-function _commerce_ogmk_shops_shop_manage_page($shop) {
+function _ogmk_shops_shop_manage_page($shop) {
   drupal_set_title('Shop Management');
 
   $shopTeaser = node_view($shop, 'ogmk_manage_teaser');
@@ -34,6 +34,6 @@ function _commerce_ogmk_shops_shop_manage_page($shop) {
 /**
  * Page callback for menu placeholder page.
  */
-function _commerce_ogmk_shops_placeholder_page() {
+function _ogmk_shops_placeholder_page() {
   drupal_goto('/');
 }

@@ -1,13 +1,13 @@
 <?php
 /**
  * @file
- * commerce_ogmk_shops.strongarm.inc
+ * ogmk_shops.strongarm.inc
  */
 
 /**
  * Implements hook_strongarm().
  */
-function commerce_ogmk_shops_strongarm() {
+function ogmk_shops_strongarm() {
   $export = array();
 
   $strongarm = new stdClass();

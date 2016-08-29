@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * commerce_ogmk_shops.features.menu_custom.inc
+ * ogmk_shops.features.menu_custom.inc
  */
 
 /**
@@ -15,7 +15,7 @@
 /**
  * Implements hook_menu_default_menu_custom().
  */
-function commerce_ogmk_shops_menu_default_menu_custom() {
+function ogmk_shops_menu_default_menu_custom() {
   $menus = array();
 
   // Exported menu: ogmk-shop-manage.

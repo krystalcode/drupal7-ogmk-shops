@@ -1,13 +1,13 @@
 <?php
 /**
  * @file
- * commerce_ogmk_shops.features.og_features_permission.inc
+ * ogmk_shops.features.og_features_permission.inc
  */
 
 /**
  * Implements hook_og_features_default_permissions().
  */
-function commerce_ogmk_shops_og_features_default_permissions() {
+function ogmk_shops_og_features_default_permissions() {
   $permissions = array();
 
   // Exported og permission: 'node:ogmk_shop:access authoring options of ogmk_product content'

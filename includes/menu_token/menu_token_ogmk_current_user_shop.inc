@@ -18,7 +18,7 @@ class menu_token_ogmk_current_user_shop implements menu_token_handler {
   }
 
   function object_load($options) {
-    $shop = commerce_ogmk_shops_user_get_shop();
+    $shop = ogmk_shops_user_get_shop();
 
     if ($shop) {
       return $shop;

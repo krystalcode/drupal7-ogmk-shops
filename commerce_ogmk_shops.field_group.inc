@@ -1,13 +1,13 @@
 <?php
 /**
  * @file
- * commerce_ogmk_shops.field_group.inc
+ * ogmk_shops.field_group.inc
  */
 
 /**
  * Implements hook_field_group_info().
  */
-function commerce_ogmk_shops_field_group_info() {
+function ogmk_shops_field_group_info() {
   $export = array();
 
   $field_group = new stdClass();

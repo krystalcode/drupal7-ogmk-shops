@@ -1,13 +1,13 @@
 <?php
 /**
  * @file
- * commerce_ogmk_shops.features.field_instance.inc
+ * ogmk_shops.features.field_instance.inc
  */
 
 /**
  * Implements hook_field_default_field_instances().
  */
-function commerce_ogmk_shops_field_default_field_instances() {
+function ogmk_shops_field_default_field_instances() {
   $field_instances = array();
 
   // Exported field_instance: 'node-ogmk_shop-body'.

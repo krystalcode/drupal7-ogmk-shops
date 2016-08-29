@@ -4,7 +4,7 @@
  * Code for the Commerce Marketplace Shops feature.
  */
 
-include_once 'commerce_ogmk_shops.features.inc';
+include_once 'ogmk_shops.features.inc';
 
 /**
  * Hooks.
@@ -13,15 +13,15 @@ include_once 'commerce_ogmk_shops.features.inc';
 /**
  * Implements hook_menu().
  */
-function commerce_ogmk_shops_menu() {
+function ogmk_shops_menu() {
   $items['node/%node/manage'] = array(
     'title'            => 'Shop Management',
-    'access callback'  => '_commerce_ogmk_shops_shop_manage_access',
+    'access callback'  => '_ogmk_shops_shop_manage_access',
     'access arguments' => array(1),
-    'page callback'    => '_commerce_ogmk_shops_shop_manage_page',
+    'page callback'    => '_ogmk_shops_shop_manage_page',
     'page arguments'   => array(1),
     'type'             => MENU_LOCAL_TASK,
-    'file'             => 'commerce_ogmk_shops.pages.inc',
+    'file'             => 'ogmk_shops.pages.inc',
   );
 
   /**
@@ -37,9 +37,9 @@ function commerce_ogmk_shops_menu() {
   $items['ogmk/placeholder'] = array(
     'title'           => 'OGMK Placeholder',
     'access callback' => TRUE,
-    'page callback'   => '_commerce_ogmk_shops_placeholder_page',
+    'page callback'   => '_ogmk_shops_placeholder_page',
     'type'            => MENU_CALLBACK,
-    'file'            => 'commerce_ogmk_shops.pages.inc',
+    'file'            => 'ogmk_shops.pages.inc',
   );
 
   return $items;
@@ -48,7 +48,7 @@ function commerce_ogmk_shops_menu() {
 /**
  * Implements hook_theme().
  */
-function commerce_ogmk_shops_theme($existing, $type, $theme, $path) {
+function ogmk_shops_theme($existing, $type, $theme, $path) {
   return array(
     'shop_manage_page' => array(
       'variables' => array('variables' => NULL),
@@ -62,13 +62,13 @@ function commerce_ogmk_shops_theme($existing, $type, $theme, $path) {
  *
  * @Issue(
  *   "Consider moving form alterations not related to shops to
- *   commerce_ogmk_products module"
+ *   ogmk_products module"
  *   type="improvement"
  *   priority="low"
  *   labels="modularity"
  * )
  */
-function commerce_ogmk_shops_form_alter(&$form, &$form_state, $form_id) {
+function ogmk_shops_form_alter(&$form, &$form_state, $form_id) {
   // Process the "Add to cart" forms. They start with
   // "commerce_cart_add_to_cart_form_".
   if (strpos($form_id, 'commerce_cart_add_to_cart_form_') !== 0) {
@@ -102,7 +102,7 @@ function commerce_ogmk_shops_form_alter(&$form, &$form_state, $form_id) {
 /**
  * Implements hook_form_FORM_ID_alter().
  */
-function commerce_ogmk_shops_form_ogmk_shop_node_form_alter(&$form, &$form_state, $form_id) {
+function ogmk_shops_form_ogmk_shop_node_form_alter(&$form, &$form_state, $form_id) {
   /**
    * @Issue(
    *   "Check if the user is super admin using a helper function"
@@ -139,13 +139,13 @@ function commerce_ogmk_shops_form_ogmk_shop_node_form_alter(&$form, &$form_state
  *
  * @Issue(
  *   "Consider moving form alterations not related to shops to
- *   commerce_ogmk_products module"
+ *   ogmk_products module"
  *   type="improvement"
  *   priority="low"
  *   labels="modularity"
  * )
  */
-function commerce_ogmk_shops_form_ogmk_product_node_form_alter(&$form, &$form_state, $form_id) {
+function ogmk_shops_form_ogmk_product_node_form_alter(&$form, &$form_state, $form_id) {
   // Code specific to the edit form.
   if ($form['nid']['#value']) {
     // @Issue(
@@ -172,7 +172,7 @@ function commerce_ogmk_shops_form_ogmk_product_node_form_alter(&$form, &$form_st
       '#access' => TRUE,
       '#weight' => 6,
       '#submit' => array(
-        '_commerce_ogmk_shops_product_publish_toggle_submit',
+        '_ogmk_shops_product_publish_toggle_submit',
       )
     );
 
@@ -237,7 +237,7 @@ function commerce_ogmk_shops_form_ogmk_product_node_form_alter(&$form, &$form_st
    */
 }
 
-function _commerce_ogmk_shops_product_publish_toggle_submit($form, &$form_state) {
+function _ogmk_shops_product_publish_toggle_submit($form, &$form_state) {
   $node = $form['#node'];
 
   // Toggle the value of the 'status' field that indicates whether a node is
@@ -283,7 +283,7 @@ function _commerce_ogmk_shops_product_publish_toggle_submit($form, &$form_state)
  *   priority="normal"
  * )
  */
-function commerce_ogmk_shops_inline_entity_form_entity_form_alter(&$entity_form, &$form_state) {
+function ogmk_shops_inline_entity_form_entity_form_alter(&$entity_form, &$form_state) {
   // Set the shop field "ogmk_shop_ref" in the product ("commerce_product").
   // For now there is only manager per shop, the owner, so the shop would always
   // be the logged in user's shop.
@@ -295,7 +295,7 @@ function commerce_ogmk_shops_inline_entity_form_entity_form_alter(&$entity_form,
   $entity_form['ogmk_shop_ref']['#access'] = FALSE;
 
   // Get the Shop owned by the user.
-  $shopId = commerce_ogmk_shops_user_has_shop();
+  $shopId = ogmk_shops_user_has_shop();
 
   // Access denied no results found - the user is not a shop owner and therefore
   // can't create products.
@@ -316,7 +316,7 @@ function commerce_ogmk_shops_inline_entity_form_entity_form_alter(&$entity_form,
 /**
  * Implements hook_entity_info_alter().
  */
-function commerce_ogmk_shops_entity_info_alter(&$entity_info) {
+function ogmk_shops_entity_info_alter(&$entity_info) {
   /**
    * @Issue(
    *   "Maybe this should be moved to a base ogmk module"
@@ -334,10 +334,10 @@ function commerce_ogmk_shops_entity_info_alter(&$entity_info) {
 /**
  * Implements hook_entity_insert().
  */
-function commerce_ogmk_shops_entity_insert($entity, $type) {
+function ogmk_shops_entity_insert($entity, $type) {
   // Subscribe to the OG "shop" group(s) they belong for all commerce_product,
   // commerce_order and commerce_line_item entities when they are created.
-  $function = '_commerce_ogmk_shops_' . $type . '_og_subscribe';
+  $function = '_ogmk_shops_' . $type . '_og_subscribe';
   if (function_exists($function)) {
     $function($entity, $type);
   }
@@ -346,11 +346,11 @@ function commerce_ogmk_shops_entity_insert($entity, $type) {
 /**
  * Implements hook_entity_update().
  */
-function commerce_ogmk_shops_entity_update($entity, $type) {
+function ogmk_shops_entity_update($entity, $type) {
   // Update subscriptions to the OG "shop" group(s) they belong for all
   // commerce_product, commerce_order and commerce_line_item entities when they
   // are updated.
-  $function = '_commerce_ogmk_shops_' . $type . '_og_subscribe';
+  $function = '_ogmk_shops_' . $type . '_og_subscribe';
   if (function_exists($function)) {
     $function($entity, $type);
   }
@@ -359,10 +359,10 @@ function commerce_ogmk_shops_entity_update($entity, $type) {
 /**
  * Implements hook_entity_delete().
  */
-function commerce_ogmk_shops_entity_delete($entity, $type) {
+function ogmk_shops_entity_delete($entity, $type) {
   // Remove all OG subscriptions for all commerce_product, commerce_order and
   // commerce_line_item entities when they are deleted.
-  $function = '_commerce_ogmk_shops_' . $type . '_og_unsubscribe';
+  $function = '_ogmk_shops_' . $type . '_og_unsubscribe';
   if (function_exists($function)) {
     $function($entity, $type);
   }
@@ -371,7 +371,7 @@ function commerce_ogmk_shops_entity_delete($entity, $type) {
 /**
  * Implements hook_menu_token_plugins().
  */
-function commerce_ogmk_shops_menu_token_plugins() {
+function ogmk_shops_menu_token_plugins() {
   $plugins = array();
 
   $plugins["ogmk_current_user_shop"] = array(
@@ -379,7 +379,7 @@ function commerce_ogmk_shops_menu_token_plugins() {
     'label' => t('Current user\'s shop'),
     'description' => t('Picks the shop owned by the logged in user.'),
     'handler' => array(
-      'path' => drupal_get_path('module', 'commerce_ogmk_shops') . '/includes/menu_token',
+      'path' => drupal_get_path('module', 'ogmk_shops') . '/includes/menu_token',
       'file' => 'menu_token_ogmk_current_user_shop.inc',
       'class' => 'menu_token_ogmk_current_user_shop',
     ),
@@ -390,7 +390,7 @@ function commerce_ogmk_shops_menu_token_plugins() {
     'label' => t('Shop from OG context'),
     'description' => t('Picks the shop from the current OG context.'),
     'handler' => array(
-      'path' => drupal_get_path('module', 'commerce_ogmk_shops') . '/includes/menu_token',
+      'path' => drupal_get_path('module', 'ogmk_shops') . '/includes/menu_token',
       'file' => 'menu_token_ogmk_og_context_shop.inc',
       'class' => 'menu_token_ogmk_og_context_shop',
     ),
@@ -402,13 +402,13 @@ function commerce_ogmk_shops_menu_token_plugins() {
 /**
  * Implements hook_og_context_negotiation_info().
  */
-function commerce_ogmk_shops_og_context_negotiation_info() {
+function ogmk_shops_og_context_negotiation_info() {
   $providers = array();
 
   $providers['ogmk_shop_views'] = array(
     'name' => t('OGMK Shop View Pages'),
     'description' => t("Determine context by the url argument that specifies the Shop currently being viewed or managed."),
-    'callback' => '_commerce_ogmk_shops_node_views_og_context_handler',
+    'callback' => '_ogmk_shops_node_views_og_context_handler',
     'menu path' => array(
       // Shop front views.
       'node/%/products',
@@ -428,7 +428,7 @@ function commerce_ogmk_shops_og_context_negotiation_info() {
  *
  * Gets the group ("shop" node) from the url.
  */
-function _commerce_ogmk_shops_node_views_og_context_handler() {
+function _ogmk_shops_node_views_og_context_handler() {
   $item = menu_get_item();
 
   if (empty($item['map'])) {
@@ -446,15 +446,15 @@ function _commerce_ogmk_shops_node_views_og_context_handler() {
 /**
  * Implements hook_query_TAG_alter().
  */
-function commerce_ogmk_shops_query_ogmk_membership_user_alter(QueryAlterableInterface $query) {
-  _commerce_ogmk_shops_create_ogmK_membership_query_alter($query, 'users', 'uid');
+function ogmk_shops_query_ogmk_membership_user_alter(QueryAlterableInterface $query) {
+  _ogmk_shops_create_ogmK_membership_query_alter($query, 'users', 'uid');
 }
 
 /**
  * Implements hook_query_TAG_alter().
  */
-function commerce_ogmk_shops_query_ogmk_membership_user_published_alter(QueryAlterableInterface $query) {
-  _commerce_ogmk_shops_create_ogmK_membership_query_alter(
+function ogmk_shops_query_ogmk_membership_user_published_alter(QueryAlterableInterface $query) {
+  _ogmk_shops_create_ogmK_membership_query_alter(
     $query,
     'users',
     'uid',
@@ -467,8 +467,8 @@ function commerce_ogmk_shops_query_ogmk_membership_user_published_alter(QueryAlt
 /**
  * Implements hook_query_TAG_alter().
  */
-function commerce_ogmk_shops_query_ogmk_membership_user_unpublished_alter(QueryAlterableInterface $query) {
-  _commerce_ogmk_shops_create_ogmK_membership_query_alter(
+function ogmk_shops_query_ogmk_membership_user_unpublished_alter(QueryAlterableInterface $query) {
+  _ogmk_shops_create_ogmK_membership_query_alter(
     $query,
     'users',
     'uid',
@@ -481,15 +481,15 @@ function commerce_ogmk_shops_query_ogmk_membership_user_unpublished_alter(QueryA
 /**
  * Implements hook_query_TAG_alter().
  */
-function commerce_ogmk_shops_query_ogmk_membership_node_alter(QueryAlterableInterface $query) {
-  _commerce_ogmk_shops_create_ogmK_membership_query_alter($query, 'node', 'nid');
+function ogmk_shops_query_ogmk_membership_node_alter(QueryAlterableInterface $query) {
+  _ogmk_shops_create_ogmK_membership_query_alter($query, 'node', 'nid');
 }
 
 /**
  * Implements hook_query_TAG_alter().
  */
-function commerce_ogmk_shops_query_ogmk_membership_node_published_alter(QueryAlterableInterface $query) {
-  _commerce_ogmk_shops_create_ogmK_membership_query_alter(
+function ogmk_shops_query_ogmk_membership_node_published_alter(QueryAlterableInterface $query) {
+  _ogmk_shops_create_ogmK_membership_query_alter(
     $query,
     'node',
     'nid',
@@ -502,8 +502,8 @@ function commerce_ogmk_shops_query_ogmk_membership_node_published_alter(QueryAlt
 /**
  * Implements hook_query_TAG_alter().
  */
-function commerce_ogmk_shops_query_ogmk_membership_node_unpublished_alter(QueryAlterableInterface $query) {
-  _commerce_ogmk_shops_create_ogmK_membership_query_alter(
+function ogmk_shops_query_ogmk_membership_node_unpublished_alter(QueryAlterableInterface $query) {
+  _ogmk_shops_create_ogmK_membership_query_alter(
     $query,
     'node',
     'nid',
@@ -516,8 +516,8 @@ function commerce_ogmk_shops_query_ogmk_membership_node_unpublished_alter(QueryA
 /**
  * Implements hook_query_TAG_alter().
  */
-function commerce_ogmk_shops_query_ogmk_membership_node_ogmk_product_alter(QueryAlterableInterface $query) {
-  _commerce_ogmk_shops_create_ogmK_membership_query_alter(
+function ogmk_shops_query_ogmk_membership_node_ogmk_product_alter(QueryAlterableInterface $query) {
+  _ogmk_shops_create_ogmK_membership_query_alter(
     $query,
     'node',
     'nid',
@@ -530,8 +530,8 @@ function commerce_ogmk_shops_query_ogmk_membership_node_ogmk_product_alter(Query
 /**
  * Implements hook_query_TAG_alter().
  */
-function commerce_ogmk_shops_query_ogmk_membership_node_ogmk_product_published_alter(QueryAlterableInterface $query) {
-  _commerce_ogmk_shops_create_ogmK_membership_query_alter(
+function ogmk_shops_query_ogmk_membership_node_ogmk_product_published_alter(QueryAlterableInterface $query) {
+  _ogmk_shops_create_ogmK_membership_query_alter(
     $query,
     'node',
     'nid',
@@ -545,8 +545,8 @@ function commerce_ogmk_shops_query_ogmk_membership_node_ogmk_product_published_a
 /**
  * Implements hook_query_TAG_alter().
  */
-function commerce_ogmk_shops_query_ogmk_membership_node_ogmk_product_unpublished_alter(QueryAlterableInterface $query) {
-  _commerce_ogmk_shops_create_ogmK_membership_query_alter(
+function ogmk_shops_query_ogmk_membership_node_ogmk_product_unpublished_alter(QueryAlterableInterface $query) {
+  _ogmk_shops_create_ogmK_membership_query_alter(
     $query,
     'node',
     'nid',
@@ -560,8 +560,8 @@ function commerce_ogmk_shops_query_ogmk_membership_node_ogmk_product_unpublished
 /**
  * Implements hook_query_TAG_alter().
  */
-function commerce_ogmk_shops_query_ogmk_membership_node_ogmk_review_alter(QueryAlterableInterface $query) {
-  _commerce_ogmk_shops_create_ogmK_membership_query_alter(
+function ogmk_shops_query_ogmk_membership_node_ogmk_review_alter(QueryAlterableInterface $query) {
+  _ogmk_shops_create_ogmK_membership_query_alter(
     $query,
     'node',
     'nid',
@@ -574,8 +574,8 @@ function commerce_ogmk_shops_query_ogmk_membership_node_ogmk_review_alter(QueryA
 /**
  * Implements hook_query_TAG_alter().
  */
-function commerce_ogmk_shops_query_ogmk_membership_node_ogmk_review_published_alter(QueryAlterableInterface $query) {
-  _commerce_ogmk_shops_create_ogmK_membership_query_alter(
+function ogmk_shops_query_ogmk_membership_node_ogmk_review_published_alter(QueryAlterableInterface $query) {
+  _ogmk_shops_create_ogmK_membership_query_alter(
     $query,
     'node',
     'nid',
@@ -589,8 +589,8 @@ function commerce_ogmk_shops_query_ogmk_membership_node_ogmk_review_published_al
 /**
  * Implements hook_query_TAG_alter().
  */
-function commerce_ogmk_shops_query_ogmk_membership_node_ogmk_review_unpublished_alter(QueryAlterableInterface $query) {
-  _commerce_ogmk_shops_create_ogmK_membership_query_alter(
+function ogmk_shops_query_ogmk_membership_node_ogmk_review_unpublished_alter(QueryAlterableInterface $query) {
+  _ogmk_shops_create_ogmK_membership_query_alter(
     $query,
     'node',
     'nid',
@@ -604,15 +604,15 @@ function commerce_ogmk_shops_query_ogmk_membership_node_ogmk_review_unpublished_
 /**
  * Implements hook_query_TAG_alter().
  */
-function commerce_ogmk_shops_query_ogmk_membership_commerce_line_item_alter(QueryAlterableInterface $query) {
-  _commerce_ogmk_shops_create_ogmK_membership_query_alter($query, 'commerce_line_item', 'line_item_id');
+function ogmk_shops_query_ogmk_membership_commerce_line_item_alter(QueryAlterableInterface $query) {
+  _ogmk_shops_create_ogmK_membership_query_alter($query, 'commerce_line_item', 'line_item_id');
 }
 
 /**
  * Implements hook_query_TAG_alter().
  */
-function commerce_ogmk_shops_query_ogmk_membership_commerce_line_item_ogmk_product_alter(QueryAlterableInterface $query) {
-  _commerce_ogmk_shops_create_ogmK_membership_query_alter(
+function ogmk_shops_query_ogmk_membership_commerce_line_item_ogmk_product_alter(QueryAlterableInterface $query) {
+  _ogmk_shops_create_ogmK_membership_query_alter(
     $query,
     'commerce_line_item',
     'line_item_id',
@@ -625,7 +625,7 @@ function commerce_ogmk_shops_query_ogmk_membership_commerce_line_item_ogmk_produ
 /**
  * Implements hook_query_TAG_alter().
  */
-function commerce_ogmk_shops_query_ogmk_line_item_order_status_canceled_alter(QueryAlterableInterface $query) {
+function ogmk_shops_query_ogmk_line_item_order_status_canceled_alter(QueryAlterableInterface $query) {
   $query->innerJoin('commerce_order', 'commerce_order', 'commerce_order.order_id = commerce_line_item.order_id');
   $query->condition('commerce_order.status', 'canceled');
 }
@@ -633,7 +633,7 @@ function commerce_ogmk_shops_query_ogmk_line_item_order_status_canceled_alter(Qu
 /**
  * Implements hook_query_TAG_alter().
  */
-function commerce_ogmk_shops_query_ogmk_line_item_order_status_pending_alter(QueryAlterableInterface $query) {
+function ogmk_shops_query_ogmk_line_item_order_status_pending_alter(QueryAlterableInterface $query) {
   $query->innerJoin('commerce_order', 'commerce_order', 'commerce_order.order_id = commerce_line_item.order_id');
   $query->condition('commerce_order.status', 'pending');
 }
@@ -641,7 +641,7 @@ function commerce_ogmk_shops_query_ogmk_line_item_order_status_pending_alter(Que
 /**
  * Implements hook_query_TAG_alter().
  */
-function commerce_ogmk_shops_query_ogmk_line_item_order_status_processing_alter(QueryAlterableInterface $query) {
+function ogmk_shops_query_ogmk_line_item_order_status_processing_alter(QueryAlterableInterface $query) {
   $query->innerJoin('commerce_order', 'commerce_order', 'commerce_order.order_id = commerce_line_item.order_id');
   $query->condition('commerce_order.status', 'processing');
 }
@@ -649,7 +649,7 @@ function commerce_ogmk_shops_query_ogmk_line_item_order_status_processing_alter(
 /**
  * Implements hook_query_TAG_alter().
  */
-function commerce_ogmk_shops_query_ogmk_line_item_order_status_completed_alter(QueryAlterableInterface $query) {
+function ogmk_shops_query_ogmk_line_item_order_status_completed_alter(QueryAlterableInterface $query) {
   $query->innerJoin('commerce_order', 'commerce_order', 'commerce_order.order_id = commerce_line_item.order_id');
   $query->condition('commerce_order.status', 'completed');
 }
@@ -657,7 +657,7 @@ function commerce_ogmk_shops_query_ogmk_line_item_order_status_completed_alter(Q
 /**
  * Implements hook_query_TAG_alter().
  */
-function commerce_ogmk_shops_query_ogmk_line_item_order_status_cart_alter(QueryAlterableInterface $query) {
+function ogmk_shops_query_ogmk_line_item_order_status_cart_alter(QueryAlterableInterface $query) {
   $query->innerJoin('commerce_order', 'commerce_order', 'commerce_order.order_id = commerce_line_item.order_id');
   $query->condition('commerce_order.status', 'cart');
 }
@@ -675,7 +675,7 @@ function commerce_ogmk_shops_query_ogmk_line_item_order_status_cart_alter(QueryA
  *   Zero (0) if there is no shop owned by the user.
  *   The shop's id otherwise.
  */
-function commerce_ogmk_shops_user_has_shop($user = NULL) {
+function ogmk_shops_user_has_shop($user = NULL) {
   if ($user === NULL) {
     global $user;
   }
@@ -718,8 +718,8 @@ function commerce_ogmk_shops_user_has_shop($user = NULL) {
  *   NULL if there is no shop owned by the user.
  *   The shop's object otherwise.
  */
-function commerce_ogmk_shops_user_get_shop($user = NULL) {
-  $shopId = commerce_ogmk_shops_user_has_shop($user);
+function ogmk_shops_user_get_shop($user = NULL) {
+  $shopId = ogmk_shops_user_has_shop($user);
 
   if ($shopId) {
     return node_load($shopId);
@@ -736,14 +736,14 @@ function commerce_ogmk_shops_user_get_shop($user = NULL) {
  * @param object $shop
  *   The 'shop' node object for which to get the number of members.
  * @param array $options
- *   An array of options, @see _commerce_ogmk_shops_shop_members_query.
+ *   An array of options, @see _ogmk_shops_shop_members_query.
  *
  * @return int
  *   The number of shop members.
  */
-function commerce_ogmk_shops_shop_nb_members($shop, array $options = array()) {
+function ogmk_shops_shop_nb_members($shop, array $options = array()) {
   // Get the query to execute.
-  $query = _commerce_ogmk_shops_shop_members_query($shop, $options);
+  $query = _ogmk_shops_shop_members_query($shop, $options);
 
   // Execute the query and return the result.
   return $query->count()->execute();
@@ -761,8 +761,8 @@ function commerce_ogmk_shops_shop_nb_members($shop, array $options = array()) {
  * @return int
  *   The number of active shop users.
  */
-function commerce_ogmk_shops_shop_nb_active_users($shop) {
-  return commerce_ogmk_shops_shop_nb_members(
+function ogmk_shops_shop_nb_active_users($shop) {
+  return ogmk_shops_shop_nb_members(
     $shop,
     array(
       'entity_type'      => 'user',
@@ -782,8 +782,8 @@ function commerce_ogmk_shops_shop_nb_active_users($shop) {
  * @return int
  *   The number of products published on the given shop.
  */
-function commerce_ogmk_shops_shop_nb_published_products($shop) {
-  return commerce_ogmk_shops_shop_nb_members(
+function ogmk_shops_shop_nb_published_products($shop) {
+  return ogmk_shops_shop_nb_members(
     $shop,
     array(
       'entity_type'      => 'node',
@@ -806,8 +806,8 @@ function commerce_ogmk_shops_shop_nb_published_products($shop) {
  * @return int
  *   The number of published shop reviews.
  */
-function commerce_ogmk_shops_shop_nb_published_reviews($shop) {
-  return commerce_ogmk_shops_shop_nb_members(
+function ogmk_shops_shop_nb_published_reviews($shop) {
+  return ogmk_shops_shop_nb_members(
     $shop,
     array(
       'entity_type'      => 'node',
@@ -836,7 +836,7 @@ function commerce_ogmk_shops_shop_nb_published_reviews($shop) {
  * @return int
  *   The number of line items for the given shop.
  */
-function commerce_ogmk_shops_shop_nb_line_items($shop, array $options = array()) {
+function ogmk_shops_shop_nb_line_items($shop, array $options = array()) {
   // By default, count only active/published entities with active membership
   // state.
   $options = array_merge(
@@ -864,7 +864,7 @@ function commerce_ogmk_shops_shop_nb_line_items($shop, array $options = array())
 
   // Construct the query which includes the join with the 'commerce_line_item'
   // table, if required.
-  $query = _commerce_ogmk_shops_shop_members_query($shop, $options);
+  $query = _ogmk_shops_shop_members_query($shop, $options);
 
   // If there's no specific order status requested, we don't need to add a join
   // with the 'commerce_order' table. Get and return the results.
@@ -877,7 +877,7 @@ function commerce_ogmk_shops_shop_nb_line_items($shop, array $options = array())
   $query_tag = 'ogmk_line_item_order_status_' . $options['order_status'];
 
   // Throw an exception if the hook doesn't exist to warn the developer.
-  if (!function_exists('commerce_ogmk_shops_query_' . $query_tag . '_alter')) {
+  if (!function_exists('ogmk_shops_query_' . $query_tag . '_alter')) {
     throw new Exception(sprintf('The query tag "%s" has been called, but its corresponding hook_query_alter() hook has not been defined.', $query_tag));
   }
 
@@ -901,8 +901,8 @@ function commerce_ogmk_shops_shop_nb_line_items($shop, array $options = array())
  * @return int
  *   The number of fulfilled line items for the given shop.
  */
-function commerce_ogmk_shops_shop_nb_fulfilled_line_items($shop) {
-  return commerce_ogmk_shops_shop_nb_line_items(
+function ogmk_shops_shop_nb_fulfilled_line_items($shop) {
+  return ogmk_shops_shop_nb_line_items(
     $shop,
     [
       'order_status' => 'completed',
@@ -923,7 +923,7 @@ function commerce_ogmk_shops_shop_nb_fulfilled_line_items($shop) {
  * @return boolean
  *   Whether the current user has access or not to the shop management page.
  */
-function _commerce_ogmk_shops_shop_manage_access($shop) {
+function _ogmk_shops_shop_manage_access($shop) {
   if ($shop->type !== 'ogmk_shop') {
     return FALSE;
   }
@@ -963,7 +963,7 @@ function _commerce_ogmk_shops_shop_manage_access($shop) {
  * The order belongs to all "shop" OG groups that the order's products
  * ("commerce_line_item") belong to.
  */
-function _commerce_ogmk_shops_commerce_order_og_subscribe($entity, $type) {
+function _ogmk_shops_commerce_order_og_subscribe($entity, $type) {
   // Nothing to do if there's no line items in the order.
   // This can happen sometimes with abandon carts, I believe.
   if (empty($entity->commerce_line_items)) {
@@ -1050,7 +1050,7 @@ function _commerce_ogmk_shops_commerce_order_og_subscribe($entity, $type) {
  * The line item belongs to the "shop" OG group that the referenced product
  * belongs to.
  */
-function _commerce_ogmk_shops_commerce_line_item_og_subscribe($entity, $type) {
+function _ogmk_shops_commerce_line_item_og_subscribe($entity, $type) {
   /**
    * @Issue(
    *   "Does this work with internationalisation?"
@@ -1116,7 +1116,7 @@ function _commerce_ogmk_shops_commerce_line_item_og_subscribe($entity, $type) {
  * @return EntityFieldQuery
  *   The built query for getting the shop's member entities.
  */
-function _commerce_ogmk_shops_shop_members_query($shop, array $options = array()) {
+function _ogmk_shops_shop_members_query($shop, array $options = array()) {
   // By default, count only active/published entities with active membership
   // state.
   $options = array_merge(
@@ -1194,7 +1194,7 @@ function _commerce_ogmk_shops_shop_members_query($shop, array $options = array()
   // Since this contains the potential of counting unpublished records if a
   // bundle is requested without defining the appropriate hook, it's better to
   // throw an exception if the hook doesn't exist.
-  if (!function_exists('commerce_ogmk_shops_query_' . $query_tag . '_alter')) {
+  if (!function_exists('ogmk_shops_query_' . $query_tag . '_alter')) {
     throw new Exception(sprintf('The query tag "%s" has been called, but its corresponding hook_query_alter() hook has not been defined.', $query_tag));
   }
 
@@ -1230,7 +1230,7 @@ function _commerce_ogmk_shops_shop_members_query($shop, array $options = array()
  *     status) to look for. If NULL, all entities will be requested regardless
  *     of their status.
  */
-function _commerce_ogmk_shops_create_ogmk_membership_query_alter(QueryAlterableInterface $query, $table, $id_column, array $options = array()) {
+function _ogmk_shops_create_ogmk_membership_query_alter(QueryAlterableInterface $query, $table, $id_column, array $options = array()) {
   $options = array_merge(
     array(
       'bundle' => NULL,

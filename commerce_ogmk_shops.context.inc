@@ -1,13 +1,13 @@
 <?php
 /**
  * @file
- * commerce_ogmk_shops.context.inc
+ * ogmk_shops.context.inc
  */
 
 /**
  * Implements hook_context_default_contexts().
  */
-function commerce_ogmk_shops_context_default_contexts() {
+function ogmk_shops_context_default_contexts() {
   $export = array();
 
   $context = new stdClass();

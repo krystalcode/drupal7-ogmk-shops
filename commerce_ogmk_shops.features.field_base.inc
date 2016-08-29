@@ -1,13 +1,13 @@
 <?php
 /**
  * @file
- * commerce_ogmk_shops.features.field_base.inc
+ * ogmk_shops.features.field_base.inc
  */
 
 /**
  * Implements hook_field_default_field_bases().
  */
-function commerce_ogmk_shops_field_default_field_bases() {
+function ogmk_shops_field_default_field_bases() {
   $field_bases = array();
 
   // Exported field_base: 'group_group'.

@@ -1,13 +1,13 @@
 <?php
 /**
  * @file
- * commerce_ogmk_shops.features.user_permission.inc
+ * ogmk_shops.features.user_permission.inc
  */
 
 /**
  * Implements hook_user_default_permissions().
  */
-function commerce_ogmk_shops_user_default_permissions() {
+function ogmk_shops_user_default_permissions() {
   $permissions = array();
 
   // Exported permission: 'create ogmk_shop content'.
