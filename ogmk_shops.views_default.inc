@@ -487,6 +487,12 @@ function ogmk_shops_views_default_views() {
     'hover' => 0,
     'condensed' => 0,
   );
+  /* No results behavior: Global: Unfiltered text */
+  $handler->display->display_options['empty']['area_text_custom']['id'] = 'area_text_custom';
+  $handler->display->display_options['empty']['area_text_custom']['table'] = 'views';
+  $handler->display->display_options['empty']['area_text_custom']['field'] = 'area_text_custom';
+  $handler->display->display_options['empty']['area_text_custom']['empty'] = TRUE;
+  $handler->display->display_options['empty']['area_text_custom']['content'] = '<div class="alert alert-warning"><span class="fa fa-exclamation-triangle">There are no active products in this shop at the moment.</div>';
   /* Relationship: OG membership: OG membership from Node */
   $handler->display->display_options['relationships']['og_membership_rel']['id'] = 'og_membership_rel';
   $handler->display->display_options['relationships']['og_membership_rel']['table'] = 'node';
@@ -629,6 +635,13 @@ function ogmk_shops_views_default_views() {
 
   /* Display: Archived */
   $handler = $view->new_display('page', 'Archived', 'archived');
+  $handler->display->display_options['defaults']['empty'] = FALSE;
+  /* No results behavior: Global: Unfiltered text */
+  $handler->display->display_options['empty']['area_text_custom']['id'] = 'area_text_custom';
+  $handler->display->display_options['empty']['area_text_custom']['table'] = 'views';
+  $handler->display->display_options['empty']['area_text_custom']['field'] = 'area_text_custom';
+  $handler->display->display_options['empty']['area_text_custom']['empty'] = TRUE;
+  $handler->display->display_options['empty']['area_text_custom']['content'] = '<div class="alert alert-warning"><span class="fa fa-exclamation-triangle">There are no archived products in this shop at the moment.</div>';
   $handler->display->display_options['defaults']['filter_groups'] = FALSE;
   $handler->display->display_options['defaults']['filters'] = FALSE;
   /* Filter criterion: Content: Type */
@@ -667,6 +680,7 @@ function ogmk_shops_views_default_views() {
     t('‹ previous'),
     t('next ›'),
     t('last »'),
+    t('<div class="alert alert-warning"><span class="fa fa-exclamation-triangle">There are no active products in this shop at the moment.</div>'),
     t('OG membership from node'),
     t('Image'),
     t('Title'),
@@ -686,6 +700,7 @@ function ogmk_shops_views_default_views() {
     t('All'),
     t('Active'),
     t('Archived'),
+    t('<div class="alert alert-warning"><span class="fa fa-exclamation-triangle">There are no archived products in this shop at the moment.</div>'),
   );
   $export['ogmk_shop_manage_products'] = $view;
 
