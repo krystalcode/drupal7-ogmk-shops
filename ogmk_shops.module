@@ -1057,6 +1057,11 @@ function _ogmk_shops_commerce_order_og_subscribe($entity, $type) {
     return;
   }
 
+  // Can't subscribe anonymous users.
+  if ($entity->uid == 0) {
+    return;
+  }
+
   // Add the OG user membership.
   og_group(
     'node',
