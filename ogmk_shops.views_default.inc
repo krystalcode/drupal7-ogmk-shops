@@ -545,10 +545,50 @@ function ogmk_shops_views_default_views() {
   $handler->display->display_options['filters']['type']['value'] = array(
     'ogmk_product' => 'ogmk_product',
   );
+  /* Filter criterion: Content: Archived (ogmk_boolean) */
+  $handler->display->display_options['filters']['ogmk_boolean_value']['id'] = 'ogmk_boolean_value';
+  $handler->display->display_options['filters']['ogmk_boolean_value']['table'] = 'field_data_ogmk_boolean';
+  $handler->display->display_options['filters']['ogmk_boolean_value']['field'] = 'ogmk_boolean_value';
+  $handler->display->display_options['filters']['ogmk_boolean_value']['value'] = array(
+    0 => '0',
+  );
 
-  /* Display: Page */
-  $handler = $view->new_display('page', 'Page', 'page');
-  $handler->display->display_options['path'] = 'node/%/manage/products';
+  /* Display: Active */
+  $handler = $view->new_display('page', 'Active', 'active');
+  $handler->display->display_options['path'] = 'node/%/manage/products/active';
+  $handler->display->display_options['menu']['type'] = 'default tab';
+  $handler->display->display_options['menu']['title'] = 'Active';
+  $handler->display->display_options['menu']['weight'] = '0';
+  $handler->display->display_options['menu']['context'] = 0;
+  $handler->display->display_options['menu']['context_only_inline'] = 0;
+  $handler->display->display_options['tab_options']['type'] = 'normal';
+  $handler->display->display_options['tab_options']['title'] = 'Products';
+  $handler->display->display_options['tab_options']['weight'] = '0';
+
+  /* Display: Archived */
+  $handler = $view->new_display('page', 'Archived', 'archived');
+  $handler->display->display_options['defaults']['filter_groups'] = FALSE;
+  $handler->display->display_options['defaults']['filters'] = FALSE;
+  /* Filter criterion: Content: Type */
+  $handler->display->display_options['filters']['type']['id'] = 'type';
+  $handler->display->display_options['filters']['type']['table'] = 'node';
+  $handler->display->display_options['filters']['type']['field'] = 'type';
+  $handler->display->display_options['filters']['type']['value'] = array(
+    'ogmk_product' => 'ogmk_product',
+  );
+  /* Filter criterion: Content: Archived (ogmk_boolean) */
+  $handler->display->display_options['filters']['ogmk_boolean_value']['id'] = 'ogmk_boolean_value';
+  $handler->display->display_options['filters']['ogmk_boolean_value']['table'] = 'field_data_ogmk_boolean';
+  $handler->display->display_options['filters']['ogmk_boolean_value']['field'] = 'ogmk_boolean_value';
+  $handler->display->display_options['filters']['ogmk_boolean_value']['value'] = array(
+    1 => '1',
+  );
+  $handler->display->display_options['path'] = 'node/%/manage/products/archived';
+  $handler->display->display_options['menu']['type'] = 'tab';
+  $handler->display->display_options['menu']['title'] = 'Archived';
+  $handler->display->display_options['menu']['weight'] = '1';
+  $handler->display->display_options['menu']['context'] = 0;
+  $handler->display->display_options['menu']['context_only_inline'] = 0;
   $translatables['ogmk_shop_manage_products'] = array(
     t('Master'),
     t('Products'),
@@ -582,7 +622,8 @@ function ogmk_shops_views_default_views() {
     t('Operations'),
     t('[view_node_button] [edit_node_button] [delete_node_button]'),
     t('All'),
-    t('Page'),
+    t('Active'),
+    t('Archived'),
   );
   $export['ogmk_shop_manage_products'] = $view;
 
@@ -657,6 +698,13 @@ function ogmk_shops_views_default_views() {
   $handler->display->display_options['filters']['type']['field'] = 'type';
   $handler->display->display_options['filters']['type']['value'] = array(
     'ogmk_product' => 'ogmk_product',
+  );
+  /* Filter criterion: Content: Archived (ogmk_boolean) */
+  $handler->display->display_options['filters']['ogmk_boolean_value']['id'] = 'ogmk_boolean_value';
+  $handler->display->display_options['filters']['ogmk_boolean_value']['table'] = 'field_data_ogmk_boolean';
+  $handler->display->display_options['filters']['ogmk_boolean_value']['field'] = 'ogmk_boolean_value';
+  $handler->display->display_options['filters']['ogmk_boolean_value']['value'] = array(
+    0 => '0',
   );
 
   /* Display: Block */
