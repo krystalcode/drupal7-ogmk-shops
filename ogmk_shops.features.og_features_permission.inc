@@ -34,6 +34,14 @@ function ogmk_shops_og_features_default_permissions() {
     ),
   );
 
+  // Exported og permission: 'node:ogmk_shop:administer commerce_order entities'
+  $permissions['node:ogmk_shop:administer commerce_order entities'] = array(
+    'roles' => array(
+      'administrator member' => 'administrator member',
+      'manager member' => 'manager member',
+    ),
+  );
+
   // Exported og permission: 'node:ogmk_shop:administer group'
   $permissions['node:ogmk_shop:administer group'] = array(
     'roles' => array(
@@ -43,6 +51,19 @@ function ogmk_shops_og_features_default_permissions() {
 
   // Exported og permission: 'node:ogmk_shop:approve and deny subscription'
   $permissions['node:ogmk_shop:approve and deny subscription'] = array(
+    'roles' => array(),
+  );
+
+  // Exported og permission: 'node:ogmk_shop:create commerce_order entities'
+  $permissions['node:ogmk_shop:create commerce_order entities'] = array(
+    'roles' => array(
+      'administrator member' => 'administrator member',
+      'manager member' => 'manager member',
+    ),
+  );
+
+  // Exported og permission: 'node:ogmk_shop:create commerce_order entities of bundle commerce_order'
+  $permissions['node:ogmk_shop:create commerce_order entities of bundle commerce_order'] = array(
     'roles' => array(),
   );
 
@@ -62,6 +83,50 @@ function ogmk_shops_og_features_default_permissions() {
   // Exported og permission: 'node:ogmk_shop:delete own ogmk_product content'
   $permissions['node:ogmk_shop:delete own ogmk_product content'] = array(
     'roles' => array(),
+  );
+
+  // Exported og permission: 'node:ogmk_shop:edit any commerce_order entity'
+  $permissions['node:ogmk_shop:edit any commerce_order entity'] = array(
+    'roles' => array(
+      'administrator member' => 'administrator member',
+      'manager member' => 'manager member',
+    ),
+  );
+
+  // Exported og permission: 'node:ogmk_shop:edit any commerce_order entity of bundle commerce_order'
+  $permissions['node:ogmk_shop:edit any commerce_order entity of bundle commerce_order'] = array(
+    'roles' => array(),
+  );
+
+  // Exported og permission: 'node:ogmk_shop:edit own commerce_order entities'
+  $permissions['node:ogmk_shop:edit own commerce_order entities'] = array(
+    'roles' => array(),
+  );
+
+  // Exported og permission: 'node:ogmk_shop:edit own commerce_order entities of bundle commerce_order'
+  $permissions['node:ogmk_shop:edit own commerce_order entities of bundle commerce_order'] = array(
+    'roles' => array(),
+  );
+
+  // Exported og permission: 'node:ogmk_shop:have the administrator member role'
+  $permissions['node:ogmk_shop:have the administrator member role'] = array(
+    'roles' => array(
+      'administrator member' => 'administrator member',
+    ),
+  );
+
+  // Exported og permission: 'node:ogmk_shop:have the manager member role'
+  $permissions['node:ogmk_shop:have the manager member role'] = array(
+    'roles' => array(
+      'manager member' => 'manager member',
+    ),
+  );
+
+  // Exported og permission: 'node:ogmk_shop:have the member role'
+  $permissions['node:ogmk_shop:have the member role'] = array(
+    'roles' => array(
+      'member' => 'member',
+    ),
   );
 
   // Exported og permission: 'node:ogmk_shop:manage members'
@@ -117,12 +182,35 @@ function ogmk_shops_og_features_default_permissions() {
     'roles' => array(),
   );
 
+  // Exported og permission: 'node:ogmk_shop:view any commerce_order entity'
+  $permissions['node:ogmk_shop:view any commerce_order entity'] = array(
+    'roles' => array(
+      'administrator member' => 'administrator member',
+      'manager member' => 'manager member',
+    ),
+  );
+
+  // Exported og permission: 'node:ogmk_shop:view any commerce_order entity of bundle commerce_order'
+  $permissions['node:ogmk_shop:view any commerce_order entity of bundle commerce_order'] = array(
+    'roles' => array(),
+  );
+
   // Exported og permission: 'node:ogmk_shop:view any unpublished ogmk_product content'
   $permissions['node:ogmk_shop:view any unpublished ogmk_product content'] = array(
     'roles' => array(
       'administrator member' => 'administrator member',
       'manager member' => 'manager member',
     ),
+  );
+
+  // Exported og permission: 'node:ogmk_shop:view own commerce_order entities'
+  $permissions['node:ogmk_shop:view own commerce_order entities'] = array(
+    'roles' => array(),
+  );
+
+  // Exported og permission: 'node:ogmk_shop:view own commerce_order entities of bundle commerce_order'
+  $permissions['node:ogmk_shop:view own commerce_order entities of bundle commerce_order'] = array(
+    'roles' => array(),
   );
 
   return $permissions;

@@ -400,6 +400,32 @@ function ogmk_shops_menu_token_plugins() {
 }
 
 /**
+ * Implements hook_og_permission().
+ */
+function ogmk_shops_og_permission() {
+  // Create permissions for orders. They will be used to control access on
+  // orders that have items from a given shop.
+  $og_permissions = commerce_entity_access_permissions('commerce_order');
+
+  // Create one permission for each OG role.
+  $og_roles = og_roles('node', 'ogmk_shop');
+
+  foreach ($og_roles as $og_role) {
+    if (in_array($og_role, array(OG_ANONYMOUS_ROLE))) {
+      continue;
+    }
+
+    $og_permissions['have the ' . $og_role . ' role'] = array(
+      'title' => t('Have the <em>@og_role</em> role in the group', array('@og_role' => $og_role)),
+      'description' => t('This permission should be assigned only to the corresponding OG role. It is meant to be used in cases where a role check is required, but a permission check is preferrable, such as when exporting Views access control via Features.'),
+      'roles' => array(OG_AUTHENTICATED_ROLE),
+    );
+  }
+
+  return $og_permissions;
+}
+
+/**
  * Implements hook_og_context_negotiation_info().
  */
 function ogmk_shops_og_context_negotiation_info() {
