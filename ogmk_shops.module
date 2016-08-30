@@ -170,7 +170,7 @@ function ogmk_shops_form_ogmk_product_node_form_alter(&$form, &$form_state, $for
     $form['actions']['publish'] = array(
       '#type' => 'submit',
       '#access' => TRUE,
-      '#weight' => 6,
+      '#weight' => 7,
       '#submit' => array(
         '_ogmk_shops_product_publish_toggle_submit',
       )
@@ -186,7 +186,32 @@ function ogmk_shops_form_ogmk_product_node_form_alter(&$form, &$form_state, $for
       $form['actions']['publish']['#value'] = t('Publish');
       $form['actions']['publish']['#attributes'] = array('class' => array('btn-info'));
     }
+    // Add an Archive/Restore button.
+    $form['actions']['archive'] = array(
+      '#type' => 'submit',
+      '#access' => TRUE,
+      '#weight' => 6,
+      '#submit' => array(
+        '_ogmk_shops_product_archive_toggle_submit',
+      )
+    );
+
+    // Customise button text and color depending on whether we are archiving or
+    // restoring.
+    $language = $form['ogmk_boolean']['#language'];
+    if ($form['ogmk_boolean'][$language]['#default_value']) {
+      $form['actions']['archive']['#value'] = t('Restore');
+      $form['actions']['archive']['#attributes'] = array('class' => array('btn-info'));
+    }
+    else {
+      $form['actions']['archive']['#value'] = t('Archive');
+      $form['actions']['archive']['#attributes'] = array('class' => array('btn-info'));
+    }
   }
+
+  // Deny access to the archiving field ('ogmk_boolean'), since we are
+  // displaying a button for the archive action.
+  $form['ogmk_boolean']['#access'] = FALSE;
 
   // Deny access to ogmk_shop_ref field, unless the user is the administrator.
   /**
@@ -223,7 +248,7 @@ function ogmk_shops_form_ogmk_product_node_form_alter(&$form, &$form_state, $for
     '#access' => TRUE,
     '#value' => t('Cancel'),
     '#attributes' => array('onClick' => 'history.go(-1);return true;'),
-    '#weight' => 6,
+    '#weight' => 8,
   );
 
   /**
@@ -251,6 +276,43 @@ function _ogmk_shops_product_publish_toggle_submit($form, &$form_state) {
   }
 
   node_save($node);
+
+  // Set watchdog and Drupal message.
+  $node_link = l(t('view'), 'node/' . $node->nid);
+  $watchdog_args = array('@type' => $node->type, '%title' => $node->title);
+  $t_args = array('@type' => node_type_get_name($node), '%title' => $node->title);
+  watchdog('content', '@type: updated %title.', $watchdog_args, WATCHDOG_NOTICE, $node_link);
+
+  if ($node->nid) {
+    $form_state['values']['nid'] = $node->nid;
+    $form_state['nid'] = $node->nid;
+    $form_state['redirect'] = node_access('update', $node) ? 'node/' . $node->nid . '/edit' : '<front>';
+  }
+  else {
+    // In the unlikely case something went wrong on save, the node will be
+    // rebuilt and node form redisplayed the same way as in preview.
+    drupal_set_message(t('The Product could not be saved.'), 'error');
+    $form_state['rebuild'] = TRUE;
+  }
+  // Clear the page and block caches.
+  cache_clear_all();
+}
+
+function _ogmk_shops_product_archive_toggle_submit($form, &$form_state) {
+  $node = $form['#node'];
+  $node_wrapper = entity_metadata_wrapper('node', $node);
+
+  // Toggle the value of the 'status' field that indicates whether a node is
+  // published or not.
+  if ($node_wrapper->ogmk_boolean->value()) {
+    $node_wrapper->ogmk_boolean->set(0);
+    drupal_set_message(t('Product %title has been restored.', array('%title' => $node->title)));
+  } else {
+    $node_wrapper->ogmk_boolean->set(1);
+    drupal_set_message(t('Product %title has been archived.', array('%title' => $node->title)));
+  }
+
+  $node_wrapper->save();
 
   // Set watchdog and Drupal message.
   $node_link = l(t('view'), 'node/' . $node->nid);
