@@ -99,6 +99,7 @@ features[user_permission][] = delete any ogmk_shop content
 features[user_permission][] = delete own ogmk_shop content
 features[user_permission][] = edit any ogmk_shop content
 features[user_permission][] = edit own ogmk_shop content
+features[user_permission][] = view own unpublished content
 features[user_role][] = merchant
 features[variable][] = additional_settings__active_tab_ogmk_shop
 features[variable][] = entity_translation_hide_translation_links_ogmk_shop
