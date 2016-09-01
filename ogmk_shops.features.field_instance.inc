@@ -416,7 +416,6 @@ function ogmk_shops_field_default_field_instances() {
 
   // Translatables
   // Included for use with string extractors like potx.
-  t('Banner Image');
   t('Body');
   t('Cover Image');
   t('Determine if this is an OG group.');
