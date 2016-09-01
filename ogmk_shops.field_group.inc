@@ -57,7 +57,6 @@ function ogmk_shops_field_group_info() {
     'weight' => '2',
     'children' => array(
       0 => 'ogmk_image',
-      1 => 'ogmk_image2',
     ),
     'format_type' => 'bootstrap_grid_col',
     'format_settings' => array(
