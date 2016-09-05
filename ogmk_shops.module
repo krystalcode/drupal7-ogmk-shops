@@ -1077,6 +1077,19 @@ function _ogmk_shops_commerce_order_og_subscribe($entity, $type) {
   // referenced by the line items.
   $shopsIds = [];
   foreach ($lineItems as $lineItem) {
+    // We don't take into account other line items, such as shipping.
+    /**
+     * @Issue(
+     *   "Find a better way to detect which line items to take into account when
+     *   calculating the shops to add the order to"
+     *   type="bug"
+     *   priority="low"
+     * )
+     */
+    if ($lineItem->type !== 'ogm_product') {
+      continue;
+    }
+
     $lineItemWrapper = entity_metadata_wrapper('commerce_line_item', $lineItem);
 
     $product = $lineItemWrapper->commerce_product->value();
@@ -1144,6 +1157,20 @@ function _ogmk_shops_commerce_order_og_subscribe($entity, $type) {
  * belongs to.
  */
 function _ogmk_shops_commerce_line_item_og_subscribe($entity, $type) {
+  // We don't subscribe irrelevant line items, such as shipping, to a specific
+  // shop.
+    /**
+     * @Issue(
+     *   "Find a better way to detect which line items to subscribe to their
+     *   shops"
+     *   type="bug"
+     *   priority="low"
+     * )
+     */
+  if ($entity->type === 'ogmk_product') {
+    return;
+  }
+
   /**
    * @Issue(
    *   "Does this work with internationalisation?"
