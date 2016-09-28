@@ -1169,7 +1169,7 @@ function _ogmk_shops_commerce_line_item_og_subscribe($entity, $type) {
      *   priority="low"
      * )
      */
-  if ($entity->type === 'ogmk_product') {
+  if ($entity->type !== 'ogmk_product') {
     return;
   }
 
