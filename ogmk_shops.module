@@ -1119,8 +1119,8 @@ function _ogmk_shops_commerce_order_og_subscribe($entity, $type) {
     $shopsIds[] = $shopId;
   }
 
-  // Subscribe the owner of the order to the Shop as well, but only if the order
-  // is fully submitted.
+  // Subscribe the owner of the order to all shops involved in the order as
+  // well, but only if the order is fully submitted.
   /**
    * @Issue(
    *   "Check if the 'cancelled' status should be excluded as well"
@@ -1138,16 +1138,18 @@ function _ogmk_shops_commerce_order_og_subscribe($entity, $type) {
   }
 
   // Add the OG user membership.
-  og_group(
-    'node',
-    $shopId,
-    [
-      'entity_type' => 'user',
-      'entity' => $entity->uid,
-      'field_name' => 'ogmk_user_shops_ref',
-      'state' => OG_STATE_ACTIVE,
-    ]
-  );
+  foreach ($shopsIds as $shopId) {
+    og_group(
+      'node',
+      $shopId,
+      [
+        'entity_type' => 'user',
+        'entity' => $entity->uid,
+        'field_name' => 'ogmk_user_shops_ref',
+        'state' => OG_STATE_ACTIVE,
+      ]
+    );
+  }
 }
 
 /**
