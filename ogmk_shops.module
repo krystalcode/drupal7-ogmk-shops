@@ -1086,7 +1086,7 @@ function _ogmk_shops_commerce_order_og_subscribe($entity, $type) {
      *   priority="low"
      * )
      */
-    if ($lineItem->type !== 'ogm_product') {
+    if ($lineItem->type !== 'ogmk_product') {
       continue;
     }
 
