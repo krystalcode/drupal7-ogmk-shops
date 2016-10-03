@@ -128,7 +128,7 @@ function ogmk_shops_strongarm() {
         'custom_settings' => TRUE,
       ),
       'ogmk_bootstrap_media' => array(
-        'custom_settings' => FALSE,
+        'custom_settings' => TRUE,
       ),
       'diff_standard' => array(
         'custom_settings' => FALSE,
@@ -162,6 +162,10 @@ function ogmk_shops_strongarm() {
           ),
           'info' => array(
             'weight' => '4',
+            'visible' => FALSE,
+          ),
+          'ogmk_bootstrap_media' => array(
+            'weight' => '3',
             'visible' => FALSE,
           ),
         ),

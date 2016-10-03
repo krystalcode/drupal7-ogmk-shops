@@ -32,6 +32,15 @@ function ogmk_shops_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 3,
       ),
+      'ogmk_bootstrap_media' => array(
+        'label' => 'hidden',
+        'module' => 'text',
+        'settings' => array(
+          'trim_length' => 300,
+        ),
+        'type' => 'text_summary_or_trimmed',
+        'weight' => 2,
+      ),
       'ogmk_manage_teaser' => array(
         'label' => 'hidden',
         'settings' => array(),
@@ -108,6 +117,12 @@ function ogmk_shops_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 6,
       ),
+      'ogmk_bootstrap_media' => array(
+        'label' => 'hidden',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 4,
+      ),
       'ogmk_manage_teaser' => array(
         'label' => 'hidden',
         'settings' => array(),
@@ -172,6 +187,16 @@ function ogmk_shops_field_default_field_instances() {
         'settings' => array(
           'image_link' => '',
           'image_style' => '773x580',
+        ),
+        'type' => 'image',
+        'weight' => 0,
+      ),
+      'ogmk_bootstrap_media' => array(
+        'label' => 'hidden',
+        'module' => 'image',
+        'settings' => array(
+          'image_link' => 'content',
+          'image_style' => '100x80',
         ),
         'type' => 'image',
         'weight' => 0,
@@ -244,6 +269,13 @@ function ogmk_shops_field_default_field_instances() {
         'settings' => array(),
         'type' => 'hidden',
         'weight' => 2,
+      ),
+      'ogmk_bootstrap_media' => array(
+        'label' => 'hidden',
+        'module' => 'text',
+        'settings' => array(),
+        'type' => 'text_default',
+        'weight' => 1,
       ),
       'ogmk_manage_teaser' => array(
         'label' => 'hidden',
@@ -321,6 +353,12 @@ function ogmk_shops_field_default_field_instances() {
         ),
         'type' => 'title_linked',
         'weight' => 1,
+      ),
+      'ogmk_bootstrap_media' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 5,
       ),
       'ogmk_manage_teaser' => array(
         'label' => 'above',
@@ -410,7 +448,7 @@ function ogmk_shops_field_default_field_instances() {
       'module' => 'og',
       'settings' => array(),
       'type' => 'og_complex',
-      'weight' => 4,
+      'weight' => 2,
     ),
   );
 
