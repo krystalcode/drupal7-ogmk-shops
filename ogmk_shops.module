@@ -442,6 +442,25 @@ function ogmk_shops_inline_entity_form_entity_form_alter(&$entity_form, &$form_s
   // Pre-populate the ogmk_shop_ref field.
   $language = $entity_form['ogmk_shop_ref']['#language'];
   $entity_form['ogmk_shop_ref'][$language][0]['default']['#default_value'] = $shopId;
+
+  // We want to set the SKU to follow the pattern 'ShopId,ProductId,VariantId'.
+  // We cannot do that here though because we will only have the variant id
+  // after the commerce_product entity is saved. For now, we set the SKU (which
+  // needs to be unique) to the current timestamp. We will set the correct SKU
+  // in hook_entity_insert().
+  /**
+   * @Issue(
+   *   "Use a random number using the timestamp as salt in order to avoid
+   *   conflicts for products created at the same second"
+   *   type="bug"
+   *   priority="low"
+   *   labels="data"
+   * )
+   */
+  if (empty($entity_form['sku']['#default_value'])) {
+    $entity_form['sku']['#default_value'] = (string) time();
+  }
+  $entity_form['sku']['#access'] = FALSE;
 }
 
 /**
