@@ -230,7 +230,7 @@ function ogmk_shops_field_default_field_instances() {
       'alt_field' => 0,
       'default_image' => 0,
       'entity_translation_sync' => FALSE,
-      'file_directory' => 'nodes/ogmk_shop/ogmk_image',
+      'file_directory' => 'node/ogmk_shop/ogmk_image',
       'file_extensions' => 'png gif jpg jpeg',
       'max_filesize' => '',
       'max_resolution' => '',
