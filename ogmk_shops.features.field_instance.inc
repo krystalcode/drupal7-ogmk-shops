@@ -185,7 +185,7 @@ function ogmk_shops_field_default_field_instances() {
         'label' => 'hidden',
         'module' => 'image',
         'settings' => array(
-          'image_link' => '',
+          'image_link' => 'content',
           'image_style' => '773x580',
         ),
         'type' => 'image',
