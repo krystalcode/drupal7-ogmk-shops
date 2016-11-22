@@ -593,6 +593,8 @@ function ogmk_shops_og_context_negotiation_info() {
       'node/%/manage/orders',
       'node/%/manage/orders/%',
       'node/%/manage/products',
+      // Shop blog views.
+      'ogmk_blog/%',
     ),
   );
 
