@@ -411,7 +411,7 @@ function ogmk_shops_views_default_views() {
     'ogmk_images' => 'ogmk_images',
     'title_field_et' => 'title_field_et',
     'ogmk_category_ref' => 'ogmk_category_ref',
-    'body' => 'body',
+    'ogmk_text_with_summary' => 'ogmk_text_with_summary',
     'status' => 'status',
     'view_node_button' => 'view_node_button',
     'edit_node_button' => 'edit_node_button',
@@ -446,7 +446,7 @@ function ogmk_shops_views_default_views() {
       'separator' => '',
       'empty_column' => 0,
     ),
-    'body' => array(
+    'ogmk_text_with_summary' => array(
       'sortable' => 0,
       'default_sort_order' => 'asc',
       'align' => '',
@@ -534,12 +534,12 @@ function ogmk_shops_views_default_views() {
   $handler->display->display_options['fields']['ogmk_category_ref']['field'] = 'ogmk_category_ref';
   $handler->display->display_options['fields']['ogmk_category_ref']['type'] = 'taxonomy_term_reference_plain';
   /* Field: Content: Body */
-  $handler->display->display_options['fields']['body']['id'] = 'body';
-  $handler->display->display_options['fields']['body']['table'] = 'field_data_body';
-  $handler->display->display_options['fields']['body']['field'] = 'body';
-  $handler->display->display_options['fields']['body']['label'] = 'Description';
-  $handler->display->display_options['fields']['body']['type'] = 'text_trimmed';
-  $handler->display->display_options['fields']['body']['settings'] = array(
+  $handler->display->display_options['fields']['ogmk_text_with_summary']['id'] = 'ogmk_text_with_summary';
+  $handler->display->display_options['fields']['ogmk_text_with_summary']['table'] = 'field_data_ogmk_text_with_summary';
+  $handler->display->display_options['fields']['ogmk_text_with_summary']['field'] = 'ogmk_text_with_summary';
+  $handler->display->display_options['fields']['ogmk_text_with_summary']['label'] = 'Description';
+  $handler->display->display_options['fields']['ogmk_text_with_summary']['type'] = 'text_trimmed';
+  $handler->display->display_options['fields']['ogmk_text_with_summary']['settings'] = array(
     'trim_length' => '300',
   );
   /* Field: Content: Published */

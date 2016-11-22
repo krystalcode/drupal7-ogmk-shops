@@ -23,7 +23,7 @@ function ogmk_shops_field_group_info() {
     'label' => 'Column 1',
     'weight' => '8',
     'children' => array(
-      0 => 'body',
+      0 => 'ogmk_text_with_summary',
       1 => 'ogmk_text',
       2 => 'title_field',
     ),
