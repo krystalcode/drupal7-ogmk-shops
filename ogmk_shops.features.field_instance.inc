@@ -404,11 +404,11 @@ function ogmk_shops_field_default_field_instances() {
     'description' => '',
     'display' => array(
       'default' => array(
-        'label' => 'above',
+        'label' => 'inline',
         'module' => 'og_ui',
         'settings' => array(),
         'type' => 'og_list_default',
-        'weight' => 3,
+        'weight' => 7,
       ),
     ),
     'entity_type' => 'user',
@@ -448,7 +448,7 @@ function ogmk_shops_field_default_field_instances() {
       'module' => 'og',
       'settings' => array(),
       'type' => 'og_complex',
-      'weight' => 2,
+      'weight' => 1,
     ),
   );
 
