@@ -102,7 +102,7 @@ function ogmk_shops_field_default_field_instances() {
         'module' => 'image',
         'settings' => array(
           'image_link' => 'content',
-          'image_style' => '773x580',
+          'image_style' => '700x525',
         ),
         'type' => 'image',
         'weight' => 0,
@@ -122,7 +122,7 @@ function ogmk_shops_field_default_field_instances() {
         'module' => 'image',
         'settings' => array(
           'image_link' => 'content',
-          'image_style' => 'large',
+          'image_style' => '700x525',
         ),
         'type' => 'image',
         'weight' => 0,
