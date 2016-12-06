@@ -14,6 +14,9 @@ function ogmk_shops_metatag_export_default() {
   $config['node:ogmk_shop'] = array(
     'instance' => 'node:ogmk_shop',
     'config' => array(
+      'description' => array(
+        'value' => '[node:ogmk-text-with-summary:value]',
+      ),
       'image_src' => array(
         'value' => '[node:ogmk_image:1110]',
       ),
