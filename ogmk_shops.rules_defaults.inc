@@ -12,6 +12,7 @@ function ogmk_shops_default_rules_configuration() {
   $items['rules_ogmk_shops_merchant_logged_in'] = entity_import('rules_config', '{ "rules_ogmk_shops_merchant_logged_in" : {
       "LABEL" : "Merchant logged in",
       "PLUGIN" : "reaction rule",
+      "ACTIVE" : false,
       "OWNER" : "rules",
       "REQUIRES" : [ "rules" ],
       "ON" : { "user_login" : [] },
