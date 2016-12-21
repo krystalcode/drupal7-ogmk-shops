@@ -423,6 +423,7 @@ function ogmk_shops_inline_entity_form_entity_form_alter(&$entity_form, &$form_s
   }
 
   $entity_form['#theme'] = ['product_product_ief_form'];
+  $entity_form['ogmk_costs']['#access'] = FALSE;
   $entity_form['ogmk_shop_ref']['#access'] = FALSE;
 
   // Get the Shop owned by the user.
