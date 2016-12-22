@@ -1227,18 +1227,13 @@ function _ogmk_shops_commerce_order_og_subscribe($entity, $type) {
   }
 
   // Add the OG user membership.
-  foreach ($shopsIds as $shopId) {
-    og_group(
-      'node',
-      $shopId,
-      [
-        'entity_type' => 'user',
-        'entity' => $entity->uid,
-        'field_name' => 'ogmk_user_shops_ref',
-        'state' => OG_STATE_ACTIVE,
-      ]
-    );
-  }
+  /**
+   * @Issue(
+   *   "Subscribe the user to the shop when the order is marked as completed"
+   *   type="bug"
+   *   priority="low"
+   * )
+   */
 }
 
 /**
