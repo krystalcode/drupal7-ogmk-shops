@@ -120,7 +120,6 @@ function ogmk_shops_form_ogmk_shop_node_form_alter(&$form, &$form_state, $form_i
   global $user;
   if ($user->uid !== 1) {
     // Do not display translation and revision field groups.
-    $form['revision_information']['#access'] = FALSE;
     $form['translation']['#access'] = FALSE;
   }
 
@@ -271,7 +270,6 @@ function ogmk_shops_form_ogmk_product_node_form_alter(&$form, &$form_state, $for
     }
 
     // Do not display translation and revision field groups.
-    $form['revision_information']['#access'] = FALSE;
     $form['translation']['#access'] = FALSE;
   }
 
