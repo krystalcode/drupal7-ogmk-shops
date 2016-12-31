@@ -577,6 +577,10 @@ function ogmk_shops_og_permission() {
   // orders that have items from a given shop.
   $og_permissions = commerce_entity_access_permissions('commerce_order');
 
+  // Create permissions for products. They will be used to control access on
+  // products from a given shop.
+  $og_permissions += commerce_entity_access_permissions('commerce_product');
+
   // Create one permission for each OG role.
   $og_roles = og_roles('node', 'ogmk_shop');
 
@@ -593,6 +597,120 @@ function ogmk_shops_og_permission() {
   }
 
   return $og_permissions;
+}
+
+/**
+ * Implements hook_commerce_entity_access().
+ *
+ * Implement access control on create, update and delete operations based on the
+ * OG permissions that the user has respective to the Shop(s) that the commerce
+ * entity belongs to.
+ *
+ * @Issue(
+ *   "Test OG product permissions for different scenarios"
+ *   type="bug"
+ *   priority="normal"
+ *   labels="security"
+ * )
+ */
+function ogmk_shops_commerce_entity_access($op, $entity, $account, $entity_type) {
+  /**
+   * @Issue(
+   *   "Implement OG-based access control for order and line_item entities"
+   *   type="bug"
+   *   priority="normal"
+   *   labels="security"
+   * )
+   */
+  // Implementing access control for OGMK products only for now.
+  if ($entity_type !== 'commerce_product' || $entity->type !== 'ogmk_product') {
+    return;
+  }
+
+  // We should have the bundle name.
+  $bundle_name = $entity->type;
+
+  // Grant access based on entity type and bundle specific permissions with
+  // special handling for the create operation since the entity passed in will
+  // be initialized without ownership.
+  if ($op == 'create') {
+    // Since this is a new product and we are only given here the entity and not
+    // the parent node, we can only determine the Shop that the product belongs
+    // to from the OG context.
+    $shop_id = NULL;
+    $og_context = og_context();
+    if (!$og_context && $og_context['group_type'] === 'node') {
+      $shop_id = $og_context['gid'];
+    }
+
+    // If we have not been able to determine a Shop, there's something wrong.
+    if (!$shop_id) {
+      /**
+       * @Issue(
+       *   "Investigate why product create access permissions are checked in
+       *   every request"
+       *   type="bug"
+       *   priority="low"
+       *   labels="performance, error management"
+       * )
+       */
+      return;
+    }
+
+    // Perform the entity type and bundle-level access checks.
+    if (isset($entity) && !empty($bundle_name)) {
+      return
+        og_user_access('node', $shop_id, 'create ' . $entity_type . ' entities', $account) ||
+        og_user_access('node', $shop_id, 'create ' . $entity_type . ' entities of bundle ' . $bundle_name, $account)
+      ;
+    }
+    else {
+      // Otherwise perform an entity type-level access check.
+      return og_user_access('node', $shop_id, 'create ' . $entity_type . ' entities', $account);
+    }
+  }
+  else {
+    // We need to determine the Shop that the entity belongs to in order to
+    // determine permissions. First, check if the entity's group membership
+    // field has a value.
+    $shop_id = NULL;
+    $shop = og_get_entity_groups('commerce_product', $entity, array(OG_STATE_ACTIVE), 'ogmk_shop_ref');
+    if (!empty($shop['node'])) {
+      $shop_id = current($shop['node']);
+    }
+
+    // If we have not been able to determine a Shop, there's something wrong.
+    if (!$shop_id) {
+      throw new Exception(
+        sprintf(
+          'Unable to determine the Shop to which the product with ID "%s" belongs to while updating the product.',
+          $entity->product_id
+        )
+      );
+    }
+
+    // First perform the entity type and bundle-level access check for any
+    // entity.
+    if (
+      og_user_access('node', $shop_id, 'edit any ' . $entity_type . ' entity', $account) ||
+      og_user_access('node', $shop_id, 'edit any ' . $entity_type . ' entity of bundle ' . $bundle_name, $account)
+    ) {
+      return TRUE;
+    }
+
+    // Then check an authenticated user's access to edit his own entities.
+    if (
+      $account->uid &&
+      $entity->uid == $account->uid
+    ) {
+      if (
+        og_user_access('node', $shop_id, 'edit own ' . $entity_type . ' entities', $account) ||
+        og_user_access('node', $shop_id, 'edit own ' . $entity_type . ' entities of bundle ' . $bundle_name, $account)
+      ) {
+        return TRUE;
+      }
+    }
+  }
 }
 
 /**
@@ -618,6 +736,18 @@ function ogmk_shops_og_context_negotiation_info() {
     ),
   );
 
+  $providers['ogmk_shop_ajax_forms'] = array(
+    'name' => t('OGMK Shop Forms Ajax Calls'),
+    'description' => t('Determine Shop context by the parent form of an ajax call, such file upload or an inline entity form operation.'),
+    'callback' => '_ogmk_shops_ajax_forms_og_context_handler',
+    'menu path' => array(
+      // File upload.
+      'file/ajax',
+      // Other ajax calls, such inline entity form operations.
+      'system/ajax',
+    )
+  );
+
   return $providers;
 }
 
@@ -639,6 +769,44 @@ function _ogmk_shops_node_views_og_context_handler() {
   if (isset($node) && $node) {
     return _group_context_handler_entity('node', $node);
   }
+}
+
+/**
+ * Context handler for ajax form calls.
+ *
+ * Determine the context for ajax form calls such as file uploads or inline
+ * entity form operations.
+ *
+ * @Issue(
+ *   "Test if OG context handler works correctly for file uploads"
+ *   type="bug"
+ *   priority="low"
+ *   labels="testing"
+ * )
+ */
+function _ogmk_shops_ajax_forms_og_context_handler() {
+  // We will be determinig the context from the form. Nothing to do if we are
+  // not in a form.
+  $form_array = ajax_get_form();
+  if (empty($form_array)) {
+    return;
+  }
+
+  // We are only interested in ogmk_product node forms.
+  list($form, $form_state, $form_type) = $form_array;
+  if ($form_type !== 'ogmk_product_node_form') {
+    return;
+  }
+
+  // We cannot determine the shop if there is no value in the ogmk_shop_ref,
+  // nothing to do.
+  if (empty($form['ogmk_shop_ref'][LANGUAGE_NONE][0]['default']['#default_value'][0])) {
+    return;
+  }
+
+  $shop_id = $form['ogmk_shop_ref'][LANGUAGE_NONE][0]['default']['#default_value'][0];
+
+  return array('node' => array($shop_id));
 }
 
 /**
