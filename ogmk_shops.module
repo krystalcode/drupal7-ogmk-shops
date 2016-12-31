@@ -424,23 +424,44 @@ function ogmk_shops_inline_entity_form_entity_form_alter(&$entity_form, &$form_s
   $entity_form['ogmk_costs']['#access'] = FALSE;
   $entity_form['ogmk_shop_ref']['#access'] = FALSE;
 
-  // Get the Shop owned by the user.
-  $shopId = ogmk_shops_user_has_shop();
-
-  // Access denied no results found - the user is not a shop owner and therefore
-  // can't create products.
-  if (empty($shop)) {
-    // @Issue(
-    //   "Throw an Access Denied page or message"
-    //   type="bug"
-    //   priority="normal"
-    //   labels="security"
-    // )
+  // Get the Shop from the OG context.
+  /**
+   * @Issue(
+   *   "Do we need to prepopulate the shop id for existing product variants?"
+   *   type="task"
+   *   priority="low"
+   * )
+   */
+  $og_context = og_context();
+  // If there is no Shop derived from the OG context, there is something wrong.
+  if (!$og_context) {
+    $ids = entity_extract_ids($entity_form['#entity_type'], $entity_form['#entity']);
+    if (empty($ids[0])) {
+      $parent_ids = entity_extract_ids($form_state['complete form']['#entity_type'], $form_state['complete form']['#entity']);
+      throw new Exception(
+        sprintf(
+          'Cannot derive Shop OG context when creating an entity of type "%s" for the parent entity of type "%s" with ID "%s"',
+          $entity_form['#entity_type'],
+          $form_state['complete form']['#entity_type'],
+          $parent_ids[0]
+        )
+      );
+    }
+    else {
+      throw new Exception(
+        sprintf(
+          'Cannot derive Shop OG context when updating the entity of type "%s" with ID "%s"',
+          $entity_form['#entity_type'],
+          $ids[0]
+        )
+      );
+    }
   }
+  $shop_id = $og_context['gid'];
 
   // Pre-populate the ogmk_shop_ref field.
   $language = $entity_form['ogmk_shop_ref']['#language'];
-  $entity_form['ogmk_shop_ref'][$language][0]['default']['#default_value'] = $shopId;
+  $entity_form['ogmk_shop_ref'][$language][0]['default']['#default_value'] = $shop_id;
 
   // We want to set the SKU to follow the pattern 'ShopId,ProductId,VariantId'.
   // We cannot do that here though because we will only have the variant id
