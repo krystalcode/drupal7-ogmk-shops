@@ -1,0 +1,13 @@
+<?php
+
+/**
+ * @file
+ * Install, update, and uninstall functions for the OGMK Shops module.
+ */
+
+/**
+ * Check if all products belong to the correct shop and correct any errors.
+ */
+function ogmk_shops_update_7001(&$sandbox) {
+  _ogmk_shops_correct_product_shop_references();
+}

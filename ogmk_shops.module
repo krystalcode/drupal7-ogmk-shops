@@ -1458,3 +1458,105 @@ function _ogmk_shops_create_ogmk_membership_query_alter(QueryAlterableInterface 
     $query->condition($table . '.status', $options['status']);
   }
 }
+
+/**
+ * Function for correcting shop memberships for commerce_product entities.
+ *
+ * Due to a software error in previous versions of the module, there may be
+ * products that have membership on the wrong shop. The product should always
+ * belong to the same shop as the corresponding node. This function loads all
+ * products, checks if the shop that the product belongs to is the correct one,
+ * and if is not (or if it does not belong to any shop) it subscribes the
+ * product to the correct shop.
+ */
+function _ogmk_shops_correct_product_shop_references() {
+  // We will be processing all products of type 'ogmk_product'.
+  $products = commerce_product_load_multiple(array(), array('type' => 'ogmk_product'));
+  if (empty($products)) {
+    return;
+  }
+
+  foreach ($products as $product) {
+    $current_shop_id = NULL;
+    $correct_shop_id = NULL;
+
+    // Get the node that the product belongs to. We bypass access check so that
+    // we can check products for unpublished nodes as well.
+    $product_node = ogmk_products_product_get_node($product, 'ogmk_product', TRUE);
+    if (!$product_node) {
+      watchdog(
+        'ogmk_shops',
+        'Could not validate the shop for the product with ID "!product_id" because it does not belong to any product node.',
+        array(
+          '!product_id' => $product->product_id,
+        ),
+        WATCHDOG_WARNING
+      );
+      continue;
+    }
+
+    // Get the product node's shop id, which is the id of the shop that the
+    // product should belong to.
+    $correct_shop = og_get_entity_groups('node', $product_node, array(OG_STATE_ACTIVE), 'ogmk_shop_ref');
+    if (!empty($correct_shop['node'])) {
+      $correct_shop_id = current($correct_shop['node']);
+    }
+
+    // If the product's node does not belong to any sohp, there's something
+    // wrong. Don't do anything but log a warning.
+    if (!$correct_shop_id) {
+      watchdog(
+        'ogmk_shops',
+        'Could not validate the shop for the product with ID "!product_id" because it belongs to product node with ID "!node_id" which does not belong to a shop.',
+        array(
+          '!product_id' => $product->product_id,
+          '!node_id' => $product_node->nid,
+        ),
+        WATCHDOG_WARNING
+      );
+      continue;
+    }
+
+    // Get the product's current shop id.
+    $current_shop = og_get_entity_groups('commerce_product', $product, array(OG_STATE_ACTIVE), 'ogmk_shop_ref');
+    if (!empty($current_shop['node'])) {
+      $current_shop_id = current($current_shop['node']);
+    }
+
+    // If the product's shop id is the same with the product node's id, the
+    // product already belongs to the correct shop.
+    if ($current_shop_id == $correct_shop_id) {
+      continue;
+    }
+
+    if ($current_shop_id) {
+      og_ungroup('node', $current_shop_id, 'commerce_product', $product->product_id);
+      watchdog(
+        'ogmk_shops',
+        'Removed membership for product with ID "!product_id" from the shop with ID "!shop_id".',
+        array(
+          '!product_id' => $product->product_id,
+          '!shop_id' => $current_shop_id,
+        ),
+        WATCHDOG_INFO
+      );
+    }
+
+    // Add new membership.
+    $values = array(
+      'entity_type' => 'commerce_product',
+      'entity'      => $product,
+      'field_name'  => 'ogmk_shop_ref',
+    );
+    og_group('node', $correct_shop_id, $values);
+    watchdog(
+      'ogmk_shops',
+      'Added membership for product with ID "!product_id" to the shop with ID "!shop_id".',
+      array(
+        '!product_id' => $product->product_id,
+        '!shop_id' => $correct_shop_id,
+      ),
+      WATCHDOG_INFO
+    );
+  }
+}
