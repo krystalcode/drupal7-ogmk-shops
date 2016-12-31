@@ -639,7 +639,7 @@ function ogmk_shops_commerce_entity_access($op, $entity, $account, $entity_type)
     // to from the OG context.
     $shop_id = NULL;
     $og_context = og_context();
-    if (!$og_context && $og_context['group_type'] === 'node') {
+    if ($og_context && $og_context['group_type'] === 'node') {
       $shop_id = $og_context['gid'];
     }
 
