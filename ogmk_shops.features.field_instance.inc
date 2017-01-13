@@ -298,10 +298,10 @@ function ogmk_shops_field_default_field_instances() {
       'better_formats' => array(
         'allowed_formats' => array(
           'bonsai_html' => 0,
-          'ogmk_basic_html' => 0,
+          'ogmk_basic_html' => 'ogmk_basic_html',
           'ogmk_html' => 0,
           'ogmk_plain_html' => 'ogmk_plain_html',
-          'plain_text' => 0,
+          'plain_text' => 'plain_html',
         ),
         'allowed_formats_toggle' => 1,
         'default_order_toggle' => 0,
@@ -334,7 +334,7 @@ function ogmk_shops_field_default_field_instances() {
       'active' => 1,
       'module' => 'text',
       'settings' => array(
-        'rows' => 6,
+        'rows' => 5,
         'summary_rows' => 5,
       ),
       'type' => 'text_textarea_with_summary',
