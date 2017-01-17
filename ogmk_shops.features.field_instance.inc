@@ -45,6 +45,12 @@ function ogmk_shops_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 5,
       ),
+      'rss' => array(
+        'label' => 'hidden',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 4,
+      ),
       'teaser' => array(
         'label' => 'above',
         'settings' => array(),
@@ -127,6 +133,16 @@ function ogmk_shops_field_default_field_instances() {
         'type' => 'image',
         'weight' => 0,
       ),
+      'rss' => array(
+        'label' => 'hidden',
+        'module' => 'image',
+        'settings' => array(
+          'image_link' => '',
+          'image_style' => 700,
+        ),
+        'type' => 'image',
+        'weight' => 0,
+      ),
       'teaser' => array(
         'label' => 'hidden',
         'module' => 'image',
@@ -194,6 +210,13 @@ function ogmk_shops_field_default_field_instances() {
         'weight' => 1,
       ),
       'ogmk_manage_teaser' => array(
+        'label' => 'hidden',
+        'module' => 'text',
+        'settings' => array(),
+        'type' => 'text_default',
+        'weight' => 1,
+      ),
+      'rss' => array(
         'label' => 'hidden',
         'module' => 'text',
         'settings' => array(),
@@ -282,6 +305,13 @@ function ogmk_shops_field_default_field_instances() {
         'settings' => array(),
         'type' => 'hidden',
         'weight' => 4,
+      ),
+      'rss' => array(
+        'label' => 'hidden',
+        'module' => 'text',
+        'settings' => array(),
+        'type' => 'text_default',
+        'weight' => 2,
       ),
       'teaser' => array(
         'label' => 'hidden',
@@ -377,6 +407,12 @@ function ogmk_shops_field_default_field_instances() {
         'settings' => array(),
         'type' => 'hidden',
         'weight' => 3,
+      ),
+      'rss' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 5,
       ),
       'teaser' => array(
         'label' => 'above',
