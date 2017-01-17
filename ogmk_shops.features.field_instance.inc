@@ -334,7 +334,7 @@ function ogmk_shops_field_default_field_instances() {
           'ogmk_basic_html' => 'ogmk_basic_html',
           'ogmk_html' => 0,
           'ogmk_plain_html' => 'ogmk_plain_html',
-          'plain_text' => 'plain_html',
+          'plain_text' => 'plain_text',
         ),
         'allowed_formats_toggle' => 1,
         'default_order_toggle' => 0,
