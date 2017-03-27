@@ -22,6 +22,7 @@ function ogmk_shops_menu() {
     'page arguments'   => array(1),
     'type'             => MENU_LOCAL_TASK,
     'file'             => 'ogmk_shops.pages.inc',
+    'weight'           => 10,
   );
 
   /**
