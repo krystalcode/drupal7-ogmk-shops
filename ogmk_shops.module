@@ -1048,7 +1048,7 @@ function ogmk_shops_user_has_shop($user = NULL) {
   }
 
   $userId = NULL;
-  if (is_int($user)) {
+  if (is_numeric($user)) {
     $userId = $user;
   } else {
     $userId = $user->uid;
