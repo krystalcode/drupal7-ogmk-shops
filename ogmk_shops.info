@@ -4,6 +4,7 @@ core = 7.x
 package = Commerce Marketplace Features
 version = 7.x-0.1-dev
 project = ogmk_shops
+dependencies[] = atom_reference
 dependencies[] = commerce_cart
 dependencies[] = context
 dependencies[] = ctools
