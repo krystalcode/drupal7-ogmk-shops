@@ -91,6 +91,78 @@ function ogmk_shops_field_default_field_instances() {
     ),
   );
 
+  // Exported field_instance: 'node-ogmk_shop-ogmk_atoms_ref'.
+  $field_instances['node-ogmk_shop-ogmk_atoms_ref'] = array(
+    'bundle' => 'ogmk_shop',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'hidden',
+        'module' => 'atom_reference',
+        'settings' => array(
+          'link' => 0,
+          'override' => 0,
+        ),
+        'type' => 'ogmk_scald_basic_info',
+        'weight' => 7,
+      ),
+      'info' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'ogmk_bootstrap_media' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'ogmk_manage_teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'rss' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'ogmk_atoms_ref',
+    'label' => 'Resources',
+    'required' => 0,
+    'settings' => array(
+      'allow_override' => 0,
+      'entity_translation_sync' => FALSE,
+      'referencable_types' => array(
+        'image' => 0,
+        'video' => 0,
+      ),
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'atom_reference',
+      'settings' => array(
+        'context' => 'sdl_editor_representation',
+      ),
+      'type' => 'atom_reference_textfield',
+      'weight' => 4,
+    ),
+  );
+
   // Exported field_instance: 'node-ogmk_shop-ogmk_image'.
   $field_instances['node-ogmk_shop-ogmk_image'] = array(
     'bundle' => 'ogmk_shop',
@@ -516,6 +588,7 @@ function ogmk_shops_field_default_field_instances() {
   t('Cover Image');
   t('Determine if this is an OG group.');
   t('Group');
+  t('Resources');
   t('Shops');
   t('Tagline');
   t('Title');
