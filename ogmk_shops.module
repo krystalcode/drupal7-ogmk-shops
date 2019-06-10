@@ -68,11 +68,44 @@ function ogmk_shops_theme($existing, $type, $theme, $path) {
  *   priority="low"
  *   labels="modularity"
  * )
+ * @Issue(
+ *   "Make the button text and the message customizable as variable"
+ *   type="improvement"
+ *   priority="low"
+ *   labels="modularity"
+ * )
  */
 function ogmk_shops_form_alter(&$form, &$form_state, $form_id) {
   // Process the "Add to cart" forms. They start with
   // "commerce_cart_add_to_cart_form_".
   if (strpos($form_id, 'commerce_cart_add_to_cart_form_') !== 0) {
+    return;
+  }
+
+  // Customize the button text when there is no active variation for the product
+  // and display an additional message to the customer.
+  if (empty($form['product_id'])) {
+    $form['submit']['#value'] = '<span class="fa fa-warning"></span> ' . t('Temporarily unavailable / sold out');
+    $form['submit']['#attributes']['class'] = array('btn-warning');
+
+    $node_id = NULL;
+    if (!empty($form_state['context']['entity_id'])) {
+      $node_id = $form_state['context']['entity_id'];
+    }
+    else {
+      $node = menu_get_object();
+      $node_id = $node->nid;
+    }
+    $enquiry_url = url(
+      'forms/enquiries/product',
+      array('query' => array('ogmk_node_product_ref' => $node_id))
+    );
+    $form['availability_notice'] = [
+      '#markup' => '<p></p><p>' . t(
+        'This product is temporarily or permanently unavailable. In most cases we are able to accept custom orders for the same product or we may have something similar that matches your requirements. Do not hesitate to contact us by <a href="@enquiry-url">placing an enquiry</a>.',
+        array('@enquiry-url' => $enquiry_url)
+      ) . '</p>',
+    ];
     return;
   }
 
