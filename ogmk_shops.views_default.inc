@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * ogmk_shops.views_default.inc

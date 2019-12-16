@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * ogmk_shops.rules_defaults.inc

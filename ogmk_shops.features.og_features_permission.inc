@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * ogmk_shops.features.og_features_permission.inc
