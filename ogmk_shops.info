@@ -99,6 +99,7 @@ features[og_features_permission][] = node:ogmk_shop:view any unpublished ogmk_pr
 features[og_features_permission][] = node:ogmk_shop:view own commerce_order entities
 features[og_features_permission][] = node:ogmk_shop:view own commerce_order entities of bundle commerce_order
 features[og_features_permission][] = node:ogmk_shop:view own commerce_product entities
+features[og_features_permission][] = node:ogmk_shop:view unpublished group
 features[og_features_role][] = node:ogmk_shop:manager member
 features[og_membership_type][] = ogmk_shop_item
 features[og_membership_type][] = ogmk_shop_member

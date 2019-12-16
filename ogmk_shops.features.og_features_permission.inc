@@ -253,5 +253,13 @@ function ogmk_shops_og_features_default_permissions() {
     'roles' => array(),
   );
 
+  // Exported og permission: 'node:ogmk_shop:view unpublished group'
+  $permissions['node:ogmk_shop:view unpublished group'] = array(
+    'roles' => array(
+      'administrator member' => 'administrator member',
+      'manager member' => 'manager member',
+    ),
+  );
+
   return $permissions;
 }
