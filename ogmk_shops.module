@@ -630,7 +630,80 @@ function ogmk_shops_og_permission() {
     );
   }
 
+  // Create permission for viewing an unpublished group. They will be used for
+  // queries that check for `node_access` records.
+  // @see `ogmk_shops_node_access_records`
+  $og_permissions['view unpublished group'] = array(
+    'title' => t('View unpublished group'),
+    'description' => t('View the group, if it is unpublished. Note: This permission controls only node entity type groups.'),
+    'default role' => array(OG_ADMINISTRATOR_ROLE),
+  );
+
   return $og_permissions;
+}
+
+/**
+ * Implements hook_node_access_records().
+ *
+ * Database queries tagged with `node_access` are looking for node access
+ * records that allow users to view unpublished nodes. No records though are
+ * created for unpublished nodes and that results in those nodes being excluded
+ * from the query results even if users actually have permission to view the
+ * node.
+ *
+ * We therefore create a realm that will be used to give view access to users
+ * that have the `view unpublished group` permission within node OG groups.
+ */
+function ogmk_shops_node_access_records($node) {
+  if ($node->status) {
+    return array();
+  }
+
+  if (!og_is_group('node', $node)) {
+    return array();
+  }
+
+  $grants = array();
+
+  $grants[] = array(
+    'realm' => 'ogmk_shops_view_unpublished_og_group',
+    'gid' => $node->nid,
+    'grant_view' => 1,
+    'grant_update' => 0,
+    'grant_delete' => 0,
+    'priority' => 0,
+  );
+
+  return $grants;
+}
+
+/**
+ * Implements hook_node_grants().
+ */
+function ogmk_shops_node_grants($account, $op) {
+  if ($op != 'view') {
+    return array();
+  }
+
+  $groups = og_get_entity_groups('user', $account);
+  if (!$groups) {
+    return array();
+  }
+
+  $grants = array();
+
+  foreach ($groups as $group_type => $gids) {
+    foreach ($gids as $gid) {
+      if (!og_user_access($group_type, $gid, 'view unpublished group', $account)) {
+        continue;
+      }
+
+      $realm = 'ogmk_shops_view_unpublished_og_group';
+      $grants[$realm][] = $gid;
+    }
+  }
+
+  return $grants;
 }
 
 /**
